@@ -56,7 +56,7 @@ const PolicyView: React.FC = () => {
            <div className="space-y-6 animate-fade-in-up">
             <h3 className="text-2xl font-serif text-white mb-4">Privacy Policy</h3>
             <p className="text-zinc-400 text-sm">최종 수정일: 2026년 1월</p>
-            <p className="text-zinc-400">PICKIT은 고객님의 개인정보를 소중하게 생각합니다. 제공해주신 정보(성함, 카드 번호 등 각인 데이터)는 오직 제품 제작을 위해서만 사용됩니다.</p>
+            <p className="text-zinc-400">PICKIT은 고객님의 개인정보를 소중하게 생각합니다. 제공해주신 정보(성함 등 각인 데이터)는 오직 제품 제작을 위해서만 사용됩니다.</p>
             <p className="text-zinc-400">보안을 위해, 제작이 완료되고 배송이 확인된 시점으로부터 <span className="text-white">30일 후 모든 각인 데이터는 당사 서버에서 영구 삭제</span>됩니다. 저희는 고객의 데이터를 제3자에게 절대 제공하거나 판매하지 않습니다.</p>
           </div>
         );

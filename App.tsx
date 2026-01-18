@@ -16,6 +16,7 @@ import Reviews from './components/Reviews';
 import ScrollProgress from './components/ScrollProgress';
 import RevealOnScroll from './components/RevealOnScroll';
 import PrivateConcierge from './components/PrivateConcierge';
+import PackagingShowcase from './components/PackagingShowcase';
 
 type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'contact' | 'policy';
 
@@ -156,6 +157,9 @@ export default function App() {
                 </RevealOnScroll>
                 <RevealOnScroll>
                     <Features />
+                </RevealOnScroll>
+                <RevealOnScroll>
+                    <PackagingShowcase />
                 </RevealOnScroll>
                 <RevealOnScroll>
                     <Reviews />
