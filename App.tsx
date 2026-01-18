@@ -10,7 +10,7 @@ import ContactView from './components/ContactView';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 
-type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'luxury' | 'materials' | 'solutions' | 'faq' | 'contact';
+type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'contact';
 
 const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = ({ currentPage, setPage }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -75,15 +75,10 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = (
             </div>
           </div>
 
-          <button onClick={() => handleNavClick('luxury')} className={`text-sm font-medium transition-colors ${currentPage === 'luxury' ? 'text-white' : 'text-zinc-400 hover:text-white'}`}>
-            LUXURY
-          </button>
           <button onClick={() => handleNavClick('materials')} className={`text-sm font-medium transition-colors ${currentPage === 'materials' ? 'text-white' : 'text-zinc-400 hover:text-white'}`}>
             MATERIALS
           </button>
-          <button onClick={() => handleNavClick('solutions')} className={`text-sm font-medium transition-colors ${currentPage === 'solutions' ? 'text-white' : 'text-zinc-400 hover:text-white'}`}>
-            SOLUTIONS
-          </button>
+          
           <button onClick={() => handleNavClick('faq')} className={`text-sm font-medium transition-colors ${currentPage === 'faq' ? 'text-white' : 'text-zinc-400 hover:text-white'}`}>
             FAQ
           </button>
@@ -110,9 +105,7 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = (
              <button onClick={() => handleNavClick('metal-custom')} className="block text-lg font-medium text-zinc-300 hover:text-white">Custom Card</button>
           </div>
 
-          <button onClick={() => handleNavClick('luxury')} className="text-lg font-medium text-zinc-300 hover:text-white text-left">LUXURY</button>
           <button onClick={() => handleNavClick('materials')} className="text-lg font-medium text-zinc-300 hover:text-white text-left">MATERIALS</button>
-          <button onClick={() => handleNavClick('solutions')} className="text-lg font-medium text-zinc-300 hover:text-white text-left">SOLUTIONS</button>
           <button onClick={() => handleNavClick('faq')} className="text-lg font-medium text-zinc-300 hover:text-white text-left">FAQ</button>
           <button onClick={() => handleNavClick('contact')} className="text-lg font-bold text-white bg-zinc-800 py-3 rounded-lg text-center">CONTACT US</button>
         </div>
@@ -163,21 +156,9 @@ export default function App() {
           </PageWrapper>
         )}
         
-        {currentPage === 'luxury' && (
-          <PageWrapper>
-            <OtherServices category="luxury" />
-          </PageWrapper>
-        )}
-        
         {currentPage === 'materials' && (
           <PageWrapper>
             <OtherServices category="materials" />
-          </PageWrapper>
-        )}
-        
-        {currentPage === 'solutions' && (
-          <PageWrapper>
-            <OtherServices category="solutions" />
           </PageWrapper>
         )}
 
