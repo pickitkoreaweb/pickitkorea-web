@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-zinc-900 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-zinc-600">
-          <p>&copy; 2024 PICKIT Inc. All rights reserved.</p>
+          <p>&copy; 2026 PICKIT Inc. All rights reserved.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
             <a href="#" className="hover:text-zinc-400">Privacy Policy</a>
             <a href="#" className="hover:text-zinc-400">Terms of Service</a>
