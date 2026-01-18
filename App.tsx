@@ -4,6 +4,8 @@ import Hero from './components/Hero';
 import Features from './components/Features';
 import BusinessCardShowcase from './components/BusinessCardShowcase';
 import UploadSection from './components/UploadSection';
+import OtherServices from './components/OtherServices';
+import CompanyIntro from './components/CompanyIntro';
 import Footer from './components/Footer';
 
 const Navbar: React.FC = () => {
@@ -73,6 +75,8 @@ export default function App() {
         <Features />
         <BusinessCardShowcase />
         <UploadSection />
+        <OtherServices />
+        <CompanyIntro />
       </main>
       <Footer />
     </div>
