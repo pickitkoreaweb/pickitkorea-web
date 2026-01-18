@@ -33,7 +33,7 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = (
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || currentPage !== 'home' ? 'bg-[#050505]/90 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-8'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || currentPage !== 'home' ? 'bg-[#050505]/90 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-6 md:py-8'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center gap-3 cursor-pointer group" onClick={() => handleNavClick('home')}>
@@ -89,25 +89,25 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = (
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+        <button className="md:hidden text-white p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
           {isMobileMenuOpen ? <X /> : <Menu />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-zinc-800 p-8 flex flex-col gap-8 md:hidden shadow-2xl animate-fade-in-up h-screen">
+        <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-zinc-800 p-8 flex flex-col gap-8 md:hidden shadow-2xl animate-fade-in-up h-[calc(100vh-80px)] overflow-y-auto">
           <button onClick={() => handleNavClick('about')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">About Us</button>
           
-          <div className="space-y-4 pl-4 border-l border-zinc-800">
+          <div className="space-y-6 pl-4 border-l border-zinc-800">
              <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Collections</span>
-             <button onClick={() => handleNavClick('metal-biz')} className="block text-xl font-medium text-zinc-300 hover:text-white">Business Card</button>
-             <button onClick={() => handleNavClick('metal-custom')} className="block text-xl font-medium text-zinc-300 hover:text-white">Custom Card</button>
+             <button onClick={() => handleNavClick('metal-biz')} className="block text-xl font-medium text-zinc-300 hover:text-white text-left w-full">Business Card</button>
+             <button onClick={() => handleNavClick('metal-custom')} className="block text-xl font-medium text-zinc-300 hover:text-white text-left w-full">Custom Card</button>
           </div>
 
           <button onClick={() => handleNavClick('materials')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">Materials</button>
           <button onClick={() => handleNavClick('faq')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">FAQ</button>
-          <button onClick={() => handleNavClick('contact')} className="text-sm font-bold tracking-widest text-black bg-white py-4 text-center mt-auto mb-20">CONTACT US</button>
+          <button onClick={() => handleNavClick('contact')} className="text-sm font-bold tracking-widest text-black bg-white py-4 text-center mt-auto mb-10 rounded-lg">CONTACT US</button>
         </div>
       )}
     </nav>
@@ -131,7 +131,8 @@ export default function App() {
       <main>
         {currentPage === 'home' && (
           <div className="animate-fade-in-up">
-            <Hero />
+            <Hero setPage={(page: string) => setCurrentPage(page as Page)} />
+            <Footer />
           </div>
         )}
         
@@ -144,6 +145,7 @@ export default function App() {
         {currentPage === 'metal-biz' && (
           <PageWrapper>
             <BusinessCardShowcase />
+            <UploadSection />
           </PageWrapper>
         )}
         
@@ -159,6 +161,12 @@ export default function App() {
         {currentPage === 'materials' && (
           <PageWrapper>
             <MaterialsGallery />
+            <div className="py-20 text-center">
+                 <h3 className="text-2xl font-serif text-white mb-6">Ready to choose?</h3>
+                 <button onClick={() => setCurrentPage('metal-custom')} className="px-10 py-4 bg-white text-black font-bold text-xs tracking-widest hover:bg-zinc-200 transition-colors">
+                    START CUSTOMIZING
+                 </button>
+            </div>
           </PageWrapper>
         )}
 
@@ -175,7 +183,7 @@ export default function App() {
         )}
       </main>
 
-      <Footer />
+      {currentPage !== 'home' && <Footer />}
     </div>
   );
 }
