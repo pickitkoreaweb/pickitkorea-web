@@ -134,7 +134,10 @@ const BusinessCardShowcase: React.FC = () => {
                 </div>
                 <div className="space-y-3">
                     <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">04. Warranty</span>
-                    <p className="text-zinc-400 text-sm leading-relaxed">구매 후 6개월간 무상 A/S를 지원합니다.</p>
+                    <p className="text-zinc-400 text-sm leading-relaxed">
+                        구매 후 6개월간 무상 A/S를 지원합니다. <br/>
+                        (당사 귀책사유 외 파손/변질은 불가)
+                    </p>
                 </div>
             </div>
         </div>

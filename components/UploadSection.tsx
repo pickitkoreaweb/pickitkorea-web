@@ -321,7 +321,7 @@ const UploadSection: React.FC = () => {
                         </li>
                         <li className="flex items-start gap-4">
                             <span className="text-zinc-600 font-mono text-sm mt-0.5">04</span>
-                            <p className="text-zinc-400 text-sm">구매 후 6개월간 무상 A/S를 지원합니다.</p>
+                            <p className="text-zinc-400 text-sm">구매 후 6개월간 무상 A/S를 지원합니다. <br/><span className="text-zinc-600 text-xs">(단, 당사 귀책사유 외 파손/변질은 불가)</span></p>
                         </li>
                     </ul>
                 </div>
@@ -340,8 +340,10 @@ const UploadSection: React.FC = () => {
                         ※ METAL CARD의 경우 카드외관 커스텀 변경 행위로써 <strong className="text-white border-b border-zinc-600 pb-0.5">여신금융업법 제70조 신용카드 위·변조에 해당하지 않으므로</strong> 안심하셔도 좋습니다.
                     </p>
                     
-                    <p className="text-zinc-500 text-xs mt-6 relative z-10">
-                        PICKIT KOREA는 관련 법령을 준수하며, 결제 IC 칩 및 마그네틱 손상 없이 안전하게 이식 작업을 진행합니다.
+                    <p className="text-zinc-500 text-xs mt-6 relative z-10 leading-relaxed">
+                         결제 IC 칩은 동봉된 툴을 사용하여 <strong>구매자가 직접 이식</strong>하는 DIY 방식입니다.
+                         <br />
+                         당사 귀책사유 외 고객 과실로 인한 제품 파손 및 변질은 A/S 및 환불이 불가합니다.
                     </p>
                 </div>
             </div>
