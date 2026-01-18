@@ -17,19 +17,19 @@ const OtherServices: React.FC<OtherServicesProps> = ({ category }) => {
     },
     materials: {
       icon: <Container className="w-10 h-10 text-white" />,
-      titleEn: "Global Materials",
-      titleKo: "건축 & 시공 자재",
-      description: "최고급 건축 자재와 인테리어 마감재의 해외 직수입부터 현장 조달까지 원스톱 솔루션을 제공합니다. 이탈리아의 대리석, 독일의 창호, 미국의 특수 목재 등 프로젝트의 퀄리티를 높여줄 자재를 합리적인 가격에 공급합니다. 복잡한 통관 절차와 물류 프로세스를 해결하여 공기를 단축시키세요.",
-      features: ["Direct Sourcing", "Logistics Management", "Cost Optimization"],
-      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2000&auto=format&fit=crop"
+      titleEn: "Site Essentials & Logistics",
+      titleKo: "건설 현장 기자재 & 도매",
+      description: "건설 현장에 없어서는 안 될 필수 기자재(이동식 화장실, 핸드카, 리어카 등)를 압도적인 물량으로 공급합니다. 불필요한 유통 거품을 완전히 제거한 '박리다매' 전략을 통해 현장의 원가 경쟁력을 극대화해 드립니다. 튼튼한 내구성과 실용성을 갖춘 제품만을 엄선하여 합리적인 가격에 대량 납품합니다.",
+      features: ["Bulk Supply (대량 공급)", "Cost Efficiency (원가 절감)", "Site Equipment (현장 장비)"],
+      image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2000&auto=format&fit=crop"
     },
     solutions: {
       icon: <Building2 className="w-10 h-10 text-white" />,
-      titleEn: "Real Estate Solutions",
-      titleKo: "부동산 개발 & 자문",
-      description: "성공적인 부동산 개발을 위한 종합 자문 서비스를 제공합니다. 사업 부지 선정부터 인허가 절차 대행, 금융 구조화(PF) 자문, 그리고 분양 전략 수립까지. 각 분야 전문가들로 구성된 전담 팀이 프로젝트의 리스크를 최소화하고 수익성을 극대화하는 최적의 솔루션을 제안합니다.",
-      features: ["Development Consulting", "Permit Management", "Strategic Planning"],
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000&auto=format&fit=crop"
+      titleEn: "Corporate Development & Advisory",
+      titleKo: "부동산 개발 & 법률 자문",
+      description: "대기업 주도의 대규모 개발 사업을 다수 성공시킨 실무진의 노하우와 전문 변호사 그룹의 법률 자문이 만났습니다. 단순한 개발 대행을 넘어, 법적 리스크를 사전에 차단하고 사업성을 극대화하는 독보적인 솔루션을 제공합니다. 인허가부터 분양, PF 금융 구조화까지 검증된 전문가와 함께 프로젝트를 성공으로 이끄십시오.",
+      features: ["Corporate Portfolio (대기업 프로젝트)", "Legal Advisory (법률 자문)", "Risk Management (리스크 관리)"],
+      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2000&auto=format&fit=crop"
     }
   };
 
