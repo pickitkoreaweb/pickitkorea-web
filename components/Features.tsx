@@ -20,16 +20,16 @@ const Features: React.FC = () => {
           
           {/* Feature 1: Main Large with Image Background */}
           <div className="md:col-span-3 row-span-1 md:row-span-2 rounded-3xl bg-zinc-900 border border-zinc-800 relative overflow-hidden group">
-            {/* Background Image - Clean Dark Metal Texture */}
+            {/* Background Image - Real Stainless Steel Texture */}
             <div className="absolute inset-0 z-0">
                 <img 
-                    src="https://images.unsplash.com/photo-1535868463750-c78d9543614f?q=80&w=2000&auto=format&fit=crop" 
-                    alt="Dark Metal Texture" 
-                    className="w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-105"
+                    src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000&auto=format&fit=crop" 
+                    alt="Brushed Stainless Steel Texture" 
+                    className="w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-105 opacity-60"
                 />
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
             </div>
 
             <div className="relative z-10 h-full flex flex-col justify-between p-8">
@@ -40,8 +40,8 @@ const Features: React.FC = () => {
               <div className="max-w-2xl mt-auto">
                 <h3 className="text-3xl font-bold mb-3 text-white drop-shadow-lg">Premium Material</h3>
                 <p className="text-zinc-200 leading-relaxed text-lg drop-shadow-md">
-                  최고급 스테인리스 스틸을 사용하여 부식에 강하고, 묵직한 무게감을 자랑합니다. 
-                  손끝에서 느껴지는 차가운 금속의 질감은 결코 모방할 수 없습니다. 
+                  최고급 304 스테인리스 스틸을 사용하여 부식에 강하고, 묵직한 무게감을 자랑합니다. 
+                  손끝에서 느껴지는 차가운 금속의 헤어라인 텍스처는 결코 모방할 수 없습니다. 
                   단순한 결제 수단을 넘어, 당신의 아이덴티티를 대변하는 오브제가 됩니다.
                 </p>
               </div>
@@ -50,7 +50,7 @@ const Features: React.FC = () => {
 
           {/* Feature 4: Wide */}
           <div className="md:col-span-3 rounded-3xl p-8 bg-zinc-900 border border-zinc-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 group relative overflow-hidden">
-             {/* Subtle background glow - Reduced blue */}
+             {/* Subtle background glow */}
              <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-64 h-64 bg-zinc-700/10 rounded-full blur-[80px]"></div>
 
              <div className="flex-1 relative z-10">
@@ -68,7 +68,7 @@ const Features: React.FC = () => {
              <div className="w-full md:w-1/3 h-full min-h-[200px] bg-black rounded-2xl border border-zinc-800 flex items-center justify-center overflow-hidden relative group-hover:border-zinc-700 transition-colors">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-800 to-black"></div>
                 
-                {/* Laser beam effect - White/Silver instead of Blue */}
+                {/* Laser beam effect */}
                 <div className="absolute top-0 left-1/2 w-[1px] h-1/2 bg-gradient-to-b from-transparent to-white opacity-50"></div>
                 <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)] animate-pulse"></div>
                 

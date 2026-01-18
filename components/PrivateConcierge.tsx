@@ -1,11 +1,59 @@
 import React, { useState } from 'react';
-import { MessageSquare, X, Send, Crown, ArrowRight } from 'lucide-react';
+import { MessageSquare, X, Send, Crown, ArrowRight, Loader2 } from 'lucide-react';
 
 const PrivateConcierge: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState<'intro' | 'form' | 'success'>('intro');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    request: ''
+  });
 
   const toggleOpen = () => setIsOpen(!isOpen);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Simulate luxury service processing time
+    setTimeout(() => {
+        // Construct Mailto Link
+        const subject = `[VIP Concierge Request] ${formData.name}님의 상담 신청`;
+        const body = `
+=========================================
+      VIP PRIVATE CONCIERGE REQUEST
+=========================================
+
+고객명 (Name): ${formData.name}
+연락처 (Phone): ${formData.phone}
+
+[요청 사항]
+${formData.request}
+
+=========================================
+* 빠른 시일 내에 연락 부탁드립니다.
+        `;
+
+        // Open Email Client
+        window.location.href = `mailto:PICKIT.KOREA.OFFICIAL@GMAIL.COM?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        setIsSubmitting(false);
+        setStep('success');
+        
+        // Reset form data but keep success screen
+        setFormData({ name: '', phone: '', request: '' });
+    }, 2000);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { value, placeholder } = e.target;
+      // Simple mapping based on placeholder as we didn't use name attribute in original design
+      if (placeholder.includes('Name')) setFormData(prev => ({ ...prev, name: value }));
+      if (placeholder.includes('Phone')) setFormData(prev => ({ ...prev, phone: value }));
+      if (placeholder.includes('요청사항')) setFormData(prev => ({ ...prev, request: value }));
+  };
 
   return (
     <>
@@ -58,16 +106,44 @@ const PrivateConcierge: React.FC = () => {
             )}
 
             {step === 'form' && (
-                <form className="flex flex-col gap-3 h-full animate-fade-in-up" onSubmit={(e) => { e.preventDefault(); setStep('success'); }}>
+                <form className="flex flex-col gap-3 h-full animate-fade-in-up" onSubmit={handleSubmit}>
                     <div className="text-white font-serif text-lg mb-2">Contact Details</div>
-                    <input type="text" placeholder="성함 (Name)" className="bg-zinc-900 border border-zinc-700 rounded p-3 text-sm text-white focus:border-[#D4AF37] outline-none" required />
-                    <input type="tel" placeholder="연락처 (Phone)" className="bg-zinc-900 border border-zinc-700 rounded p-3 text-sm text-white focus:border-[#D4AF37] outline-none" required />
-                    <textarea placeholder="요청사항을 간략히 적어주세요." rows={3} className="bg-zinc-900 border border-zinc-700 rounded p-3 text-sm text-white focus:border-[#D4AF37] outline-none resize-none"></textarea>
+                    <input 
+                        type="text" 
+                        placeholder="성함 (Name)" 
+                        onChange={handleInputChange}
+                        className="bg-zinc-900 border border-zinc-700 rounded p-3 text-sm text-white focus:border-[#D4AF37] outline-none" 
+                        required 
+                    />
+                    <input 
+                        type="tel" 
+                        placeholder="연락처 (Phone)" 
+                        onChange={handleInputChange}
+                        className="bg-zinc-900 border border-zinc-700 rounded p-3 text-sm text-white focus:border-[#D4AF37] outline-none" 
+                        required 
+                    />
+                    <textarea 
+                        placeholder="요청사항을 간략히 적어주세요." 
+                        onChange={handleInputChange}
+                        rows={3} 
+                        className="bg-zinc-900 border border-zinc-700 rounded p-3 text-sm text-white focus:border-[#D4AF37] outline-none resize-none"
+                    ></textarea>
                     
-                    <button type="submit" className="mt-2 w-full py-3 bg-[#D4AF37] text-black text-sm font-bold rounded shadow-[0_0_15px_rgba(212,175,55,0.3)] hover:bg-[#FCE2C4] transition-all interactable">
-                        Request Callback
+                    <button 
+                        type="submit" 
+                        disabled={isSubmitting}
+                        className="mt-2 w-full py-3 bg-[#D4AF37] text-black text-sm font-bold rounded shadow-[0_0_15px_rgba(212,175,55,0.3)] hover:bg-[#FCE2C4] transition-all interactable flex items-center justify-center gap-2"
+                    >
+                        {isSubmitting ? (
+                            <>
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                                Processing...
+                            </>
+                        ) : (
+                            "Request Callback"
+                        )}
                     </button>
-                    <button onClick={() => setStep('intro')} className="text-xs text-zinc-500 hover:text-white text-center mt-2 underline">Back</button>
+                    <button type="button" onClick={() => setStep('intro')} className="text-xs text-zinc-500 hover:text-white text-center mt-2 underline">Back</button>
                 </form>
             )}
 
@@ -78,8 +154,9 @@ const PrivateConcierge: React.FC = () => {
                     </div>
                     <h3 className="text-white text-lg font-bold mb-2">접수되었습니다.</h3>
                     <p className="text-zinc-400 text-sm">
-                        VIP 전담 팀이 내용을 확인 후 <br/>
-                        빠른 시일 내에 연락드리겠습니다.
+                        이메일 클라이언트가 열렸다면<br/>
+                        <span className="text-[#D4AF37]">보내기 버튼</span>을 꼭 눌러주세요.<br/>
+                        VIP 전담 팀이 곧 연락드리겠습니다.
                     </p>
                     <button onClick={toggleOpen} className="mt-6 text-[#D4AF37] text-xs font-bold tracking-widest hover:text-white uppercase">
                         Close Window

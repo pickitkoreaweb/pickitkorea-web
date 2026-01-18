@@ -29,8 +29,9 @@ const PackagingShowcase: React.FC = () => {
                     {/* Box Body (Inside) */}
                     <div className="absolute top-0 left-0 w-full h-full bg-[#050505] rounded-lg border border-zinc-900 flex items-center justify-center transform translate-z-[-20px] shadow-inner z-10">
                          <div className="w-[80%] h-[80%] bg-[#0a0a0a] rounded inset-shadow flex items-center justify-center relative">
-                             {/* Velvet Texture */}
-                             <div className="absolute inset-0 bg-[radial-gradient(circle,_#1a1a1a_0%,_#000_100%)] opacity-80"></div>
+                             {/* High Density Foam Texture */}
+                             <div className="absolute inset-0 bg-[radial-gradient(circle,_#1a1a1a_0%,_#0a0a0a_100%)] opacity-90"></div>
+                             <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/felt.png')]"></div>
                              
                              {/* The Card Inside */}
                              <div className="w-[60%] h-[35%] bg-gradient-to-br from-zinc-700 to-black rounded border border-zinc-600 shadow-[0_10px_20px_rgba(0,0,0,0.8)] relative z-10 transform group-hover:translate-z-10 group-hover:scale-105 transition-transform duration-1000">
@@ -55,8 +56,7 @@ const PackagingShowcase: React.FC = () => {
                 
                 <p className="text-lg text-zinc-400 mb-10 leading-relaxed">
                     단순한 배송이 아닙니다. PICKIT을 만나는 첫 순간부터 압도적인 경험을 선사합니다. 
-                    최고급 블랙 하드 케이스와 벨벳 완충재, 그리고 정품 보증서가 포함된 
-                    프리미엄 패키지는 당신을 위한 완벽한 선물입니다.
+                    최고급 블랙 하드 케이스와 카드 형태에 딱 맞게 재단된 맞춤형 고밀도 보호 폼이 제품을 완벽하게 보호합니다.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -64,13 +64,13 @@ const PackagingShowcase: React.FC = () => {
                         <Package className="w-6 h-6 text-white mt-1" />
                         <div>
                             <h4 className="text-white font-bold mb-1">Premium Hard Case</h4>
-                            <p className="text-sm text-zinc-500">충격으로부터 제품을 완벽하게 보호하는 고급 패키지.</p>
+                            <p className="text-sm text-zinc-500">충격으로부터 제품을 보호하는 견고한 하드 케이스.</p>
                         </div>
                     </div>
                     <div className="flex items-start gap-4 p-4 border border-zinc-800 rounded-xl bg-zinc-900/30">
                         <Award className="w-6 h-6 text-white mt-1" />
                         <div>
-                            <h4 className="text-white font-bold mb-1">Certificate of Authenticity</h4>
+                            <h4 className="text-white font-bold mb-1">Authenticity</h4>
                             <p className="text-sm text-zinc-500">고유 시리얼 넘버가 기재된 정품 보증서 동봉.</p>
                         </div>
                     </div>

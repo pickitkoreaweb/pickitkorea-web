@@ -1,7 +1,70 @@
-import React from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2 } from 'lucide-react';
 
 const ContactView: React.FC = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    interest: 'Metal Card',
+    message: ''
+  });
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleRadioChange = (value: string) => {
+    setFormData(prev => ({ ...prev, interest: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.phone || !formData.email) {
+      alert("필수 정보를 모두 입력해주세요.");
+      return;
+    }
+
+    setStatus('submitting');
+
+    // Simulate network delay for better UX
+    setTimeout(() => {
+      // Construct Mailto Link
+      const subject = `[PICKIT 문의] ${formData.name}님의 ${formData.interest} 문의`;
+      const body = `
+--------------------------------------------------
+[문의 내용]
+성함: ${formData.name}
+연락처: ${formData.phone}
+이메일: ${formData.email}
+관심 분야: ${formData.interest}
+--------------------------------------------------
+
+문의 내용:
+${formData.message}
+      `;
+
+      // Open Email Client
+      window.location.href = `mailto:PICKIT.KOREA.OFFICIAL@GMAIL.COM?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      setStatus('success');
+      
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setFormData({
+            name: '',
+            phone: '',
+            email: '',
+            interest: 'Metal Card',
+            message: ''
+        });
+        setStatus('idle');
+      }, 3000);
+    }, 1500);
+  };
+
   return (
     <section className="py-24 px-6 bg-black min-h-screen relative flex items-center justify-center overflow-hidden">
       {/* Background Effects */}
@@ -63,22 +126,30 @@ const ContactView: React.FC = () => {
           </div>
 
           {/* Contact Form */}
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-zinc-400 ml-1">Name</label>
                 <input 
                   type="text" 
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   placeholder="Your Name" 
                   className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-white/50 transition-colors"
+                  required
                 />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-zinc-400 ml-1">Phone</label>
                 <input 
                   type="tel" 
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
                   placeholder="010-0000-0000" 
                   className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-white/50 transition-colors"
+                  required
                 />
               </div>
             </div>
@@ -87,37 +158,66 @@ const ContactView: React.FC = () => {
               <label className="text-sm font-medium text-zinc-400 ml-1">Email</label>
               <input 
                 type="email" 
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="your@email.com" 
                 className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-white/50 transition-colors"
+                required
               />
             </div>
 
             <div className="space-y-2">
                <label className="text-sm font-medium text-zinc-400 ml-1">Interest</label>
                <div className="grid grid-cols-2 gap-3">
-                  <label className="flex items-center justify-center px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-xl cursor-pointer hover:bg-zinc-800 transition-colors has-[:checked]:bg-white has-[:checked]:text-black">
-                      <input type="radio" name="interest" className="hidden" />
+                  <div 
+                    onClick={() => handleRadioChange('Metal Card')}
+                    className={`flex items-center justify-center px-4 py-3 border rounded-xl cursor-pointer transition-colors ${formData.interest === 'Metal Card' ? 'bg-white text-black border-white' : 'bg-zinc-900 border-zinc-800 hover:bg-zinc-800 text-zinc-400'}`}
+                  >
                       <span className="text-sm font-medium">Metal Card</span>
-                  </label>
-                  <label className="flex items-center justify-center px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-xl cursor-pointer hover:bg-zinc-800 transition-colors has-[:checked]:bg-white has-[:checked]:text-black">
-                      <input type="radio" name="interest" className="hidden" />
+                  </div>
+                  <div 
+                    onClick={() => handleRadioChange('Business')}
+                    className={`flex items-center justify-center px-4 py-3 border rounded-xl cursor-pointer transition-colors ${formData.interest === 'Business' ? 'bg-white text-black border-white' : 'bg-zinc-900 border-zinc-800 hover:bg-zinc-800 text-zinc-400'}`}
+                  >
                       <span className="text-sm font-medium">Business</span>
-                  </label>
+                  </div>
                </div>
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-zinc-400 ml-1">Message</label>
               <textarea 
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
                 rows={5}
                 placeholder="How can we help you?" 
                 className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-white/50 transition-colors resize-none"
               ></textarea>
             </div>
 
-            <button className="w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-zinc-200 transition-all flex items-center justify-center gap-2 group">
-              Send Message
-              <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            <button 
+                type="submit" 
+                disabled={status !== 'idle'}
+                className={`w-full py-4 font-bold rounded-xl transition-all flex items-center justify-center gap-2 group ${status === 'success' ? 'bg-green-600 text-white' : 'bg-white text-black hover:bg-zinc-200'}`}
+            >
+              {status === 'submitting' ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Sending...
+                </>
+              ) : status === 'success' ? (
+                <>
+                  Message Sent
+                  <CheckCircle2 className="w-4 h-4" />
+                </>
+              ) : (
+                <>
+                  Send Message
+                  <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </>
+              )}
             </button>
           </form>
         </div>

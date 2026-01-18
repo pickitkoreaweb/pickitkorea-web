@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, HelpCircle, MessageCircle } from 'lucide-react';
+import { ChevronDown, HelpCircle, MessageCircle, Star, Quote, ThumbsUp } from 'lucide-react';
 
 interface FAQItemProps {
   question: string;
@@ -15,11 +15,11 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick }) 
         className="w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none group"
         onClick={onClick}
       >
-        <span className={`text-lg font-medium transition-colors ${isOpen ? 'text-white' : 'text-zinc-400 group-hover:text-white'}`}>
+        <span className={`text-sm md:text-base font-medium transition-colors ${isOpen ? 'text-white' : 'text-zinc-400 group-hover:text-white'}`}>
           {question}
         </span>
-        <div className={`w-8 h-8 rounded-full flex items-center justify-center bg-zinc-800 transition-all duration-300 ${isOpen ? 'rotate-180 bg-white text-black' : 'text-zinc-500 group-hover:bg-zinc-700'}`}>
-           <ChevronDown className="w-4 h-4" />
+        <div className={`w-6 h-6 rounded-full flex items-center justify-center bg-zinc-800 transition-all duration-300 flex-shrink-0 ml-4 ${isOpen ? 'rotate-180 bg-white text-black' : 'text-zinc-500 group-hover:bg-zinc-700'}`}>
+           <ChevronDown className="w-3 h-3" />
         </div>
       </button>
       
@@ -28,7 +28,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick }) 
       >
         <div className="px-6 pb-6 pt-2">
             <div className="h-px w-full bg-zinc-800/50 mb-4"></div>
-            <p className="text-zinc-400 leading-relaxed text-sm md:text-base whitespace-pre-line">
+            <p className="text-zinc-400 leading-relaxed text-sm whitespace-pre-line">
                 {answer}
             </p>
         </div>
@@ -67,6 +67,33 @@ const FAQ: React.FC = () => {
     }
   ];
 
+  const reviews = [
+    {
+      text: "결제할 때 직원분이 카드 뭐냐고 물어보시네요 ㅋㅋ 묵직한 그립감 때문에 다시는 플라스틱 카드로 못 돌아갈 것 같아요.",
+      author: "최지훈",
+      tier: "BLACK",
+      tag: "#실물깡패"
+    },
+    {
+      text: "DIY라 칩 옮기는 거 걱정했는데 가이드 영상 보고 3분 만에 끝냈어요. 로즈골드 색감 진짜 예쁩니다.",
+      author: "김서연",
+      tier: "ROSE",
+      tag: "#로즈골드"
+    },
+    {
+      text: "친구들이 다 어디서 했냐고 물어봐요. 테이블에 던질 때 나는 '챙-' 하는 금속 소리가 진짜 쾌감 쩌네요.",
+      author: "이현우",
+      tier: "SILVER",
+      tag: "#하차감"
+    },
+    {
+      text: "커스텀 로고가 생각보다 훨씬 디테일하게 나왔어요. 비즈니스 미팅때 꺼내면 아이스브레이킹 확실합니다.",
+      author: "박민수",
+      tier: "BLACK",
+      tag: "#비즈니스"
+    }
+  ];
+
   const handleToggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
@@ -76,41 +103,104 @@ const FAQ: React.FC = () => {
        {/* Background */}
        <div className="absolute top-0 right-0 w-1/3 h-full bg-zinc-900/20 blur-[100px] pointer-events-none"></div>
 
-       <div className="max-w-4xl mx-auto relative z-10">
+       <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16 animate-fade-in-up">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900 mb-6">
                 <HelpCircle className="w-3 h-3 text-zinc-400" />
-                <span className="text-xs font-semibold tracking-wide uppercase text-zinc-400">Support Center</span>
+                <span className="text-xs font-semibold tracking-wide uppercase text-zinc-400">Support & Community</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Help Center</h2>
               <p className="text-zinc-400 max-w-2xl mx-auto">
-                메탈 카드 제작부터 사용까지, 고객님들이 가장 궁금해하시는 점들을 모았습니다. <br />
-                더 궁금한 점이 있으시다면 언제든 문의해 주세요.
+                자주 묻는 질문과 실제 사용자들의 생생한 후기를 확인하세요.
               </p>
           </div>
 
-          <div className="space-y-4 animate-fade-in-up delay-100">
-            {faqs.map((faq, index) => (
-              <FAQItem 
-                key={index}
-                question={faq.question}
-                answer={faq.answer}
-                isOpen={openIndex === index}
-                onClick={() => handleToggle(index)}
-              />
-            ))}
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            
+            {/* Left Column: FAQ */}
+            <div className="lg:col-span-7 animate-fade-in-up delay-100">
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                    <span className="w-1 h-6 bg-[#D4AF37] rounded-full"></span>
+                    Frequently Asked Questions
+                </h3>
+                <div className="space-y-4">
+                    {faqs.map((faq, index) => (
+                    <FAQItem 
+                        key={index}
+                        question={faq.question}
+                        answer={faq.answer}
+                        isOpen={openIndex === index}
+                        onClick={() => handleToggle(index)}
+                    />
+                    ))}
+                </div>
 
-          <div className="mt-20 p-8 rounded-3xl bg-zinc-900 border border-zinc-800 text-center animate-fade-in-up delay-200">
-            <MessageCircle className="w-8 h-8 text-white mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-white mb-2">Still have questions?</h3>
-            <p className="text-zinc-400 mb-6">찾으시는 답변이 없다면 직접 문의해 주세요.</p>
-            <button 
-                onClick={() => document.getElementById('contact-btn')?.click()} // Trick to trigger nav or just use href
-                className="px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-zinc-200 transition-colors"
-            >
-                <a href="/?page=contact">Contact Support</a>
-            </button>
+                <div className="mt-8 p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-center flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center gap-4 text-left">
+                         <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center">
+                            <MessageCircle className="w-5 h-5 text-zinc-400" />
+                         </div>
+                         <div>
+                            <p className="text-white font-bold text-sm">Still have questions?</p>
+                            <p className="text-zinc-500 text-xs">직접 문의하시면 빠르게 답변해 드립니다.</p>
+                         </div>
+                    </div>
+                    <button 
+                        onClick={() => document.getElementById('contact-btn')?.click()} 
+                        className="px-6 py-2.5 bg-white text-black font-bold text-xs rounded-lg hover:bg-zinc-200 transition-colors w-full md:w-auto"
+                    >
+                        CONTACT US
+                    </button>
+                </div>
+            </div>
+
+            {/* Right Column: Reviews */}
+            <div className="lg:col-span-5 animate-fade-in-up delay-200">
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                    <span className="w-1 h-6 bg-zinc-700 rounded-full"></span>
+                    Customer Stories
+                </h3>
+                
+                <div className="space-y-4 relative">
+                    {/* Vertical line connector */}
+                    <div className="absolute left-4 top-4 bottom-4 w-px bg-zinc-800 z-0"></div>
+
+                    {reviews.map((review, idx) => (
+                        <div key={idx} className="relative z-10 bg-[#0a0a0a] border border-zinc-800 rounded-xl p-5 hover:border-zinc-600 transition-colors group">
+                            <div className="flex items-start gap-4">
+                                <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0 text-xs font-bold text-zinc-400">
+                                    {review.author[0]}
+                                </div>
+                                <div className="flex-1">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <div className="flex gap-0.5">
+                                            {[...Array(5)].map((_, i) => (
+                                                <Star key={i} className="w-2.5 h-2.5 text-[#D4AF37] fill-[#D4AF37]" />
+                                            ))}
+                                        </div>
+                                        <span className="text-[9px] font-bold text-zinc-500 border border-zinc-800 px-1.5 py-0.5 rounded uppercase">{review.tier}</span>
+                                    </div>
+                                    <p className="text-zinc-300 text-sm leading-relaxed mb-3 break-keep">
+                                        "{review.text}"
+                                    </p>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-xs font-bold text-white">{review.author}님</span>
+                                        <span className="text-[10px] text-[#D4AF37] font-bold">{review.tag}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+
+                    <div className="p-4 bg-zinc-900/30 rounded-xl border border-zinc-800 border-dashed text-center">
+                         <p className="text-zinc-500 text-sm mb-2">더 많은 후기가 궁금하신가요?</p>
+                         <button className="text-xs text-white underline hover:text-[#D4AF37] transition-colors">
+                            인스타그램 @PICKIT_OFFICIAL 확인하기
+                         </button>
+                    </div>
+                </div>
+            </div>
+
           </div>
        </div>
     </section>
