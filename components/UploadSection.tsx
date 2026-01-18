@@ -81,7 +81,7 @@ const UploadSection: React.FC = () => {
 
   // Helper for the intricate border
   const IntricateBorder = ({ color = "border-zinc-500" }) => (
-    <div className={`absolute inset-2 border-2 ${color} rounded-lg opacity-50`}>
+    <div className={`absolute inset-2 border-2 ${color} rounded-lg opacity-50 pointer-events-none`}>
         <div className={`absolute inset-1 border ${color} border-dashed rounded opacity-30`}></div>
         {/* Corner decorations */}
         <div className={`absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 ${color}`}></div>
@@ -204,37 +204,48 @@ const UploadSection: React.FC = () => {
                     </div>
 
                     {/* Black Card (Center/Top) - Main Focus */}
-                    <div className={`absolute top-0 left-0 w-full h-full rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,1)] transition-all duration-700 transform z-20 bg-[#1a1a1a] border border-zinc-700 ${isProcessing ? 'animate-pulse' : ''}`}>
-                        {/* Dark Texture */}
-                        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.05)_0%,_transparent_70%)]"></div>
-                        <IntricateBorder color="border-zinc-600" />
+                    <div className={`absolute top-0 left-0 w-full h-full rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,1)] transition-all duration-700 transform z-20 bg-[#1a1a1a] border border-zinc-700 overflow-hidden ${isProcessing ? 'animate-pulse' : ''}`}>
+                        {/* Custom Design Layer - Full Bleed */}
+                        {preview && (
+                           <div className="absolute inset-0 z-10">
+                               <img 
+                                   src={preview} 
+                                   alt="Custom Design" 
+                                   className={`w-full h-full object-cover transition-all duration-1000 ${isProcessing ? 'blur-sm scale-110' : 'blur-0 scale-100'}`} 
+                               />
+                               {/* Overlay to ensure text readability */}
+                               <div className="absolute inset-0 bg-black/30"></div>
+                           </div>
+                        )}
+
+                        {/* Default Dark Texture (Hidden if preview exists) */}
+                        {!preview && (
+                           <>
+                                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 z-0"></div>
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.05)_0%,_transparent_70%)] z-0"></div>
+                           </>
+                        )}
+
+                        <div className="relative z-20 w-full h-full">
+                             <IntricateBorder color={preview ? "border-white/50" : "border-zinc-600"} />
+                        </div>
                         
                         {/* Content */}
-                        <div className="relative z-20 p-6 h-full flex flex-col justify-between text-zinc-300">
+                        <div className="absolute inset-0 z-30 p-6 flex flex-col justify-between text-zinc-300">
                             <div className="flex justify-between items-start">
                                  <h3 className="font-bold tracking-tighter text-lg uppercase text-white drop-shadow-md">PICKIT</h3>
-                                 <span className="text-[10px] font-bold tracking-widest text-zinc-500 border border-zinc-600 px-1 rounded">BLACK</span>
+                                 <span className="text-[10px] font-bold tracking-widest text-zinc-500 border border-zinc-600 px-1 rounded bg-black/20 backdrop-blur-sm">BLACK</span>
                             </div>
 
-                            {/* Centurion Head Area */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 flex items-center justify-center">
-                                 {/* Background Oval */}
-                                 <div className="absolute w-28 h-32 rounded-[40%] border border-zinc-800 bg-zinc-900/50 flex items-center justify-center opacity-80">
-                                    <CenturionProfile color="#52525b" />
-                                 </div>
-                                 
-                                 {/* Uploaded Design Overlay */}
-                                 {preview && (
-                                    <div className="absolute inset-0 flex items-center justify-center z-30">
-                                        <img 
-                                            src={preview} 
-                                            alt="Engraving Preview" 
-                                            className={`max-w-[70%] max-h-[70%] object-contain filter grayscale invert opacity-90 drop-shadow-lg transition-all duration-1000 ${isProcessing ? 'blur-sm scale-95' : 'blur-0 scale-100'}`} 
-                                        />
-                                    </div>
-                                 )}
-                            </div>
+                            {/* Centurion Head Area (Only visible if no preview) */}
+                            {!preview && (
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 flex items-center justify-center">
+                                     {/* Background Oval */}
+                                     <div className="absolute w-28 h-32 rounded-[40%] border border-zinc-800 bg-zinc-900/50 flex items-center justify-center opacity-80">
+                                        <CenturionProfile color="#52525b" />
+                                     </div>
+                                </div>
+                            )}
 
                             {/* Chip */}
                             <div className="absolute top-1/2 left-8 -translate-y-1/2 w-11 h-8 bg-gradient-to-br from-zinc-300 to-zinc-500 rounded-md border border-zinc-400 flex items-center justify-center shadow-md">
@@ -243,8 +254,8 @@ const UploadSection: React.FC = () => {
                             </div>
 
                             <div className="flex justify-between items-end mt-auto">
-                                <div className="text-lg font-mono font-medium tracking-widest text-zinc-200 uppercase drop-shadow-md">MINSU KIM</div>
-                                <div className="text-[9px] font-bold tracking-widest text-zinc-500">MEMBER SINCE 24</div>
+                                <div className="text-lg font-mono font-medium tracking-widest text-zinc-200 uppercase drop-shadow-md">KIM JENY</div>
+                                <div className="text-[9px] font-bold tracking-widest text-zinc-500">MEMBER SINCE 26</div>
                             </div>
                         </div>
                     </div>

@@ -83,14 +83,14 @@ const BusinessCardShowcase: React.FC = () => {
                              <span className="text-zinc-500 text-xs tracking-[0.2em] font-medium">PICKIT METAL</span>
                         </div>
                         <div className="text-[10px] text-zinc-600 font-mono tracking-widest border border-zinc-800 px-2 py-1 rounded">
-                            MEMBER SINCE 2024
+                            MEMBER SINCE 2026
                         </div>
                     </div>
 
                     {/* Middle Section - Name & Title */}
                     <div className="z-10 relative my-auto">
                         <h3 className="text-3xl md:text-4xl font-sans font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 drop-shadow-md tracking-tight mb-2">
-                            Minsu Kim
+                            KIM JENY
                         </h3>
                         <div className="flex items-center gap-3">
                             <div className="h-[1px] w-8 bg-zinc-700"></div>
@@ -102,7 +102,7 @@ const BusinessCardShowcase: React.FC = () => {
                     <div className="flex justify-between items-end z-10 relative">
                         <div className="text-[9px] text-zinc-500 font-medium tracking-wider space-y-1">
                            <p>+82 10 1234 5678</p>
-                           <p>MIN.KIM@PICKIT.COM</p>
+                           <p>JENY.KIM@PICKIT.COM</p>
                            <p>SEOUL, KOREA</p>
                         </div>
                         
