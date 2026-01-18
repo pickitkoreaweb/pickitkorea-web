@@ -19,22 +19,22 @@ const OtherServices: React.FC = () => {
               <span className="text-zinc-500">Premium Purchasing Agency</span>
             </h2>
             
-            <p className="text-zinc-400 text-lg mb-8 leading-relaxed">
-              국내에서 구하기 힘든 한정판 스니커즈, 명품 시계, 희귀한 테크 가젯까지. 
-              PICKIT KOREA의 글로벌 네트워크를 통해 당신이 원하는 모든 것을 안전하게 소싱해 드립니다.
-              단순한 구매 대행을 넘어 검수부터 배송까지 완벽한 프리미엄 서비스를 경험하세요.
+            <p className="text-zinc-400 text-lg mb-8 leading-relaxed break-keep">
+              명품 시계, 하이엔드 의류부터 건축 시공 자재까지. 
+              PICKIT KOREA는 폭넓은 구매대행 서비스를 제공합니다. 
+              전문적인 검수부터 배송까지, 안전하고 완벽하게 진행되는 프리미엄 솔루션을 경험하세요.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
                 <div className="p-6 bg-zinc-900/50 border border-zinc-800 rounded-2xl hover:bg-zinc-900 transition-colors">
                     <Plane className="w-8 h-8 text-white mb-4" />
                     <h4 className="text-white font-bold mb-2">Global Logistics</h4>
-                    <p className="text-sm text-zinc-500">미국, 유럽, 일본 등 전 세계 주요 거점을 통한 신속하고 안전한 항공 배송.</p>
+                    <p className="text-sm text-zinc-500">미국, 유럽, 일본 등 전 세계 주요 거점을 통한 신속하고 안전한 항공 배송 및 해상 운송.</p>
                 </div>
                 <div className="p-6 bg-zinc-900/50 border border-zinc-800 rounded-2xl hover:bg-zinc-900 transition-colors">
                     <Package className="w-8 h-8 text-white mb-4" />
                     <h4 className="text-white font-bold mb-2">Secure Care</h4>
-                    <p className="text-sm text-zinc-500">고가품 전용 특수 포장 및 실시간 배송 추적 시스템으로 분실 걱정 없는 안심 서비스.</p>
+                    <p className="text-sm text-zinc-500">품목별 맞춤형 특수 포장 및 실시간 화물 추적 시스템으로 파손과 분실 걱정 없는 안심 서비스.</p>
                 </div>
             </div>
 
