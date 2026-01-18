@@ -13,6 +13,9 @@ import Preloader from './components/Preloader';
 import CustomCursor from './components/CustomCursor';
 import PolicyView from './components/PolicyView';
 import Reviews from './components/Reviews';
+import ScrollProgress from './components/ScrollProgress';
+import RevealOnScroll from './components/RevealOnScroll';
+import PrivateConcierge from './components/PrivateConcierge';
 
 type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'contact' | 'policy';
 
@@ -139,33 +142,43 @@ export default function App() {
       {!loading && (
         <div className="min-h-screen bg-[#050505] text-zinc-100 selection:bg-white/20 selection:text-white overflow-x-hidden font-sans cursor-none">
           <CustomCursor />
+          <ScrollProgress />
           <Navbar currentPage={currentPage} setPage={setCurrentPage} />
+          <PrivateConcierge />
           
           <main>
+            {/* HOME PAGE: Curated Landing */}
             {currentPage === 'home' && (
               <div className="animate-fade-in-up">
                 <Hero setPage={(page: string) => setCurrentPage(page as Page)} />
-                <Features />
-                <MaterialsGallery />
-                <BusinessCardShowcase />
-                <Reviews />
-                <UploadSection />
-                <FAQ />
-                <ContactView />
+                <RevealOnScroll>
+                    <CompanyIntro />
+                </RevealOnScroll>
+                <RevealOnScroll>
+                    <Features />
+                </RevealOnScroll>
+                <RevealOnScroll>
+                    <Reviews />
+                </RevealOnScroll>
               </div>
             )}
             
+            {/* SUB PAGES */}
             {currentPage === 'about' && (
               <PageWrapper>
                 <CompanyIntro />
+                <RevealOnScroll>
+                    <Features />
+                </RevealOnScroll>
               </PageWrapper>
             )}
             
             {currentPage === 'metal-biz' && (
               <PageWrapper>
                 <BusinessCardShowcase />
-                <Reviews />
-                <UploadSection />
+                <RevealOnScroll>
+                    <UploadSection />
+                </RevealOnScroll>
               </PageWrapper>
             )}
             
@@ -173,7 +186,9 @@ export default function App() {
               <PageWrapper>
                 <div className="pt-10">
                     <Features />
-                    <UploadSection />
+                    <RevealOnScroll>
+                        <UploadSection />
+                    </RevealOnScroll>
                 </div>
               </PageWrapper>
             )}
@@ -209,8 +224,7 @@ export default function App() {
             )}
           </main>
 
-          {currentPage !== 'home' && <Footer setPage={setCurrentPage} />}
-          {currentPage === 'home' && <Footer setPage={setCurrentPage} />}
+          <Footer setPage={setCurrentPage} />
         </div>
       )}
     </>

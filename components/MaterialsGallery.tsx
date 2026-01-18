@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 const MaterialsGallery: React.FC = () => {
@@ -11,7 +11,6 @@ const MaterialsGallery: React.FC = () => {
       type: "Mirror Finish",
       desc: "깊이 있는 블랙 미러 마감. 빛을 흡수하고 반사하는 신비로운 매력.",
       color: "from-zinc-900 to-black",
-      glow: "group-hover:shadow-[0_0_100px_rgba(255,255,255,0.1)]",
       textColor: "text-white"
     },
     {
@@ -20,7 +19,6 @@ const MaterialsGallery: React.FC = () => {
       type: "Brushed Texture",
       desc: "순수한 금속의 본질. 세련되고 도시적인 헤어라인 텍스처.",
       color: "from-[#e3e3e3] to-[#9ca3af]",
-      glow: "group-hover:shadow-[0_0_100px_rgba(227,227,227,0.3)]",
       textColor: "text-zinc-900"
     },
     {
@@ -29,7 +27,6 @@ const MaterialsGallery: React.FC = () => {
       type: "24K Gold Plated",
       desc: "변치 않는 부의 상징. 실제 24K 골드 도금으로 완성된 압도적 화려함.",
       color: "from-[#FCD34D] to-[#B45309]",
-      glow: "group-hover:shadow-[0_0_100px_rgba(252,211,77,0.3)]",
       textColor: "text-yellow-950"
     },
     {
@@ -38,7 +35,6 @@ const MaterialsGallery: React.FC = () => {
       type: "Pink Gold",
       desc: "우아함의 절정. 부드럽지만 강렬한 로즈 골드의 섬세한 컬러감.",
       color: "from-[#fda4af] to-[#be123c]",
-      glow: "group-hover:shadow-[0_0_100px_rgba(253,164,175,0.3)]",
       textColor: "text-rose-950"
     }
   ];
@@ -77,44 +73,81 @@ const MaterialsGallery: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-[600px] md:h-[500px]">
             {materials.map((mat, index) => (
-                <div 
-                    key={mat.id}
-                    onMouseEnter={() => setActiveMaterial(index)}
-                    className={`relative rounded-none border border-white/10 overflow-hidden group cursor-pointer transition-all duration-500 ease-out flex flex-col justify-end p-6 ${activeMaterial === index ? 'md:flex-[2] bg-zinc-900/40' : 'md:flex-[1] bg-black hover:bg-zinc-900/20'}`}
-                >
-                    {/* Metal Texture Representation */}
-                    <div className={`absolute top-0 left-0 w-full h-full bg-gradient-to-br ${mat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-soft-light`}></div>
-                    <div className={`absolute -top-20 -right-20 w-60 h-60 bg-gradient-to-br ${mat.color} rounded-full blur-[80px] opacity-0 group-hover:opacity-40 transition-opacity duration-700`}></div>
-
-                    {/* Content */}
-                    <div className="relative z-10">
-                        <div className={`text-xs font-bold tracking-[0.2em] uppercase mb-2 transition-colors duration-300 ${activeMaterial === index ? 'text-white' : 'text-zinc-600 group-hover:text-zinc-400'}`}>
-                            {index + 1 < 10 ? `0${index + 1}` : index + 1}
-                        </div>
-                        <h3 className={`text-2xl md:text-3xl font-serif mb-4 transition-all duration-300 ${activeMaterial === index ? 'text-white translate-y-0' : 'text-zinc-500 translate-y-4 group-hover:text-zinc-300'}`}>
-                            {mat.name.split(' ')[0]}<br/>
-                            {mat.name.split(' ')[1]}
-                        </h3>
-                        
-                        <div className={`overflow-hidden transition-all duration-500 ${activeMaterial === index ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
-                            <div className="w-12 h-[1px] bg-white/50 mb-4"></div>
-                            <p className="text-zinc-300 text-sm leading-relaxed mb-4">
-                                {mat.desc}
-                            </p>
-                            <span className="text-xs text-white border-b border-white pb-0.5 inline-flex items-center gap-1">
-                                VIEW DETAILS <ArrowRight className="w-3 h-3" />
-                            </span>
-                        </div>
-                    </div>
-                    
-                    {/* Active Border */}
-                    <div className={`absolute inset-0 border border-white/20 transition-all duration-500 ${activeMaterial === index ? 'opacity-100' : 'opacity-0'}`}></div>
-                </div>
+                <MaterialCard 
+                    key={mat.id} 
+                    material={mat} 
+                    index={index} 
+                    isActive={activeMaterial === index} 
+                    setActive={setActiveMaterial} 
+                />
             ))}
         </div>
       </div>
     </section>
   );
 };
+
+// Sub-component for individual interaction handling
+const MaterialCard: React.FC<{ material: any, index: number, isActive: boolean, setActive: (idx: number) => void }> = ({ material, index, isActive, setActive }) => {
+    const cardRef = useRef<HTMLDivElement>(null);
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (cardRef.current) {
+            const rect = cardRef.current.getBoundingClientRect();
+            setMousePos({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+
+    return (
+        <div 
+            ref={cardRef}
+            onMouseEnter={() => setActive(index)}
+            onMouseMove={handleMouseMove}
+            className={`relative rounded-none border border-white/10 overflow-hidden group cursor-pointer transition-all duration-500 ease-out flex flex-col justify-end p-6 ${isActive ? 'md:flex-[2] bg-zinc-900/40' : 'md:flex-[1] bg-black hover:bg-zinc-900/20'}`}
+        >
+            {/* Base Gradient */}
+            <div className={`absolute top-0 left-0 w-full h-full bg-gradient-to-br ${material.color} opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-soft-light`}></div>
+            
+            {/* Interactive Shine Effect */}
+            <div 
+                className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none"
+                style={{
+                    background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.3), transparent 40%)`
+                }}
+            ></div>
+
+            {/* Static Blur Accent */}
+            <div className={`absolute -top-20 -right-20 w-60 h-60 bg-gradient-to-br ${material.color} rounded-full blur-[80px] opacity-0 group-hover:opacity-40 transition-opacity duration-700`}></div>
+
+            {/* Content */}
+            <div className="relative z-10 pointer-events-none">
+                <div className={`text-xs font-bold tracking-[0.2em] uppercase mb-2 transition-colors duration-300 ${isActive ? 'text-white' : 'text-zinc-600 group-hover:text-zinc-400'}`}>
+                    {index + 1 < 10 ? `0${index + 1}` : index + 1}
+                </div>
+                <h3 className={`text-2xl md:text-3xl font-serif mb-4 transition-all duration-300 ${isActive ? 'text-white translate-y-0' : 'text-zinc-500 translate-y-4 group-hover:text-zinc-300'}`}>
+                    {material.name.split(' ')[0]}<br/>
+                    {material.name.split(' ')[1]}
+                </h3>
+                
+                <div className={`overflow-hidden transition-all duration-500 ${isActive ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
+                    <div className="w-12 h-[1px] bg-white/50 mb-4"></div>
+                    <p className="text-zinc-300 text-sm leading-relaxed mb-4">
+                        {material.desc}
+                    </p>
+                    <span className="text-xs text-white border-b border-white pb-0.5 inline-flex items-center gap-1">
+                        VIEW DETAILS <ArrowRight className="w-3 h-3" />
+                    </span>
+                </div>
+            </div>
+            
+            {/* Active Border */}
+            <div className={`absolute inset-0 border border-white/20 transition-all duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`}></div>
+        </div>
+    );
+}
 
 export default MaterialsGallery;
