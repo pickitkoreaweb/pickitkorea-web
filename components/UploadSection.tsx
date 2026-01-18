@@ -297,6 +297,55 @@ const UploadSection: React.FC = () => {
                 )}
             </div>
         </div>
+
+        {/* Added Service Info & Legal Notice */}
+        <div className="max-w-7xl mx-auto mt-24 pt-16 border-t border-zinc-900">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <span className="w-1 h-6 bg-white rounded-full"></span>
+                        Service Process
+                    </h3>
+                    <ul className="space-y-4">
+                        <li className="flex items-start gap-4">
+                            <span className="text-zinc-600 font-mono text-sm mt-0.5">01</span>
+                            <p className="text-zinc-400 text-sm">고객이 원하는 디자인으로 주문 즉시 제작에 들어갑니다.</p>
+                        </li>
+                        <li className="flex items-start gap-4">
+                            <span className="text-zinc-600 font-mono text-sm mt-0.5">02</span>
+                            <p className="text-zinc-400 text-sm">제작기간은 2~3일 소요되며 이후 순차적으로 발송됩니다.</p>
+                        </li>
+                        <li className="flex items-start gap-4">
+                            <span className="text-zinc-600 font-mono text-sm mt-0.5">03</span>
+                            <p className="text-zinc-400 text-sm">제품 발송 전 검수된 제품의 실사 이미지를 전달드립니다.</p>
+                        </li>
+                        <li className="flex items-start gap-4">
+                            <span className="text-zinc-600 font-mono text-sm mt-0.5">04</span>
+                            <p className="text-zinc-400 text-sm">구매 후 6개월간 무상 A/S를 지원합니다.</p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 flex flex-col justify-center relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-32 bg-green-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+                    
+                    <div className="flex items-center gap-3 mb-4 relative z-10">
+                        <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center border border-green-500/20">
+                            <Shield className="w-5 h-5 text-green-500" />
+                        </div>
+                        <h3 className="text-lg font-bold text-white">Legal Notice</h3>
+                    </div>
+                    
+                    <p className="text-zinc-300 text-sm leading-relaxed relative z-10 break-keep">
+                        ※ METAL CARD의 경우 카드외관 커스텀 변경 행위로써 <strong className="text-white border-b border-zinc-600 pb-0.5">여신금융업법 제70조 신용카드 위·변조에 해당하지 않으므로</strong> 안심하셔도 좋습니다.
+                    </p>
+                    
+                    <p className="text-zinc-500 text-xs mt-6 relative z-10">
+                        PICKIT KOREA는 관련 법령을 준수하며, 결제 IC 칩 및 마그네틱 손상 없이 안전하게 이식 작업을 진행합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
       </div>
     </section>
   );

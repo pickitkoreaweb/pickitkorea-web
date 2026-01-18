@@ -116,6 +116,28 @@ const BusinessCardShowcase: React.FC = () => {
           </div>
 
         </div>
+
+        {/* Added Process Section */}
+        <div className="mt-24 pt-12 border-t border-zinc-900/50">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div className="space-y-3">
+                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">01. Order</span>
+                    <p className="text-zinc-400 text-sm leading-relaxed">고객이 원하는 디자인으로 주문 즉시 제작에 들어갑니다.</p>
+                </div>
+                <div className="space-y-3">
+                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">02. Production</span>
+                    <p className="text-zinc-400 text-sm leading-relaxed">제작기간은 2~3일 소요되며 이후 순차적으로 발송됩니다.</p>
+                </div>
+                <div className="space-y-3">
+                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">03. Inspection</span>
+                    <p className="text-zinc-400 text-sm leading-relaxed">제품 발송 전 검수된 제품의 실사 이미지를 전달드립니다.</p>
+                </div>
+                <div className="space-y-3">
+                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">04. Warranty</span>
+                    <p className="text-zinc-400 text-sm leading-relaxed">구매 후 6개월간 무상 A/S를 지원합니다.</p>
+                </div>
+            </div>
+        </div>
       </div>
     </section>
   );
