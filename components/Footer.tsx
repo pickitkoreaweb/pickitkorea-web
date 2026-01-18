@@ -1,56 +1,72 @@
 import React from 'react';
-import { Twitter, Instagram, Facebook } from 'lucide-react';
+import { Twitter, Instagram, Facebook, ArrowUpRight } from 'lucide-react';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  setPage: (page: any) => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ setPage }) => {
   return (
-    <footer className="bg-black border-t border-zinc-900 pt-16 pb-8 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-1 md:col-span-2">
-            <h3 className="text-2xl font-bold tracking-tighter mb-4">PICKIT</h3>
-            <p className="text-zinc-500 max-w-sm mb-6">
+    <footer className="bg-black border-t border-zinc-900 pt-20 pb-10 px-6 relative overflow-hidden">
+      {/* Subtle Background Art */}
+      <div className="absolute bottom-0 left-0 w-full h-[500px] bg-[radial-gradient(circle_at_bottom_left,_rgba(255,255,255,0.03),_transparent_70%)] pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-20">
+          
+          {/* Brand Column */}
+          <div className="col-span-1 md:col-span-5">
+            <h3 className="text-3xl font-serif font-bold tracking-tighter mb-6 text-white">PICKIT</h3>
+            <p className="text-zinc-500 max-w-sm mb-8 text-sm leading-relaxed">
               Redefining the standard of luxury transactions. <br/>
-              Engineered for those who value weight and substance.
+              Engineered for those who value weight and substance. <br/>
+              Seoul, Korea.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-white hover:text-black transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-white hover:text-black transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-white hover:text-black transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
+              {[Instagram, Twitter, Facebook].map((Icon, i) => (
+                <a key={i} href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-400 hover:bg-white hover:text-black transition-all duration-300 interactable group">
+                  <Icon className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                </a>
+              ))}
             </div>
           </div>
 
-          <div>
-            <h4 className="text-white font-semibold mb-4">Products</h4>
-            <ul className="space-y-2 text-zinc-500 text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">Black Mirror</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Silver Brushed</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">24K Gold Plated</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Rose Gold</a></li>
+          {/* Links Column 1 */}
+          <div className="col-span-1 md:col-span-3">
+            <h4 className="text-white font-bold text-xs tracking-widest uppercase mb-6">Collections</h4>
+            <ul className="space-y-4 text-zinc-500 text-sm">
+              <li><button onClick={() => setPage('metal-biz')} className="hover:text-white transition-colors flex items-center gap-1 group interactable">Business Edition <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></button></li>
+              <li><button onClick={() => setPage('metal-custom')} className="hover:text-white transition-colors flex items-center gap-1 group interactable">Custom Personal <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></button></li>
+              <li><button onClick={() => setPage('materials')} className="hover:text-white transition-colors flex items-center gap-1 group interactable">Materials Guide <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></button></li>
             </ul>
           </div>
 
-          <div>
-            <h4 className="text-white font-semibold mb-4">Support</h4>
-            <ul className="space-y-2 text-zinc-500 text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Shipping</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Returns</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
+          {/* Links Column 2 */}
+          <div className="col-span-1 md:col-span-2">
+            <h4 className="text-white font-bold text-xs tracking-widest uppercase mb-6">Support</h4>
+            <ul className="space-y-4 text-zinc-500 text-sm">
+              <li><button onClick={() => setPage('faq')} className="hover:text-white transition-colors interactable">FAQ</button></li>
+              <li><button onClick={() => setPage('policy')} className="hover:text-white transition-colors interactable">Shipping & Returns</button></li>
+              <li><button onClick={() => setPage('contact')} className="hover:text-white transition-colors interactable">Contact Us</button></li>
+            </ul>
+          </div>
+           
+           {/* Links Column 3 */}
+          <div className="col-span-1 md:col-span-2">
+            <h4 className="text-white font-bold text-xs tracking-widest uppercase mb-6">Legal</h4>
+            <ul className="space-y-4 text-zinc-500 text-sm">
+              <li><button onClick={() => setPage('policy')} className="hover:text-white transition-colors interactable">Privacy Policy</button></li>
+              <li><button onClick={() => setPage('policy')} className="hover:text-white transition-colors interactable">Terms of Service</button></li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-zinc-900 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-zinc-600">
+        {/* Bottom Bar */}
+        <div className="border-t border-zinc-900 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] uppercase tracking-widest text-zinc-600">
           <p>&copy; 2026 PICKIT Inc. All rights reserved.</p>
-          <div className="flex gap-6 mt-4 md:mt-0">
-            <a href="#" className="hover:text-zinc-400">Privacy Policy</a>
-            <a href="#" className="hover:text-zinc-400">Terms of Service</a>
+          <div className="flex gap-8 mt-4 md:mt-0">
+             <span>Designed for Elite</span>
+             <span>Seoul • New York • Tokyo</span>
           </div>
         </div>
       </div>
