@@ -9,10 +9,12 @@ const CompanyIntro: React.FC = () => {
       <div className="max-w-4xl mx-auto relative z-10 text-center">
         <span className="text-zinc-500 text-sm tracking-[0.3em] uppercase mb-6 block animate-fade-in-up">About Us</span>
         
-        <h2 className="text-3xl md:text-5xl font-serif font-medium text-white mb-12 leading-tight animate-fade-in-up delay-100">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728]">PICKIT KOREA</span>는 <br />
+        {/* Changed from font-serif to font-sans (or removed serif class) to ensure Korean text renders with Noto Sans KR */}
+        <h2 className="text-3xl md:text-5xl font-medium text-white mb-12 leading-tight animate-fade-in-up delay-100 font-sans">
+          <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728]">PICKIT KOREA</span>는 <br />
           당신을 가장 우아하게 빛내줄 <br />
-          <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728]">단 하나의 프리미엄 서비스</span>를 제공합니다.
+          {/* Removed italic, added font-bold for unified look */}
+          <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728]">단 하나의 프리미엄 서비스</span>를 제공합니다.
         </h2>
 
         <div className="space-y-6 text-zinc-400 text-lg md:text-xl font-light leading-relaxed animate-fade-in-up delay-200 break-keep">
