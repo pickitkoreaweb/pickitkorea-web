@@ -17,11 +17,11 @@ const OtherServices: React.FC<OtherServicesProps> = ({ category }) => {
     },
     materials: {
       icon: <Container className="w-10 h-10 text-white" />,
-      titleEn: "Site Essentials & Logistics",
-      titleKo: "건설 현장 기자재 & 도매",
-      description: "건설 현장에 없어서는 안 될 필수 기자재(이동식 화장실, 핸드카, 리어카 등)를 압도적인 물량으로 공급합니다. 불필요한 유통 거품을 완전히 제거한 '박리다매' 전략을 통해 현장의 원가 경쟁력을 극대화해 드립니다. 튼튼한 내구성과 실용성을 갖춘 제품만을 엄선하여 합리적인 가격에 대량 납품합니다.",
-      features: ["Bulk Supply (대량 공급)", "Cost Efficiency (원가 절감)", "Site Equipment (현장 장비)"],
-      image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2000&auto=format&fit=crop"
+      titleEn: "Site Essentials Sourcing",
+      titleKo: "현장 잡자재 해외 구매대행",
+      description: "고급 마감재는 취급하지 않습니다. 오직 현장에서 매일 쓰이고 교체되는 이동식 화장실, 핸드카(구르마), 리어카 등 필수 잡자재만을 전문적으로 소싱합니다. 해외 공장 직거래를 통한 구매대행 서비스로 불필요한 유통 마진을 획기적으로 줄였습니다. 자잘한 자재비부터 아끼는 것이 현장 원가 절감의 핵심입니다.",
+      features: ["Global Sourcing (해외 구매대행)", "Volume Discount (박리다매)", "Site Essentials (현장 필수재)"],
+      image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2000&auto=format&fit=crop"
     },
     solutions: {
       icon: <Building2 className="w-10 h-10 text-white" />,
