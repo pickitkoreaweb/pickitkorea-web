@@ -4,7 +4,7 @@ import Hero from './components/Hero';
 import Features from './components/Features';
 import BusinessCardShowcase from './components/BusinessCardShowcase';
 import UploadSection from './components/UploadSection';
-import OtherServices from './components/OtherServices';
+import MaterialsGallery from './components/MaterialsGallery';
 import CompanyIntro from './components/CompanyIntro';
 import ContactView from './components/ContactView';
 import FAQ from './components/FAQ';
@@ -33,58 +33,58 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = (
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled || currentPage !== 'home' ? 'bg-black/90 backdrop-blur-md border-b border-white/10 py-4' : 'bg-transparent py-6'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || currentPage !== 'home' ? 'bg-[#050505]/90 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-8'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center gap-2 cursor-pointer group" onClick={() => handleNavClick('home')}>
-          <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center transition-transform group-hover:scale-110">
-            <CreditCard className="text-black w-5 h-5" />
+        <div className="flex items-center gap-3 cursor-pointer group" onClick={() => handleNavClick('home')}>
+          <div className="w-8 h-8 bg-gradient-to-br from-white to-zinc-400 rounded-none transform rotate-45 flex items-center justify-center transition-transform duration-500 group-hover:rotate-90 shadow-lg">
+            <div className="w-3 h-3 bg-black rounded-full transform -rotate-45"></div>
           </div>
-          <span className="text-2xl font-bold tracking-tighter text-white">PICKIT</span>
+          <span className="text-xl font-bold tracking-[0.2em] text-white">PICKIT</span>
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-10">
           <button 
             onClick={() => handleNavClick('about')} 
-            className={`text-sm font-medium transition-colors ${currentPage === 'about' ? 'text-white' : 'text-zinc-400 hover:text-white'}`}
+            className={`text-xs font-bold tracking-widest transition-colors duration-300 ${currentPage === 'about' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}
           >
-            ABOUT US
+            ABOUT
           </button>
 
           {/* Metal Card Dropdown */}
           <div className="relative group" onMouseEnter={() => setIsDropdownOpen(true)} onMouseLeave={() => setIsDropdownOpen(false)}>
-            <button className={`flex items-center gap-1 text-sm font-medium transition-colors ${['metal-biz', 'metal-custom'].includes(currentPage) ? 'text-white' : 'text-zinc-400 group-hover:text-white'}`}>
-              METAL CARD
-              <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180" />
+            <button className={`flex items-center gap-2 text-xs font-bold tracking-widest transition-colors duration-300 ${['metal-biz', 'metal-custom'].includes(currentPage) ? 'text-white' : 'text-zinc-500 group-hover:text-white'}`}>
+              COLLECTION
+              <ChevronDown className="w-3 h-3 transition-transform duration-300 group-hover:rotate-180" />
             </button>
             
-            <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl overflow-hidden transition-all duration-200 ${isDropdownOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 translate-y-2 invisible'}`}>
+            <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-[#0a0a0a] border border-zinc-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] transition-all duration-300 ${isDropdownOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 translate-y-4 invisible'}`}>
                <button 
                   onClick={() => handleNavClick('metal-biz')}
-                  className="block w-full text-left px-5 py-3 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors border-b border-zinc-800/50"
+                  className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-white transition-colors border-b border-zinc-900"
                >
-                  Business Card (명함)
+                  BUSINESS CARD
                </button>
                <button 
                   onClick={() => handleNavClick('metal-custom')}
-                  className="block w-full text-left px-5 py-3 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
+                  className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-white transition-colors"
                >
-                  Custom Card (카드)
+                  CUSTOM CARD
                </button>
             </div>
           </div>
 
-          <button onClick={() => handleNavClick('materials')} className={`text-sm font-medium transition-colors ${currentPage === 'materials' ? 'text-white' : 'text-zinc-400 hover:text-white'}`}>
+          <button onClick={() => handleNavClick('materials')} className={`text-xs font-bold tracking-widest transition-colors duration-300 ${currentPage === 'materials' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
             MATERIALS
           </button>
           
-          <button onClick={() => handleNavClick('faq')} className={`text-sm font-medium transition-colors ${currentPage === 'faq' ? 'text-white' : 'text-zinc-400 hover:text-white'}`}>
+          <button onClick={() => handleNavClick('faq')} className={`text-xs font-bold tracking-widest transition-colors duration-300 ${currentPage === 'faq' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
             FAQ
           </button>
           
-          <button id="contact-btn" onClick={() => handleNavClick('contact')} className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${currentPage === 'contact' ? 'bg-white text-black' : 'bg-zinc-800 text-white hover:bg-zinc-700'}`}>
-            CONTACT US
+          <button id="contact-btn" onClick={() => handleNavClick('contact')} className={`px-6 py-2.5 bg-white text-black text-xs font-bold tracking-widest hover:bg-zinc-300 transition-colors`}>
+            CONTACT
           </button>
         </div>
 
@@ -96,18 +96,18 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = (
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-zinc-800 p-6 flex flex-col gap-6 md:hidden shadow-2xl animate-fade-in-up">
-          <button onClick={() => handleNavClick('about')} className="text-lg font-medium text-zinc-300 hover:text-white text-left">ABOUT US</button>
+        <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-zinc-800 p-8 flex flex-col gap-8 md:hidden shadow-2xl animate-fade-in-up h-screen">
+          <button onClick={() => handleNavClick('about')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">About Us</button>
           
-          <div className="space-y-3 pl-4 border-l border-zinc-800">
-             <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Metal Card</span>
-             <button onClick={() => handleNavClick('metal-biz')} className="block text-lg font-medium text-zinc-300 hover:text-white">Business Card</button>
-             <button onClick={() => handleNavClick('metal-custom')} className="block text-lg font-medium text-zinc-300 hover:text-white">Custom Card</button>
+          <div className="space-y-4 pl-4 border-l border-zinc-800">
+             <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Collections</span>
+             <button onClick={() => handleNavClick('metal-biz')} className="block text-xl font-medium text-zinc-300 hover:text-white">Business Card</button>
+             <button onClick={() => handleNavClick('metal-custom')} className="block text-xl font-medium text-zinc-300 hover:text-white">Custom Card</button>
           </div>
 
-          <button onClick={() => handleNavClick('materials')} className="text-lg font-medium text-zinc-300 hover:text-white text-left">MATERIALS</button>
-          <button onClick={() => handleNavClick('faq')} className="text-lg font-medium text-zinc-300 hover:text-white text-left">FAQ</button>
-          <button onClick={() => handleNavClick('contact')} className="text-lg font-bold text-white bg-zinc-800 py-3 rounded-lg text-center">CONTACT US</button>
+          <button onClick={() => handleNavClick('materials')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">Materials</button>
+          <button onClick={() => handleNavClick('faq')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">FAQ</button>
+          <button onClick={() => handleNavClick('contact')} className="text-sm font-bold tracking-widest text-black bg-white py-4 text-center mt-auto mb-20">CONTACT US</button>
         </div>
       )}
     </nav>
@@ -125,7 +125,7 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen bg-black text-zinc-100 selection:bg-white selection:text-black overflow-x-hidden font-sans">
+    <div className="min-h-screen bg-[#050505] text-zinc-100 selection:bg-white/20 selection:text-white overflow-x-hidden font-sans">
       <Navbar currentPage={currentPage} setPage={setCurrentPage} />
       
       <main>
@@ -158,7 +158,7 @@ export default function App() {
         
         {currentPage === 'materials' && (
           <PageWrapper>
-            <OtherServices category="materials" />
+            <MaterialsGallery />
           </PageWrapper>
         )}
 

@@ -2,43 +2,50 @@ import React from 'react';
 
 const CompanyIntro: React.FC = () => {
   return (
-    <section className="py-32 px-6 bg-black relative overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-zinc-900/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <section className="py-32 px-6 bg-[#050505] relative overflow-hidden">
+      {/* Editorial Grid Line */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-full bg-zinc-900"></div>
 
-      <div className="max-w-4xl mx-auto relative z-10 text-center">
-        <span className="text-zinc-500 text-sm tracking-[0.3em] uppercase mb-6 block animate-fade-in-up">About Us</span>
-        
-        {/* Changed from font-serif to font-sans (or removed serif class) to ensure Korean text renders with Noto Sans KR */}
-        <h2 className="text-3xl md:text-5xl font-medium text-white mb-12 leading-tight animate-fade-in-up delay-100 font-sans">
-          <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728]">PICKIT KOREA</span>는 <br />
-          당신을 가장 우아하게 빛내줄 <br />
-          {/* Removed italic, added font-bold for unified look */}
-          <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728]">단 하나의 프리미엄 서비스</span>를 제공합니다.
-        </h2>
-
-        <div className="space-y-6 text-zinc-400 text-lg md:text-xl font-light leading-relaxed animate-fade-in-up delay-200 break-keep">
-          <p>
-            우리는 '소유'의 가치를 재정의합니다. <br />
-            손끝에 닿는 차가운 금속의 감촉, 빛을 머금은 정교한 각인, <br />
-            그리고 당신이 원하는 그 어떤 것이든 세계 어디서든 찾아내는 집요함까지.
-          </p>
-          <p>
-            PICKIT KOREA는 단순한 커스텀 카드 제조사를 넘어, <br />
-            당신의 라이프스타일 전반을 아우르는 하이엔드 컨시어지가 되고자 합니다.
-          </p>
-          <p>
-            남들과 다른 무게감을 원하신다면, <br />
-            가장 빛나는 선택은 언제나 PICKIT입니다.
-          </p>
+      <div className="max-w-5xl mx-auto relative z-10">
+        <div className="text-center mb-20">
+            <span className="inline-block px-3 py-1 border border-zinc-800 rounded-full text-[10px] tracking-[0.2em] uppercase text-zinc-500 mb-8 bg-zinc-950">The Philosophy</span>
+            <h2 className="font-serif text-4xl md:text-6xl text-white leading-tight">
+                Not just a Card,<br/>
+                It's a <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#FCE2C4] to-[#D4AF37] animate-shine bg-[length:200%_auto]">Statement.</span>
+            </h2>
         </div>
 
-        <div className="mt-20 flex flex-col items-center animate-fade-in-up delay-300">
-          <div className="w-px h-16 bg-gradient-to-b from-zinc-800 to-transparent mb-8"></div>
-          <p className="text-zinc-300 font-serif italic text-xl mb-2">Sincerely,</p>
-          <h3 className="text-2xl font-bold tracking-widest text-white uppercase mb-1">KIM JEONG WOO</h3>
-          <p className="text-sm text-zinc-500 tracking-wider">CEO, PICKIT KOREA</p>
-          <p className="mt-6 text-zinc-400 text-sm font-medium tracking-wide">PICKIT KOREA 대표 김정우 배상</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 text-lg font-light leading-relaxed text-zinc-400">
+            <div className="text-right md:pr-12 border-r-0 md:border-r border-zinc-900 pt-8">
+                <p className="mb-8">
+                    <strong className="text-white font-medium">PICKIT KOREA</strong>는 '소유'의 가치를 재정의합니다. 
+                    손끝에 닿는 차가운 금속의 감촉, 빛을 머금은 정교한 각인. 
+                    우리는 단순한 지불 수단을 넘어, 당신의 페르소나를 완성하는 오브제를 만듭니다.
+                </p>
+                <p>
+                    플라스틱이 줄 수 없는 18g의 묵직함. <br/>
+                    테이블 위에 카드를 내려놓는 그 짧은 순간, <br/>
+                    당신을 바라보는 시선이 달라집니다.
+                </p>
+            </div>
+            <div className="text-left md:pl-12 pt-8">
+                <p className="mb-8">
+                    우리는 당신이 원하는 그 어떤 디자인이든, <br/>
+                    가장 완벽한 형태의 금속으로 구현해냅니다. <br/>
+                    오직 당신만을 위해 존재하는 단 하나의 마스터피스.
+                </p>
+                <div className="mt-16">
+                    <p className="font-serif italic text-2xl text-zinc-500 mb-4">Sincerely,</p>
+                    <div className="relative inline-block">
+                         {/* Gold Foil Signature Effect */}
+                        <h3 className="text-3xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#D4AF37] to-[#805e10] tracking-wider" style={{ filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.5))' }}>
+                            KIM JEONG WOO
+                        </h3>
+                        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mt-2"></div>
+                    </div>
+                    <p className="text-[10px] text-zinc-600 tracking-[0.3em] uppercase mt-4">CEO, PICKIT KOREA</p>
+                </div>
+            </div>
         </div>
       </div>
     </section>
