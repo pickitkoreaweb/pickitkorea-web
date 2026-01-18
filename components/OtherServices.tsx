@@ -1,90 +1,104 @@
 import React from 'react';
-import { Globe, Watch, Container, Building2, ArrowUpRight } from 'lucide-react';
+import { Globe, Watch, Container, Building2, ArrowRight } from 'lucide-react';
 
-const OtherServices: React.FC = () => {
-  const services = [
-    {
-      icon: <Watch className="w-8 h-8 text-white" />,
+interface OtherServicesProps {
+  category?: 'luxury' | 'materials' | 'solutions';
+}
+
+const OtherServices: React.FC<OtherServicesProps> = ({ category }) => {
+  const services = {
+    luxury: {
+      icon: <Watch className="w-10 h-10 text-white" />,
       titleEn: "Luxury Masterpieces",
       titleKo: "명품 시계 & 의류",
-      description: "국내에서 구하기 힘든 하이엔드 타임피스와 럭셔리 의류를 전 세계 부티크 네트워크를 통해 소싱합니다. 철저한 정품 검수와 안전한 배송으로 최상의 만족을 드립니다.",
-      image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80&w=1000&auto=format&fit=crop"
+      description: "국내에서 구하기 힘든 하이엔드 타임피스와 럭셔리 의류를 전 세계 부티크 네트워크를 통해 소싱합니다. PICKIT KOREA만의 글로벌 네트워크를 통해 당신이 원하는 단 하나의 아이템을 찾아드립니다. 전문 감정사의 철저한 정품 검수와 특수 보안 배송으로 제품을 수령하는 그 순간까지 완벽한 안심을 약속합니다.",
+      features: ["Global Boutique Network", "Expert Authentication", "Secure Logistics"],
+      image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80&w=2000&auto=format&fit=crop"
     },
-    {
-      icon: <Container className="w-8 h-8 text-white" />,
+    materials: {
+      icon: <Container className="w-10 h-10 text-white" />,
       titleEn: "Global Materials",
       titleKo: "건축 & 시공 자재",
-      description: "최고급 건축 자재와 인테리어 마감재의 해외 직수입부터 현장 조달까지. 복잡한 통관 절차와 물류 프로세스를 원스톱으로 해결하여 공기를 단축시킵니다.",
-      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1000&auto=format&fit=crop"
+      description: "최고급 건축 자재와 인테리어 마감재의 해외 직수입부터 현장 조달까지 원스톱 솔루션을 제공합니다. 이탈리아의 대리석, 독일의 창호, 미국의 특수 목재 등 프로젝트의 퀄리티를 높여줄 자재를 합리적인 가격에 공급합니다. 복잡한 통관 절차와 물류 프로세스를 해결하여 공기를 단축시키세요.",
+      features: ["Direct Sourcing", "Logistics Management", "Cost Optimization"],
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2000&auto=format&fit=crop"
     },
-    {
-      icon: <Building2 className="w-8 h-8 text-white" />,
+    solutions: {
+      icon: <Building2 className="w-10 h-10 text-white" />,
       titleEn: "Real Estate Solutions",
       titleKo: "부동산 개발 & 자문",
-      description: "부동산 개발 사업의 기획 단계부터 복잡한 인허가 절차, 그리고 전문적인 자문 서비스까지. 성공적인 프로젝트를 위한 전략적 파트너십을 제공합니다.",
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop"
+      description: "성공적인 부동산 개발을 위한 종합 자문 서비스를 제공합니다. 사업 부지 선정부터 인허가 절차 대행, 금융 구조화(PF) 자문, 그리고 분양 전략 수립까지. 각 분야 전문가들로 구성된 전담 팀이 프로젝트의 리스크를 최소화하고 수익성을 극대화하는 최적의 솔루션을 제안합니다.",
+      features: ["Development Consulting", "Permit Management", "Strategic Planning"],
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000&auto=format&fit=crop"
     }
-  ];
+  };
+
+  const activeService = category ? services[category] : null;
+
+  if (!activeService) return null;
 
   return (
-    <section className="py-24 px-6 bg-zinc-950 border-t border-zinc-900 relative">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* Header */}
-        <div className="mb-16 md:flex md:justify-between md:items-end">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900 mb-6">
-               <Globe className="w-3 h-3 text-zinc-400" />
-               <span className="text-xs font-semibold tracking-wide uppercase text-zinc-400">Business Expansion</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
-              Beyond the Card. <br />
-              <span className="text-zinc-500">Comprehensive Solutions.</span>
-            </h2>
-          </div>
-          <p className="hidden md:block text-zinc-400 max-w-sm text-right leading-relaxed break-keep">
-            PICKIT KOREA는 라이프스타일과 비즈니스를 아우르는 <br/>
-            다양한 영역에서 최상의 가치를 제안합니다.
-          </p>
-        </div>
-
-        {/* 3-Column Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <div key={index} className="group relative rounded-3xl overflow-hidden border border-zinc-800 bg-zinc-900 hover:border-zinc-600 transition-colors duration-500">
-              
-              {/* Image Area */}
-              <div className="h-64 overflow-hidden relative">
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent z-10"></div>
-                <img 
-                  src={service.image} 
-                  alt={service.titleEn} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0"
-                />
-                <div className="absolute top-6 left-6 z-20">
-                   <div className="w-14 h-14 bg-black/50 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/10 group-hover:bg-white/10 transition-colors">
-                      {service.icon}
-                   </div>
+    <section className="py-24 px-6 bg-zinc-950 min-h-[80vh] flex items-center relative overflow-hidden">
+      {/* Background Ambience */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-zinc-900 via-zinc-900/50 to-transparent pointer-events-none"></div>
+      
+      <div className="max-w-7xl mx-auto w-full relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            {/* Visual Side */}
+            <div className="order-2 lg:order-1 relative group">
+                <div className="relative rounded-3xl overflow-hidden aspect-[4/3] border border-zinc-800 shadow-2xl">
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+                    <img 
+                        src={activeService.image} 
+                        alt={activeService.titleEn} 
+                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter grayscale hover:grayscale-0"
+                    />
+                    
+                    {/* Badge */}
+                    <div className="absolute top-8 left-8 z-20">
+                        <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 shadow-lg">
+                           {activeService.icon}
+                        </div>
+                    </div>
                 </div>
-              </div>
-
-              {/* Text Area */}
-              <div className="p-8 relative z-20 -mt-10">
-                <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-[#fcf6ba] transition-colors">{service.titleEn}</h3>
-                <h4 className="text-sm font-bold text-zinc-500 uppercase tracking-wider mb-4">{service.titleKo}</h4>
-                <p className="text-zinc-400 leading-relaxed text-sm break-keep">
-                  {service.description}
-                </p>
                 
-                <div className="mt-8 flex items-center text-white text-sm font-semibold gap-2 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                  <span>Learn More</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </div>
-              </div>
+                {/* Decorative Elements */}
+                <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-zinc-800/30 rounded-full blur-3xl -z-10"></div>
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-3xl -z-10"></div>
             </div>
-          ))}
-        </div>
 
+            {/* Content Side */}
+            <div className="order-1 lg:order-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900 mb-6">
+                   <Globe className="w-3 h-3 text-zinc-400" />
+                   <span className="text-xs font-semibold tracking-wide uppercase text-zinc-400">PICKIT Business</span>
+                </div>
+                
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-2 leading-tight">
+                    {activeService.titleEn}
+                </h2>
+                <h3 className="text-xl font-bold text-zinc-500 mb-8 font-sans">{activeService.titleKo}</h3>
+                
+                <p className="text-zinc-400 text-lg mb-10 leading-relaxed break-keep border-l-2 border-zinc-800 pl-6">
+                    {activeService.description}
+                </p>
+
+                <div className="space-y-4 mb-10">
+                    {activeService.features.map((feature, idx) => (
+                        <div key={idx} className="flex items-center gap-3">
+                            <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                            <span className="text-zinc-300 font-medium tracking-wide">{feature}</span>
+                        </div>
+                    ))}
+                </div>
+
+                <button className="group inline-flex items-center gap-3 text-white font-semibold hover:text-zinc-300 transition-colors">
+                    <span className="border-b border-zinc-700 pb-1 group-hover:border-white transition-colors">Inquire Now</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+            </div>
+        </div>
       </div>
     </section>
   );
