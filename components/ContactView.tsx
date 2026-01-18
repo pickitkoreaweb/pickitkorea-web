@@ -31,8 +31,7 @@ const ContactView: React.FC = () => {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-zinc-500 uppercase tracking-wide mb-1">Email</h4>
-                    <p className="text-white text-lg font-medium">support@pickitkorea.com</p>
-                    <p className="text-white text-lg font-medium">contact@pickitkorea.com</p>
+                    <p className="text-white text-lg font-medium break-all">PICKIT.KOREA.OFFICIAL@GMAIL.COM</p>
                   </div>
                 </div>
 
@@ -42,7 +41,7 @@ const ContactView: React.FC = () => {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-zinc-500 uppercase tracking-wide mb-1">Phone</h4>
-                    <p className="text-white text-lg font-medium">02-1234-5678</p>
+                    <p className="text-white text-lg font-medium">+82 10 8282 1043</p>
                     <p className="text-sm text-zinc-400 mt-1">Mon - Fri, 09:00 - 18:00 KST</p>
                   </div>
                 </div>
@@ -54,8 +53,8 @@ const ContactView: React.FC = () => {
                   <div>
                     <h4 className="text-sm font-bold text-zinc-500 uppercase tracking-wide mb-1">Office</h4>
                     <p className="text-white text-lg font-medium leading-relaxed">
-                      서울특별시 강남구 테헤란로 123 <br />
-                      PICKIT Tower 15F
+                      서울특별시 강남구 역삼로20길 10 <br />
+                      테헤란로 쓰리엠타워 11층 PICKITKOREA
                     </p>
                   </div>
                 </div>
