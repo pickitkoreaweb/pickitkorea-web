@@ -341,7 +341,7 @@ const UploadSection: React.FC = () => {
                     </p>
                     
                     <p className="text-zinc-500 text-xs mt-6 relative z-10 leading-relaxed">
-                         결제 IC 칩은 동봉된 툴을 사용하여 <strong>구매자가 직접 이식</strong>하는 DIY 방식입니다.
+                         결제 IC 칩은 기존 카드에서 분리하여 <strong>구매자가 직접 이식</strong>해야 하는 DIY 방식입니다.
                          <br />
                          당사 귀책사유 외 고객 과실로 인한 제품 파손 및 변질은 A/S 및 환불이 불가합니다.
                     </p>

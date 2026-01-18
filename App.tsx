@@ -7,9 +7,10 @@ import UploadSection from './components/UploadSection';
 import OtherServices from './components/OtherServices';
 import CompanyIntro from './components/CompanyIntro';
 import ContactView from './components/ContactView';
+import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 
-type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'luxury' | 'materials' | 'solutions' | 'contact';
+type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'luxury' | 'materials' | 'solutions' | 'faq' | 'contact';
 
 const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = ({ currentPage, setPage }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -83,8 +84,11 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = (
           <button onClick={() => handleNavClick('solutions')} className={`text-sm font-medium transition-colors ${currentPage === 'solutions' ? 'text-white' : 'text-zinc-400 hover:text-white'}`}>
             SOLUTIONS
           </button>
+          <button onClick={() => handleNavClick('faq')} className={`text-sm font-medium transition-colors ${currentPage === 'faq' ? 'text-white' : 'text-zinc-400 hover:text-white'}`}>
+            FAQ
+          </button>
           
-          <button onClick={() => handleNavClick('contact')} className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${currentPage === 'contact' ? 'bg-white text-black' : 'bg-zinc-800 text-white hover:bg-zinc-700'}`}>
+          <button id="contact-btn" onClick={() => handleNavClick('contact')} className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${currentPage === 'contact' ? 'bg-white text-black' : 'bg-zinc-800 text-white hover:bg-zinc-700'}`}>
             CONTACT US
           </button>
         </div>
@@ -109,6 +113,7 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = (
           <button onClick={() => handleNavClick('luxury')} className="text-lg font-medium text-zinc-300 hover:text-white text-left">LUXURY</button>
           <button onClick={() => handleNavClick('materials')} className="text-lg font-medium text-zinc-300 hover:text-white text-left">MATERIALS</button>
           <button onClick={() => handleNavClick('solutions')} className="text-lg font-medium text-zinc-300 hover:text-white text-left">SOLUTIONS</button>
+          <button onClick={() => handleNavClick('faq')} className="text-lg font-medium text-zinc-300 hover:text-white text-left">FAQ</button>
           <button onClick={() => handleNavClick('contact')} className="text-lg font-bold text-white bg-zinc-800 py-3 rounded-lg text-center">CONTACT US</button>
         </div>
       )}
@@ -173,6 +178,12 @@ export default function App() {
         {currentPage === 'solutions' && (
           <PageWrapper>
             <OtherServices category="solutions" />
+          </PageWrapper>
+        )}
+
+        {currentPage === 'faq' && (
+          <PageWrapper>
+            <FAQ />
           </PageWrapper>
         )}
 
