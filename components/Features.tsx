@@ -16,10 +16,10 @@ const Features: React.FC = () => {
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:auto-rows-[300px]">
           
           {/* Feature 1: Main Large with Image Background */}
-          <div className="md:col-span-3 row-span-1 md:row-span-2 rounded-3xl bg-zinc-900 border border-zinc-800 relative overflow-hidden group">
+          <div className="md:col-span-3 row-span-1 md:row-span-2 min-h-[300px] rounded-3xl bg-zinc-900 border border-zinc-800 relative overflow-hidden group">
             {/* Background Image - Real Stainless Steel Texture */}
             <div className="absolute inset-0 z-0">
                 <img 

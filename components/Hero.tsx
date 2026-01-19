@@ -19,7 +19,7 @@ const Hero: React.FC<HeroProps> = ({ setPage }) => {
                 frameBorder='0' 
                 width='100%' 
                 height='100%'
-                className="w-full h-full pointer-events-auto scale-[0.65] md:scale-110"
+                className="w-full h-full pointer-events-auto scale-[0.55] md:scale-110"
                 title="Spline 3D Metal Card"
               ></iframe>
          </div>
