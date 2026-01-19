@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus, Trash2 } from 'lucide-react';
+import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus, Trash2, FileSpreadsheet, Download, ShieldAlert } from 'lucide-react';
 
 interface User {
   id: string;
@@ -33,6 +33,9 @@ interface AdminDashboardProps {
   updateSiteImages: (newImages: SiteImages) => void;
 }
 
+// Data Retention Policy Configuration
+const RETENTION_PERIOD_YEARS = 3; // 법적 의무 보유 기간 (전자상거래 등에서의 소비자보호에 관한 법률 등 참조)
+
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteImages }) => {
   const [activeTab, setActiveTab] = useState<'users' | 'content'>('users');
   const [users, setUsers] = useState<User[]>([]);
@@ -51,7 +54,40 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
   useEffect(() => {
     // Load Users from LocalStorage
     const storedUsers = JSON.parse(localStorage.getItem('pickit_users_db') || '[]');
-    setUsers(storedUsers);
+    
+    // --- DATA RETENTION & AUTO DELETION LOGIC ---
+    const now = new Date();
+    const cutoffDate = new Date();
+    cutoffDate.setFullYear(now.getFullYear() - RETENTION_PERIOD_YEARS);
+
+    const validUsers = storedUsers.filter((u: User) => {
+        // Admin accounts are never deleted
+        if (u.role === 'admin') return true;
+
+        // Normalize date string (Supports "YYYY.MM.DD" or "YYYY-MM-DD")
+        const joinDateStr = u.joinedAt ? u.joinedAt.replace(/\./g, '-') : '';
+        const joinDate = new Date(joinDateStr);
+        
+        // If date is invalid, keep it (safety). If date is newer than cutoff, keep it.
+        // Remove only if valid date AND older than cutoff.
+        const isExpired = !isNaN(joinDate.getTime()) && joinDate < cutoffDate;
+        return !isExpired;
+    });
+
+    const deletedCount = storedUsers.length - validUsers.length;
+
+    if (deletedCount > 0) {
+        // Automatically purge expired data
+        localStorage.setItem('pickit_users_db', JSON.stringify(validUsers));
+        setUsers(validUsers);
+        
+        // Notify Admin
+        setTimeout(() => {
+            alert(`[개인정보 보호 조치 알림]\n\n개인정보 보유 기간(${RETENTION_PERIOD_YEARS}년)이 경과한 장기 미이용 회원 ${deletedCount}명의 정보가 법령에 따라 안전하게 자동 파기되었습니다.`);
+        }, 500);
+    } else {
+        setUsers(storedUsers);
+    }
   }, []);
 
   useEffect(() => {
@@ -104,6 +140,51 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         // Update local state
         setUserOrders(userOrders.filter(o => o.orderId !== orderId));
     }
+  };
+
+  // --- EXCEL EXPORT FUNCTION ---
+  const handleExportExcel = () => {
+    if (users.length === 0) {
+        alert("내보낼 데이터가 없습니다.");
+        return;
+    }
+
+    if (!window.confirm("고객 데이터를 엑셀(CSV) 파일로 다운로드 하시겠습니까?\n다운로드된 파일은 개인정보보호법에 따라 안전하게 관리해주시기 바랍니다.")) {
+        return;
+    }
+
+    // CSV Header (Added BOM \uFEFF for Korean character support in Excel)
+    let csvContent = "\uFEFF"; 
+    csvContent += "Customer ID,이름(Name),아이디(User ID),이메일(Email),연락처(Phone),생년월일,주소,가입일,등급(Role)\n";
+
+    users.forEach(user => {
+        // Sanitize data to prevent CSV breakage
+        const safeAddress = user.address ? `"${user.address.replace(/"/g, '""')}"` : "";
+        const safePhone = user.phone ? `'${user.phone}` : ""; // Add apostrophe to force text mode in Excel for phone numbers
+
+        const row = [
+            user.customerId,
+            user.name,
+            user.id,
+            user.email,
+            safePhone,
+            user.birthdate || '',
+            safeAddress,
+            user.joinedAt || '',
+            user.role
+        ];
+        csvContent += row.join(",") + "\n";
+    });
+
+    // Create Download Link
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `PICKIT_Customer_Data_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const filteredUsers = users.filter(u => 
@@ -169,6 +250,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in-up">
                 {/* User List */}
                 <div className="lg:col-span-5 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 h-[700px] flex flex-col">
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-white font-bold text-lg">Member List</h2>
+                        <button 
+                            onClick={handleExportExcel}
+                            className="flex items-center gap-2 px-3 py-1.5 bg-green-900/30 border border-green-800 text-green-500 text-xs font-bold rounded hover:bg-green-900/50 transition-colors"
+                            title="Download CSV"
+                        >
+                            <FileSpreadsheet className="w-4 h-4" /> Export Excel
+                        </button>
+                    </div>
+
                     <div className="relative mb-6">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
                         <input 
@@ -205,6 +297,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                         {filteredUsers.length === 0 && (
                             <p className="text-zinc-500 text-center text-sm py-10">No users found.</p>
                         )}
+                    </div>
+                    
+                    <div className="mt-4 pt-4 border-t border-zinc-800 flex items-start gap-2 text-xs text-zinc-500">
+                        <ShieldAlert className="w-4 h-4 shrink-0 text-zinc-600" />
+                        <p>
+                            개인정보 보호법에 의거, {RETENTION_PERIOD_YEARS}년 이상 미사용 계정은 자동 파기됩니다.<br/>
+                            (Auto-deletion compliant with Privacy Act)
+                        </p>
                     </div>
                 </div>
 
