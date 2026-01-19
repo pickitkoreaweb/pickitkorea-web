@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Lock, Mail, Phone, ShieldCheck, ArrowRight, Check, X, FileText, KeyRound, ArrowLeft, Loader2 } from 'lucide-react';
+import { User, Lock, Mail, Phone, ShieldCheck, ArrowRight, Check, X, FileText, KeyRound, ArrowLeft, Loader2, Calendar } from 'lucide-react';
 
 interface AuthViewProps {
   onLogin: (userData: any) => void;
@@ -25,6 +25,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
     name: '',
     phone: '',
     email: '',
+    birthdate: '',
     agreePrivacy: false,
     agreeTerms: false
   });
@@ -100,6 +101,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
       name: signupData.name,
       phone: signupData.phone,
       email: signupData.email,
+      birthdate: signupData.birthdate,
       address: '', // Init address
       joinedAt: new Date().toLocaleDateString('ko-KR')
     };
@@ -352,15 +354,26 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
                     required
                  />
               </div>
-              
-              <input 
-                type="email" 
-                placeholder="Email Address"
-                value={signupData.email}
-                onChange={(e) => setSignupData({...signupData, email: e.target.value})}
-                className="w-full bg-black border border-zinc-800 rounded-xl p-3 text-white text-sm focus:border-white outline-none"
-                required
-              />
+
+              <div className="grid grid-cols-2 gap-3">
+                <input 
+                    type="text" 
+                    placeholder="Birthdate (900101)"
+                    value={signupData.birthdate}
+                    onChange={(e) => setSignupData({...signupData, birthdate: e.target.value})}
+                    maxLength={6}
+                    className="bg-black border border-zinc-800 rounded-xl p-3 text-white text-sm focus:border-white outline-none"
+                    required
+                />
+                 <input 
+                    type="email" 
+                    placeholder="Email Address"
+                    value={signupData.email}
+                    onChange={(e) => setSignupData({...signupData, email: e.target.value})}
+                    className="w-full bg-black border border-zinc-800 rounded-xl p-3 text-white text-sm focus:border-white outline-none"
+                    required
+                />
+              </div>
 
               <input 
                 type="text" 

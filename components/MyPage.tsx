@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Package, MapPin, CreditCard, Settings, LogOut, Save, ChevronRight, Truck, CheckCircle, Clock } from 'lucide-react';
+import { User, Package, MapPin, CreditCard, Settings, LogOut, Save, ChevronRight, Truck, CheckCircle, Clock, Trash2, AlertTriangle } from 'lucide-react';
 
 interface UserData {
   id: string; // Login ID
@@ -7,6 +7,7 @@ interface UserData {
   name: string;
   email: string;
   phone: string;
+  birthdate?: string;
   address?: string;
   role: 'admin' | 'user';
   joinedAt: string;
@@ -38,6 +39,7 @@ const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) 
     name: currentUser.name,
     phone: currentUser.phone || '',
     email: currentUser.email,
+    birthdate: currentUser.birthdate || '',
     address: currentUser.address || ''
   });
 
@@ -52,6 +54,7 @@ const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) 
         name: currentUser.name,
         phone: currentUser.phone || '',
         email: currentUser.email,
+        birthdate: currentUser.birthdate || '',
         address: currentUser.address || ''
     });
   }, [currentUser]);
@@ -71,6 +74,18 @@ const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) 
       setIsEditing(false);
       alert("회원 정보가 성공적으로 수정되었습니다.");
   };
+
+  const handleDeleteAccount = () => {
+      if(window.confirm("정말로 탈퇴하시겠습니까? 탈퇴 시 모든 데이터는 복구할 수 없습니다.")) {
+          // Remove User from DB
+          const allUsers = JSON.parse(localStorage.getItem('pickit_users_db') || '[]');
+          const updatedUsers = allUsers.filter((u: UserData) => u.id !== currentUser.id);
+          localStorage.setItem('pickit_users_db', JSON.stringify(updatedUsers));
+          
+          alert("회원 탈퇴가 완료되었습니다.");
+          onLogout();
+      }
+  }
 
   const getStatusStep = (status: string) => {
       switch(status) {
@@ -120,19 +135,19 @@ const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar Navigation */}
             <div className="lg:col-span-1">
-                <nav className="flex flex-col gap-2">
+                <nav className="flex flex-col gap-2 sticky top-24">
                     <button 
                         onClick={() => setActiveTab('orders')}
                         className={`text-left px-5 py-4 rounded-xl font-bold text-sm flex items-center justify-between transition-all ${activeTab === 'orders' ? 'bg-white text-black' : 'bg-zinc-900/30 text-zinc-500 hover:text-white hover:bg-zinc-900'}`}
                     >
-                        <span className="flex items-center gap-3"><Package className="w-4 h-4" /> Order History</span>
+                        <span className="flex items-center gap-3"><Package className="w-4 h-4" /> 주문 내역 (Orders)</span>
                         <ChevronRight className="w-4 h-4" />
                     </button>
                     <button 
                         onClick={() => setActiveTab('profile')}
                         className={`text-left px-5 py-4 rounded-xl font-bold text-sm flex items-center justify-between transition-all ${activeTab === 'profile' ? 'bg-white text-black' : 'bg-zinc-900/30 text-zinc-500 hover:text-white hover:bg-zinc-900'}`}
                     >
-                        <span className="flex items-center gap-3"><Settings className="w-4 h-4" /> Account Settings</span>
+                        <span className="flex items-center gap-3"><Settings className="w-4 h-4" /> 내 정보 관리 (Info)</span>
                         <ChevronRight className="w-4 h-4" />
                     </button>
                 </nav>
@@ -145,7 +160,7 @@ const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) 
                 {activeTab === 'orders' && (
                     <div className="space-y-6 animate-fade-in-up">
                         <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                            <Truck className="w-5 h-5 text-[#D4AF37]" /> Recent Orders
+                            <Truck className="w-5 h-5 text-[#D4AF37]" /> 주문 내역 (Order History)
                         </h3>
 
                         {orders.length === 0 ? (
@@ -214,7 +229,7 @@ const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) 
                     <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 animate-fade-in-up">
                         <div className="flex justify-between items-center mb-8 pb-6 border-b border-zinc-800">
                              <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                                <Settings className="w-5 h-5 text-[#D4AF37]" /> Account Information
+                                <Settings className="w-5 h-5 text-[#D4AF37]" /> 내 정보 관리 (My Profile)
                              </h3>
                              {!isEditing ? (
                                  <button onClick={() => setIsEditing(true)} className="text-xs font-bold text-[#D4AF37] hover:text-white underline">EDIT PROFILE</button>
@@ -228,58 +243,99 @@ const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) 
                              )}
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-zinc-500 uppercase">Full Name</label>
-                                <input 
-                                    type="text" 
-                                    disabled={!isEditing}
-                                    value={editForm.name}
-                                    onChange={(e) => setEditForm({...editForm, name: e.target.value})}
-                                    className={`w-full bg-black border rounded-lg p-3 text-sm text-white focus:outline-none ${isEditing ? 'border-zinc-600 focus:border-[#D4AF37]' : 'border-zinc-800 text-zinc-400 cursor-not-allowed'}`}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-zinc-500 uppercase">Phone Number</label>
-                                <input 
-                                    type="text" 
-                                    disabled={!isEditing}
-                                    value={editForm.phone}
-                                    onChange={(e) => setEditForm({...editForm, phone: e.target.value})}
-                                    className={`w-full bg-black border rounded-lg p-3 text-sm text-white focus:outline-none ${isEditing ? 'border-zinc-600 focus:border-[#D4AF37]' : 'border-zinc-800 text-zinc-400 cursor-not-allowed'}`}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-zinc-500 uppercase">Email Address</label>
-                                <input 
-                                    type="email" 
-                                    disabled={!isEditing}
-                                    value={editForm.email}
-                                    onChange={(e) => setEditForm({...editForm, email: e.target.value})}
-                                    className={`w-full bg-black border rounded-lg p-3 text-sm text-white focus:outline-none ${isEditing ? 'border-zinc-600 focus:border-[#D4AF37]' : 'border-zinc-800 text-zinc-400 cursor-not-allowed'}`}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-zinc-500 uppercase">Shipping Address</label>
+                        {/* Personal Info Group */}
+                        <div className="mb-8">
+                             <h4 className="text-sm font-bold text-zinc-400 mb-4 uppercase tracking-widest border-b border-zinc-800 pb-2">Personal Information</h4>
+                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2 group">
+                                    <label className="text-xs font-bold text-zinc-500 uppercase group-hover:text-[#D4AF37] transition-colors">이름 (Full Name)</label>
+                                    <input 
+                                        type="text" 
+                                        disabled={!isEditing}
+                                        value={editForm.name}
+                                        onChange={(e) => setEditForm({...editForm, name: e.target.value})}
+                                        className={`w-full bg-black border rounded-lg p-3 text-sm text-white focus:outline-none transition-all duration-300 ${isEditing ? 'border-zinc-600 focus:border-[#D4AF37] focus:bg-zinc-900' : 'border-zinc-800 text-zinc-400 cursor-not-allowed bg-zinc-950'}`}
+                                    />
+                                </div>
+                                <div className="space-y-2 group">
+                                    <label className="text-xs font-bold text-zinc-500 uppercase group-hover:text-[#D4AF37] transition-colors">생년월일 (Birthdate)</label>
+                                    <input 
+                                        type="text" 
+                                        disabled={!isEditing}
+                                        value={editForm.birthdate}
+                                        onChange={(e) => setEditForm({...editForm, birthdate: e.target.value})}
+                                        placeholder="YYMMDD"
+                                        maxLength={6}
+                                        className={`w-full bg-black border rounded-lg p-3 text-sm text-white focus:outline-none transition-all duration-300 ${isEditing ? 'border-zinc-600 focus:border-[#D4AF37] focus:bg-zinc-900' : 'border-zinc-800 text-zinc-400 cursor-not-allowed bg-zinc-950'}`}
+                                    />
+                                </div>
+                             </div>
+                        </div>
+
+                        {/* Contact Info Group */}
+                        <div className="mb-8">
+                             <h4 className="text-sm font-bold text-zinc-400 mb-4 uppercase tracking-widest border-b border-zinc-800 pb-2">Contact Details</h4>
+                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div className="space-y-2 group">
+                                    <label className="text-xs font-bold text-zinc-500 uppercase group-hover:text-[#D4AF37] transition-colors">연락처 (Phone Number)</label>
+                                    <input 
+                                        type="text" 
+                                        disabled={!isEditing}
+                                        value={editForm.phone}
+                                        onChange={(e) => setEditForm({...editForm, phone: e.target.value})}
+                                        className={`w-full bg-black border rounded-lg p-3 text-sm text-white focus:outline-none transition-all duration-300 ${isEditing ? 'border-zinc-600 focus:border-[#D4AF37] focus:bg-zinc-900' : 'border-zinc-800 text-zinc-400 cursor-not-allowed bg-zinc-950'}`}
+                                    />
+                                </div>
+                                <div className="space-y-2 group">
+                                    <label className="text-xs font-bold text-zinc-500 uppercase group-hover:text-[#D4AF37] transition-colors">이메일 (Email Address)</label>
+                                    <input 
+                                        type="email" 
+                                        disabled={!isEditing}
+                                        value={editForm.email}
+                                        onChange={(e) => setEditForm({...editForm, email: e.target.value})}
+                                        className={`w-full bg-black border rounded-lg p-3 text-sm text-white focus:outline-none transition-all duration-300 ${isEditing ? 'border-zinc-600 focus:border-[#D4AF37] focus:bg-zinc-900' : 'border-zinc-800 text-zinc-400 cursor-not-allowed bg-zinc-950'}`}
+                                    />
+                                </div>
+                             </div>
+                             <div className="space-y-2 group">
+                                <label className="text-xs font-bold text-zinc-500 uppercase group-hover:text-[#D4AF37] transition-colors">배송지 주소 (Shipping Address)</label>
                                 <input 
                                     type="text" 
                                     disabled={!isEditing}
                                     value={editForm.address}
                                     onChange={(e) => setEditForm({...editForm, address: e.target.value})}
                                     placeholder={!currentUser.address ? "배송지를 입력해주세요" : ""}
-                                    className={`w-full bg-black border rounded-lg p-3 text-sm text-white focus:outline-none ${isEditing ? 'border-zinc-600 focus:border-[#D4AF37]' : 'border-zinc-800 text-zinc-400 cursor-not-allowed'}`}
+                                    className={`w-full bg-black border rounded-lg p-3 text-sm text-white focus:outline-none transition-all duration-300 ${isEditing ? 'border-zinc-600 focus:border-[#D4AF37] focus:bg-zinc-900' : 'border-zinc-800 text-zinc-400 cursor-not-allowed bg-zinc-950'}`}
                                 />
-                            </div>
+                             </div>
                         </div>
 
+                        {/* Account Security Group */}
                         <div className="mt-8 pt-6 border-t border-zinc-800">
-                            <h4 className="text-sm font-bold text-white mb-4">Security</h4>
-                            <div className="flex justify-between items-center bg-zinc-900 p-4 rounded-lg border border-zinc-800">
-                                <div>
-                                    <p className="text-sm text-white font-medium">Password</p>
-                                    <p className="text-xs text-zinc-500">Last changed 3 months ago</p>
+                            <h4 className="text-sm font-bold text-white mb-4">Account Security</h4>
+                            <div className="flex flex-col gap-4">
+                                <div className="flex justify-between items-center bg-zinc-900 p-4 rounded-lg border border-zinc-800">
+                                    <div>
+                                        <p className="text-sm text-white font-medium">비밀번호 변경</p>
+                                        <p className="text-xs text-zinc-500">마지막 변경일: 3개월 전</p>
+                                    </div>
+                                    <button disabled className="px-4 py-2 bg-zinc-800 text-zinc-500 text-xs rounded font-bold cursor-not-allowed">변경 불가</button>
                                 </div>
-                                <button disabled className="px-4 py-2 bg-zinc-800 text-zinc-500 text-xs rounded font-bold cursor-not-allowed">Change</button>
+                                <div className="flex justify-between items-center bg-red-900/10 p-4 rounded-lg border border-red-900/30">
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <AlertTriangle className="w-4 h-4 text-red-500" />
+                                            <p className="text-sm text-red-500 font-bold">회원 탈퇴 (Delete Account)</p>
+                                        </div>
+                                        <p className="text-xs text-zinc-500">탈퇴 시 모든 데이터는 영구 삭제됩니다.</p>
+                                    </div>
+                                    <button 
+                                        onClick={handleDeleteAccount}
+                                        className="px-4 py-2 border border-red-900/50 text-red-500 hover:bg-red-900/20 text-xs rounded font-bold transition-colors"
+                                    >
+                                        탈퇴하기
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

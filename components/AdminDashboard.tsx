@@ -8,6 +8,7 @@ interface User {
   role: 'admin' | 'user';
   email: string;
   phone?: string;
+  birthdate?: string;
   address?: string;
   joinedAt?: string;
 }
@@ -203,9 +204,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                             <div className="flex justify-between items-start mb-8 border-b border-zinc-800 pb-6">
                                 <div>
                                     <h2 className="text-2xl font-bold text-white mb-1">{selectedUser.name}</h2>
-                                    <div className="flex gap-4 text-sm text-zinc-400 mt-2">
-                                        <span className="bg-zinc-800 px-2 py-0.5 rounded text-white font-mono">{selectedUser.customerId}</span>
-                                        <span className="border-l border-zinc-700 pl-4">Phone: {selectedUser.phone || 'N/A'}</span>
+                                    <div className="flex flex-col gap-1 text-sm text-zinc-400 mt-2">
+                                        <div className="flex gap-4">
+                                            <span className="bg-zinc-800 px-2 py-0.5 rounded text-white font-mono">{selectedUser.customerId}</span>
+                                            <span className="border-l border-zinc-700 pl-4">Phone: {selectedUser.phone || 'N/A'}</span>
+                                        </div>
+                                        <div className="flex gap-4 mt-1">
+                                            <span>Birthdate: {selectedUser.birthdate || 'N/A'}</span>
+                                            <span className="border-l border-zinc-700 pl-4">Email: {selectedUser.email}</span>
+                                        </div>
                                     </div>
                                     <p className="text-sm text-zinc-500 mt-2">Address: {selectedUser.address || 'Not registered'}</p>
                                 </div>

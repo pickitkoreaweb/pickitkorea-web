@@ -32,6 +32,7 @@ interface UserData {
   role: 'admin' | 'user';
   email: string;
   phone: string;
+  birthdate?: string; // Added field
   address?: string;
   joinedAt: string;
 }
@@ -156,7 +157,7 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
                           onClick={() => handleNavClick('mypage')}
                           className={`flex items-center gap-1 text-[10px] px-2 py-1 rounded transition-colors interactable ${currentPage === 'mypage' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}
                        >
-                           <User className="w-3 h-3" /> MY PAGE
+                           <User className="w-3 h-3" /> 마이페이지
                        </button>
                   )}
                   
@@ -229,7 +230,7 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
                   onClick={() => handleNavClick('mypage')}
                   className="text-2xl font-serif text-[#D4AF37] hover:text-white text-left flex items-center gap-2"
               >
-                  <User className="w-6 h-6" /> My Page
+                  <User className="w-6 h-6" /> 마이페이지 (My Page)
               </button>
           )}
 
