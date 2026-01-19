@@ -1,5 +1,5 @@
 import React from 'react';
-import { Twitter, Instagram, Facebook, ArrowUpRight } from 'lucide-react';
+import { Twitter, Instagram, Facebook, ArrowUpRight, MapPin, Phone, Mail } from 'lucide-react';
 
 interface FooterProps {
   setPage: (page: any) => void;
@@ -17,11 +17,27 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
           {/* Brand Column */}
           <div className="col-span-1 md:col-span-5">
             <h3 className="text-3xl font-serif font-bold tracking-tighter mb-6 text-white">PICKIT</h3>
-            <p className="text-zinc-500 max-w-sm mb-8 text-sm leading-relaxed">
+            <p className="text-zinc-500 max-w-sm mb-6 text-sm leading-relaxed">
               Redefining the standard of luxury transactions. <br/>
-              Engineered for those who value weight and substance. <br/>
-              Seoul, Korea.
+              Engineered for those who value weight and substance.
             </p>
+            
+            {/* Business Info Added */}
+            <div className="space-y-3 mb-8 text-zinc-500 text-xs font-medium">
+                 <div className="flex items-start gap-2.5">
+                    <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-zinc-400" />
+                    <p className="leading-relaxed">서울특별시 강남구 역삼로20길 10<br/>테헤란로 쓰리엠타워 11층 PICKITKOREA</p>
+                 </div>
+                 <div className="flex items-center gap-2.5">
+                    <Phone className="w-3.5 h-3.5 shrink-0 text-zinc-400" />
+                    <p>010-8282-1043</p>
+                 </div>
+                 <div className="flex items-center gap-2.5">
+                    <Mail className="w-3.5 h-3.5 shrink-0 text-zinc-400" />
+                    <p>PICKIT.KOREA.OFFICIAL@GMAIL.COM</p>
+                 </div>
+            </div>
+
             <div className="flex gap-4">
               <a 
                 href="https://www.instagram.com/pickit.korea.official/" 

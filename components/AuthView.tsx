@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Lock, Mail, Phone, ShieldCheck, ArrowRight, Check } from 'lucide-react';
+import { User, Lock, Mail, Phone, ShieldCheck, ArrowRight, Check, X, FileText } from 'lucide-react';
 
 interface AuthViewProps {
   onLogin: (userData: any) => void;
@@ -8,6 +8,7 @@ interface AuthViewProps {
 
 const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
   const [isLoginView, setIsLoginView] = useState(true);
+  const [showTermsModal, setShowTermsModal] = useState(false);
   
   // Login State
   const [loginId, setLoginId] = useState('');
@@ -22,7 +23,8 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
     name: '',
     phone: '',
     email: '',
-    agreePrivacy: false
+    agreePrivacy: false,
+    agreeTerms: false
   });
 
   const handleLoginSubmit = (e: React.FormEvent) => {
@@ -63,6 +65,11 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
     
     if (signupData.password !== signupData.confirmPassword) {
       alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    if (!signupData.agreeTerms) {
+      alert("서비스 이용약관에 동의해야 합니다.");
       return;
     }
 
@@ -240,23 +247,56 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
                  />
               </div>
 
-              {/* Privacy Policy Agreement */}
-              <div className="mt-4 p-4 bg-zinc-900/50 rounded-xl border border-zinc-800">
-                  <div className="flex items-start gap-3">
-                      <div className="relative flex items-center">
-                          <input 
-                            type="checkbox" 
-                            id="privacy-check"
-                            checked={signupData.agreePrivacy}
-                            onChange={(e) => setSignupData({...signupData, agreePrivacy: e.target.checked})}
-                            className="peer h-4 w-4 cursor-pointer appearance-none rounded border border-zinc-600 checked:border-[#D4AF37] checked:bg-[#D4AF37] transition-all"
-                          />
-                          <Check className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-3 w-3 text-black opacity-0 peer-checked:opacity-100" />
+              {/* Terms and Privacy Agreements */}
+              <div className="mt-4 bg-zinc-900/50 rounded-xl border border-zinc-800 overflow-hidden divide-y divide-zinc-800">
+                  
+                  {/* Terms of Service */}
+                  <div className="p-4">
+                       <div className="flex items-start gap-3">
+                          <div className="relative flex items-center mt-0.5">
+                              <input 
+                                type="checkbox" 
+                                id="terms-check"
+                                checked={signupData.agreeTerms}
+                                onChange={(e) => setSignupData({...signupData, agreeTerms: e.target.checked})}
+                                className="peer h-4 w-4 cursor-pointer appearance-none rounded border border-zinc-600 checked:border-[#D4AF37] checked:bg-[#D4AF37] transition-all"
+                              />
+                              <Check className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-3 w-3 text-black opacity-0 peer-checked:opacity-100" />
+                          </div>
+                          <div className="flex-1">
+                              <label htmlFor="terms-check" className="text-xs text-white font-bold cursor-pointer select-none">
+                                  [필수] 서비스 이용약관 동의
+                              </label>
+                              <div className="text-[10px] text-zinc-500 mt-1 flex justify-between items-center">
+                                  <span>IC칩 이식 책임 및 사용 제한에 관한 내용 포함</span>
+                                  <button type="button" onClick={() => setShowTermsModal(true)} className="text-[#D4AF37] underline hover:text-white">전문보기</button>
+                              </div>
+                          </div>
+                       </div>
+                  </div>
+
+                  {/* Privacy Policy */}
+                  <div className="p-4">
+                      <div className="flex items-start gap-3">
+                          <div className="relative flex items-center mt-0.5">
+                              <input 
+                                type="checkbox" 
+                                id="privacy-check"
+                                checked={signupData.agreePrivacy}
+                                onChange={(e) => setSignupData({...signupData, agreePrivacy: e.target.checked})}
+                                className="peer h-4 w-4 cursor-pointer appearance-none rounded border border-zinc-600 checked:border-[#D4AF37] checked:bg-[#D4AF37] transition-all"
+                              />
+                              <Check className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-3 w-3 text-black opacity-0 peer-checked:opacity-100" />
+                          </div>
+                          <div className="flex-1">
+                              <label htmlFor="privacy-check" className="text-xs text-white font-bold cursor-pointer select-none">
+                                  [필수] 개인정보 수집 및 이용 동의
+                              </label>
+                              <p className="text-[10px] text-zinc-500 mt-1 leading-relaxed">
+                                  회원가입 시 수집된 개인정보는 서비스 이용 기간 동안 보관되며, 탈퇴 시 즉시 파기됩니다.
+                              </p>
+                          </div>
                       </div>
-                      <label htmlFor="privacy-check" className="text-xs text-zinc-400 cursor-pointer select-none leading-relaxed">
-                          <span className="text-white font-bold">[필수] 개인정보 수집 및 이용 동의</span><br/>
-                          회원가입 시 수집된 개인정보는 서비스 이용 기간 동안 보관되며, 회원 탈퇴 시 즉시 파기됩니다. 데이터는 pickit.korea.official@gmail.com 계정을 통해 안전하게 관리됩니다.
-                      </label>
                   </div>
               </div>
 
@@ -268,6 +308,61 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
               </button>
             </form>
           </div>
+        )}
+
+        {/* Terms Modal */}
+        {showTermsModal && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in-up">
+                <div className="bg-[#111] border border-zinc-700 rounded-2xl w-full max-w-lg flex flex-col max-h-[80vh] shadow-2xl">
+                    <div className="p-5 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50 rounded-t-2xl">
+                        <div className="flex items-center gap-2">
+                            <FileText className="w-4 h-4 text-[#D4AF37]" />
+                            <h3 className="text-white font-bold text-sm">서비스 이용약관 (Terms of Service)</h3>
+                        </div>
+                        <button onClick={() => setShowTermsModal(false)} className="text-zinc-500 hover:text-white">
+                            <X className="w-5 h-5" />
+                        </button>
+                    </div>
+                    
+                    <div className="p-6 overflow-y-auto text-zinc-400 text-xs leading-relaxed space-y-4 custom-scrollbar">
+                        <div className="bg-zinc-900/30 p-4 rounded border border-zinc-800">
+                             <h4 className="text-white font-bold mb-1">제 1 조 (목적 및 서비스의 정의)</h4>
+                             <p>본 약관은 PICKIT(이하 "회사")이 제공하는 메탈 플레이트 커스텀 서비스의 이용 조건을 규정합니다. 회사는 금융기관이 아니며, 고객이 소유한 카드의 외관을 변경할 수 있는 자재와 가공 서비스를 제공하는 써드파티 업체입니다.</p>
+                        </div>
+
+                        <div>
+                             <h4 className="text-white font-bold mb-1">제 2 조 (면책 사항 - 중요)</h4>
+                             <ul className="list-disc list-inside space-y-1 pl-1">
+                                 <li><span className="text-red-400 font-bold">IC 칩 이식 책임:</span> IC 칩 이식(DIY)은 고객 본인의 책임하에 진행되는 작업입니다. 이식 과정에서 발생하는 기존 카드 및 칩의 파손, 기능 고장에 대해 회사는 민·형사상 책임을 지지 않습니다.</li>
+                                 <li><span className="text-red-400 font-bold">기능 제한:</span> 메탈 카드는 소재 특성상 '교통카드(RF)' 및 '비접촉 결제(NFC)' 기능이 작동하지 않습니다. 고객은 이를 인지하고 동의한 것으로 간주합니다.</li>
+                                 <li><span className="text-red-400 font-bold">ATM 사용:</span> 메탈 카드의 두께와 무게로 인해 일부 구형 ATM 기기에서는 이용이 제한될 수 있습니다.</li>
+                             </ul>
+                        </div>
+
+                        <div>
+                             <h4 className="text-white font-bold mb-1">제 3 조 (환불 및 교환)</h4>
+                             <p>본 제품은 고객의 요청에 따라 각인이 진행되는 '주문 제작 상품'입니다. 제작이 시작된 이후에는 단순 변심으로 인한 취소 및 환불이 절대 불가합니다. 단, 제품 수령 직후 발견된 회사의 귀책사유(각인 오류, 소재 불량)에 대해서는 6개월간 무상 A/S를 제공합니다.</p>
+                        </div>
+
+                        <div>
+                             <h4 className="text-white font-bold mb-1">제 4 조 (저작권 책임)</h4>
+                             <p>커스텀 각인을 위해 고객이 업로드한 이미지(로고, 캐릭터 등)에 대한 저작권 및 상표권 책임은 전적으로 고객에게 있습니다. 회사는 고객이 요청한 디자인을 가공할 뿐이며, 이로 인해 발생하는 제3자의 권리 침해 분쟁에 대해 책임지지 않습니다.</p>
+                        </div>
+                    </div>
+
+                    <div className="p-5 border-t border-zinc-800 bg-zinc-900/50 rounded-b-2xl">
+                        <button 
+                            onClick={() => {
+                                setSignupData(prev => ({ ...prev, agreeTerms: true }));
+                                setShowTermsModal(false);
+                            }}
+                            className="w-full py-3 bg-[#D4AF37] text-black font-bold text-xs rounded hover:bg-[#b08d1e] transition-colors"
+                        >
+                            위 내용을 확인하였으며 동의합니다
+                        </button>
+                    </div>
+                </div>
+            </div>
         )}
 
       </div>
