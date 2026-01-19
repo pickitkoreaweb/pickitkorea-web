@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Package, MapPin, CreditCard, Settings, LogOut, Save, ChevronRight, Truck, CheckCircle, Clock, Trash2, AlertTriangle } from 'lucide-react';
+import { User, Package, Settings, LogOut, Save, ChevronRight, Truck, Clock, AlertTriangle } from 'lucide-react';
 
 interface UserData {
   id: string; // Login ID

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, UserCircle, LogOut, Gift, LayoutDashboard, User } from 'lucide-react';
+import { Menu, X, ChevronDown, UserCircle, LogOut, LayoutDashboard, User } from 'lucide-react';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import BusinessCardShowcase from './components/BusinessCardShowcase';
