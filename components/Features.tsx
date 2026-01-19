@@ -21,15 +21,15 @@ const Features: React.FC = () => {
           {/* Feature 1: Main Large with Image Background */}
           <div className="md:col-span-3 row-span-1 md:row-span-2 min-h-[300px] rounded-3xl bg-zinc-900 border border-zinc-800 relative overflow-hidden group">
             {/* Background Image - Real Stainless Steel Texture */}
-            <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 z-0 bg-zinc-800">
                 <img 
-                    src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000&auto=format&fit=crop" 
-                    alt="Brushed Stainless Steel Texture" 
-                    className="w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-105 opacity-60"
+                    src="https://images.unsplash.com/photo-1513569143478-959193e61938?q=80&w=2000&auto=format&fit=crop" 
+                    alt="Metal Texture" 
+                    className="w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-105 opacity-70"
                 />
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
             </div>
 
             <div className="relative z-10 h-full flex flex-col justify-between p-8">
