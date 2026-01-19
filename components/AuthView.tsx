@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { User, Lock, Mail, Phone, ShieldCheck, ArrowRight, Check, X, FileText } from 'lucide-react';
+import { User, Lock, Mail, Phone, ShieldCheck, ArrowRight, Check, X, FileText, KeyRound, ArrowLeft, Loader2 } from 'lucide-react';
 
 interface AuthViewProps {
   onLogin: (userData: any) => void;
   setPage: (page: any) => void;
 }
 
+type AuthMode = 'login' | 'signup' | 'find';
+
 const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
-  const [isLoginView, setIsLoginView] = useState(true);
+  const [authMode, setAuthMode] = useState<AuthMode>('login');
   const [showTermsModal, setShowTermsModal] = useState(false);
   
   // Login State
@@ -27,6 +29,11 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
     agreeTerms: false
   });
 
+  // Find Password State
+  const [findData, setFindData] = useState({ name: '', phone: '' });
+  const [findStatus, setFindStatus] = useState<'idle' | 'searching' | 'success'>('idle');
+  const [findError, setFindError] = useState('');
+
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError('');
@@ -39,14 +46,13 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
         role: 'admin',
         email: 'pickit.korea.official@gmail.com'
       };
-      // Save to session (simulated)
       localStorage.setItem('pickit_user', JSON.stringify(adminUser));
       onLogin(adminUser);
       setPage('home');
       return;
     }
 
-    // 2. Local Storage User Check (Simulation)
+    // 2. Local Storage User Check
     const storedUsers = JSON.parse(localStorage.getItem('pickit_users_db') || '[]');
     const user = storedUsers.find((u: any) => u.id === loginId && u.password === loginPw);
 
@@ -78,7 +84,6 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
       return;
     }
 
-    // Simulate saving to DB
     const newUser = {
       id: signupData.id,
       password: signupData.password,
@@ -98,10 +103,34 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
     storedUsers.push(newUser);
     localStorage.setItem('pickit_users_db', JSON.stringify(storedUsers));
 
-    // Simulate sending data to official email (Console log + Alert)
-    console.log(`[System] New User Data sent to pickit.korea.official@gmail.com:`, newUser);
     alert("회원가입이 완료되었습니다. 로그인해주세요.");
-    setIsLoginView(true);
+    setAuthMode('login');
+  };
+
+  const handleFindSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      setFindStatus('searching');
+      setFindError('');
+
+      // Simulate Network Delay
+      setTimeout(() => {
+          // Check Admin (Hardcoded for demo)
+          if (findData.name === 'PICKIT MASTER' && findData.phone === '010-8282-1043') {
+             setFindStatus('success');
+             return;
+          }
+
+          // Check LocalStorage
+          const storedUsers = JSON.parse(localStorage.getItem('pickit_users_db') || '[]');
+          const user = storedUsers.find((u: any) => u.name === findData.name && u.phone === findData.phone);
+
+          if (user) {
+              setFindStatus('success');
+          } else {
+              setFindStatus('idle');
+              setFindError('일치하는 회원 정보를 찾을 수 없습니다.');
+          }
+      }, 1500);
   };
 
   return (
@@ -112,24 +141,26 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
 
       <div className="max-w-md w-full relative z-10">
         
-        {/* Toggle Header */}
-        <div className="flex mb-8 bg-zinc-900/50 p-1 rounded-full border border-zinc-800">
-          <button 
-            onClick={() => setIsLoginView(true)}
-            className={`flex-1 py-3 text-xs font-bold tracking-widest rounded-full transition-all duration-300 ${isLoginView ? 'bg-white text-black shadow-lg' : 'text-zinc-500 hover:text-white'}`}
-          >
-            LOGIN
-          </button>
-          <button 
-            onClick={() => setIsLoginView(false)}
-            className={`flex-1 py-3 text-xs font-bold tracking-widest rounded-full transition-all duration-300 ${!isLoginView ? 'bg-white text-black shadow-lg' : 'text-zinc-500 hover:text-white'}`}
-          >
-            SIGN UP
-          </button>
-        </div>
+        {/* Toggle Header (Only show when not in 'find' mode) */}
+        {authMode !== 'find' && (
+            <div className="flex mb-8 bg-zinc-900/50 p-1 rounded-full border border-zinc-800">
+            <button 
+                onClick={() => setAuthMode('login')}
+                className={`flex-1 py-3 text-xs font-bold tracking-widest rounded-full transition-all duration-300 ${authMode === 'login' ? 'bg-white text-black shadow-lg' : 'text-zinc-500 hover:text-white'}`}
+            >
+                LOGIN
+            </button>
+            <button 
+                onClick={() => setAuthMode('signup')}
+                className={`flex-1 py-3 text-xs font-bold tracking-widest rounded-full transition-all duration-300 ${authMode === 'signup' ? 'bg-white text-black shadow-lg' : 'text-zinc-500 hover:text-white'}`}
+            >
+                SIGN UP
+            </button>
+            </div>
+        )}
 
         {/* LOGIN FORM */}
-        {isLoginView && (
+        {authMode === 'login' && (
           <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-3xl backdrop-blur-md animate-fade-in-up">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-serif text-white mb-2">Welcome Back</h2>
@@ -177,13 +208,114 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
             </form>
             
             <div className="mt-6 text-center">
-              <button className="text-zinc-600 text-xs hover:text-white transition-colors underline">Forgot Password?</button>
+              <button 
+                onClick={() => {
+                    setAuthMode('find');
+                    setFindStatus('idle');
+                    setFindError('');
+                    setFindData({ name: '', phone: '' });
+                }} 
+                className="text-zinc-600 text-xs hover:text-white transition-colors underline decoration-zinc-700 underline-offset-4"
+              >
+                Forgot Password?
+              </button>
             </div>
           </div>
         )}
 
+        {/* FIND PASSWORD FORM */}
+        {authMode === 'find' && (
+             <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-3xl backdrop-blur-md animate-fade-in-up relative overflow-hidden">
+                <button 
+                    onClick={() => setAuthMode('login')}
+                    className="absolute top-6 left-6 text-zinc-500 hover:text-white transition-colors"
+                >
+                    <ArrowLeft className="w-5 h-5" />
+                </button>
+
+                <div className="text-center mb-8 pt-4">
+                    <div className="w-12 h-12 bg-zinc-900 rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-800">
+                         <KeyRound className="w-5 h-5 text-[#D4AF37]" />
+                    </div>
+                    <h2 className="text-2xl font-serif text-white mb-2">Find Account</h2>
+                    <p className="text-zinc-500 text-sm">가입 시 등록한 정보를 입력해주세요.</p>
+                </div>
+
+                {findStatus !== 'success' ? (
+                    <form onSubmit={handleFindSubmit} className="space-y-4">
+                        <div className="space-y-1">
+                             <div className="relative">
+                                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                                <input 
+                                  type="text" 
+                                  placeholder="Name (가입 실명)"
+                                  value={findData.name}
+                                  onChange={(e) => setFindData({...findData, name: e.target.value})}
+                                  className="w-full bg-black border border-zinc-800 rounded-xl py-3.5 pl-12 pr-4 text-white text-sm focus:border-[#D4AF37] focus:outline-none transition-colors"
+                                  required
+                                />
+                             </div>
+                        </div>
+                        <div className="space-y-1">
+                             <div className="relative">
+                                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                                <input 
+                                  type="text" 
+                                  placeholder="Phone (010-0000-0000)"
+                                  value={findData.phone}
+                                  onChange={(e) => setFindData({...findData, phone: e.target.value})}
+                                  className="w-full bg-black border border-zinc-800 rounded-xl py-3.5 pl-12 pr-4 text-white text-sm focus:border-[#D4AF37] focus:outline-none transition-colors"
+                                  required
+                                />
+                             </div>
+                        </div>
+
+                        {findError && (
+                            <p className="text-red-500 text-xs text-center flex items-center justify-center gap-1 animate-pulse">
+                                <X className="w-3 h-3" /> {findError}
+                            </p>
+                        )}
+
+                        <button 
+                            type="submit" 
+                            disabled={findStatus === 'searching'}
+                            className="w-full py-4 bg-white text-black font-bold text-xs rounded-xl hover:bg-zinc-200 transition-colors mt-4 flex items-center justify-center gap-2"
+                        >
+                            {findStatus === 'searching' ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                    Verifying...
+                                </>
+                            ) : (
+                                "VERIFY USER"
+                            )}
+                        </button>
+                    </form>
+                ) : (
+                    <div className="text-center animate-fade-in-up">
+                        <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 mb-6">
+                            <div className="flex items-center justify-center gap-2 text-green-500 mb-2">
+                                <Check className="w-5 h-5" />
+                                <span className="font-bold text-sm">인증 성공</span>
+                            </div>
+                            <p className="text-zinc-400 text-xs leading-relaxed">
+                                입력하신 휴대폰 번호로<br/>
+                                <strong className="text-white">임시 비밀번호</strong>가 발송되었습니다.
+                            </p>
+                        </div>
+                        <button 
+                            onClick={() => setAuthMode('login')}
+                            className="w-full py-4 bg-[#D4AF37] text-black font-bold text-xs rounded-xl hover:bg-[#FCE2C4] transition-colors"
+                        >
+                            BACK TO LOGIN
+                        </button>
+                    </div>
+                )}
+             </div>
+        )}
+
         {/* SIGN UP FORM */}
-        {!isLoginView && (
+        {authMode === 'signup' && (
           <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-3xl backdrop-blur-md animate-fade-in-up">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-serif text-white mb-2">Create Account</h2>
