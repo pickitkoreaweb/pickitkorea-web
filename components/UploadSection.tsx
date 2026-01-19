@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Upload, Check, Loader2, FileImage, Shield } from 'lucide-react';
+import { Upload, Check, Loader2, FileImage, Shield, CreditCard, Truck, Gift } from 'lucide-react';
 
 const UploadSection: React.FC = () => {
   const [dragActive, setDragActive] = useState(false);
@@ -104,7 +104,7 @@ const UploadSection: React.FC = () => {
           <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">Design Your Masterpiece</h2>
           <p className="text-zinc-400 text-sm md:text-base max-w-lg mx-auto leading-relaxed">
             카드에 각인하고 싶은 로고, 서명, 또는 아트워크를 업로드하세요. <br/>
-            벡터 파일(SVG, AI) 또는 고해상도 이미지(PNG)를 권장합니다.
+            세상에 단 하나뿐인 당신만의 카드가 완성됩니다.
           </p>
         </div>
 
@@ -170,12 +170,30 @@ const UploadSection: React.FC = () => {
                          )}
 
                         {isComplete && (
-                            <div className="flex flex-col items-center animate-fade-in-up">
-                                <div className="w-10 h-10 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mb-2">
-                                    <Check className="w-6 h-6" />
+                            <div className="flex flex-col items-center animate-fade-in-up w-full">
+                                <div className="w-full bg-black/50 p-6 rounded-2xl border border-zinc-800 mb-4">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-zinc-400 text-sm">PICKIT Premium Metal</span>
+                                        <span className="text-white font-bold text-lg">44,900 KRW</span>
+                                    </div>
+                                    <div className="flex flex-col gap-2 text-xs text-zinc-500">
+                                        <div className="flex items-center gap-2">
+                                            <Truck className="w-3 h-3" />
+                                            <span>Free Shipping (전 상품 무료 배송)</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <Gift className="w-3 h-3" />
+                                            <span>Premium Gift Packaging Included</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <p className="text-sm text-white mb-4">Design Approved</p>
-                                <button onClick={removeFile} className="text-xs text-zinc-500 hover:text-white underline">
+                                
+                                <button className="w-full bg-[#D4AF37] text-black font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:bg-[#FCE2C4] hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
+                                    <CreditCard className="w-4 h-4" />
+                                    ORDER NOW (44,900원)
+                                </button>
+                                
+                                <button onClick={removeFile} className="mt-4 text-xs text-zinc-600 hover:text-white underline">
                                     Upload Different File
                                 </button>
                             </div>
@@ -260,14 +278,6 @@ const UploadSection: React.FC = () => {
                         </div>
                     </div>
                 </div>
-
-                {isComplete && (
-                     <div className="absolute bottom-10 md:-bottom-16 left-0 w-full text-center z-40 animate-fade-in-up">
-                        <button className="bg-white text-black font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-white/20 hover:scale-105 transition-all text-sm md:text-base">
-                            Order This Design
-                        </button>
-                     </div>
-                )}
             </div>
         </div>
 

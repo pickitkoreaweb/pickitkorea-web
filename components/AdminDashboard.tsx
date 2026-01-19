@@ -138,7 +138,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         customerId: selectedUser.customerId,
         date: new Date().toLocaleDateString('ko-KR').replace(/\. /g, '-').slice(0, -1),
         item: 'Black Metal Custom',
-        amount: '150,000 KRW',
+        amount: '44,900 KRW',
         status: 'Pending',
         designFile: 'admin_created.ai'
     };
