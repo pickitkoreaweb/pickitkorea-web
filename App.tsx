@@ -22,8 +22,9 @@ import AuthView from './components/AuthView';
 import EventView from './components/EventView';
 import AdminDashboard from './components/AdminDashboard';
 import MyPage from './components/MyPage';
+import BusinessDomains from './components/BusinessDomains';
 
-type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'inquiry' | 'contact' | 'policy' | 'auth' | 'event' | 'admin-dashboard' | 'mypage';
+type Page = 'home' | 'about' | 'business' | 'business-metal' | 'business-trade' | 'business-realty' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'inquiry' | 'contact' | 'policy' | 'auth' | 'event' | 'admin-dashboard' | 'mypage';
 
 interface UserData {
   id: string;
@@ -45,7 +46,8 @@ interface SiteImages {
 const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; currentUser: UserData | null; onLogout: () => void }> = ({ currentPage, setPage, currentUser, onLogout }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isCollectionDropdownOpen, setIsCollectionDropdownOpen] = useState(false);
+  const [isBusinessDropdownOpen, setIsBusinessDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,7 +60,8 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
   const handleNavClick = (page: Page) => {
     setPage(page);
     setIsMobileMenuOpen(false);
-    setIsDropdownOpen(false);
+    setIsCollectionDropdownOpen(false);
+    setIsBusinessDropdownOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -95,14 +98,46 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
             <span className={`absolute -bottom-1 left-0 w-full h-[1px] bg-[#D4AF37] transform origin-left transition-transform duration-300 ${currentPage === 'about' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
           </button>
 
-          {/* Metal Card Dropdown */}
-          <div className="relative group" onMouseEnter={() => setIsDropdownOpen(true)} onMouseLeave={() => setIsDropdownOpen(false)}>
+          {/* Business Dropdown */}
+          <div className="relative group" onMouseEnter={() => setIsBusinessDropdownOpen(true)} onMouseLeave={() => setIsBusinessDropdownOpen(false)}>
+            <button 
+                onClick={() => handleNavClick('business')} 
+                className={`interactable flex items-center gap-2 text-xs font-bold tracking-widest transition-colors duration-300 ${currentPage.startsWith('business') ? 'text-white' : 'text-zinc-500 group-hover:text-white'}`}
+            >
+                BUSINESS
+                <ChevronDown className="w-3 h-3 transition-transform duration-300 group-hover:rotate-180" />
+            </button>
+            
+            <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-4 w-64 bg-[#0a0a0a]/95 backdrop-blur-xl border border-zinc-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)] transition-all duration-300 ${isBusinessDropdownOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 translate-y-4 invisible'}`}>
+                <button 
+                    onClick={() => handleNavClick('business-metal')}
+                    className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-[#D4AF37] transition-colors border-b border-zinc-900 interactable"
+                >
+                    MANUFACTURING (제조)
+                </button>
+                <button 
+                    onClick={() => handleNavClick('business-trade')}
+                    className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-[#D4AF37] transition-colors border-b border-zinc-900 interactable"
+                >
+                    GLOBAL PURCHASING (구매대행)
+                </button>
+                <button 
+                    onClick={() => handleNavClick('business-realty')}
+                    className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-[#D4AF37] transition-colors interactable"
+                >
+                    REAL ESTATE (부동산)
+                </button>
+            </div>
+          </div>
+
+          {/* Collection Dropdown */}
+          <div className="relative group" onMouseEnter={() => setIsCollectionDropdownOpen(true)} onMouseLeave={() => setIsCollectionDropdownOpen(false)}>
             <button className={`interactable flex items-center gap-2 text-xs font-bold tracking-widest transition-colors duration-300 ${['metal-biz', 'metal-custom'].includes(currentPage) ? 'text-white' : 'text-zinc-500 group-hover:text-white'}`}>
               COLLECTION
               <ChevronDown className="w-3 h-3 transition-transform duration-300 group-hover:rotate-180" />
             </button>
             
-            <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-[#0a0a0a]/95 backdrop-blur-xl border border-zinc-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)] transition-all duration-300 ${isDropdownOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 translate-y-4 invisible'}`}>
+            <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-[#0a0a0a]/95 backdrop-blur-xl border border-zinc-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)] transition-all duration-300 ${isCollectionDropdownOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 translate-y-4 invisible'}`}>
                <button 
                   onClick={() => handleNavClick('metal-biz')}
                   className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-[#D4AF37] transition-colors border-b border-zinc-900 interactable"
@@ -253,6 +288,14 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
 
           <button onClick={() => handleNavClick('about')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">About Us</button>
           
+          {/* Mobile Business Menu */}
+          <div className="space-y-6 pl-4 border-l border-zinc-800">
+             <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Business Areas</span>
+             <button onClick={() => handleNavClick('business-metal')} className="block text-xl font-medium text-zinc-300 hover:text-white text-left w-full">Manufacturing (제조)</button>
+             <button onClick={() => handleNavClick('business-trade')} className="block text-xl font-medium text-zinc-300 hover:text-white text-left w-full">Global Purchasing (구매대행)</button>
+             <button onClick={() => handleNavClick('business-realty')} className="block text-xl font-medium text-zinc-300 hover:text-white text-left w-full">Real Estate (부동산)</button>
+          </div>
+          
           <div className="space-y-6 pl-4 border-l border-zinc-800">
              <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Collections</span>
              <button onClick={() => handleNavClick('metal-biz')} className="block text-xl font-medium text-zinc-300 hover:text-white text-left w-full">Business Card</button>
@@ -358,6 +401,9 @@ export default function App() {
                     <CompanyIntro />
                 </RevealOnScroll>
                 <RevealOnScroll>
+                    <BusinessDomains />
+                </RevealOnScroll>
+                <RevealOnScroll>
                     <Features qcImage={siteImages.feature1} />
                 </RevealOnScroll>
                 <RevealOnScroll>
@@ -376,6 +422,30 @@ export default function App() {
                 <RevealOnScroll>
                     <Features qcImage={siteImages.feature1} />
                 </RevealOnScroll>
+              </PageWrapper>
+            )}
+
+            {currentPage === 'business' && (
+              <PageWrapper>
+                <BusinessDomains />
+              </PageWrapper>
+            )}
+
+            {currentPage === 'business-metal' && (
+              <PageWrapper>
+                <BusinessDomains category="metal" onBack={() => setCurrentPage('business')} />
+              </PageWrapper>
+            )}
+
+            {currentPage === 'business-trade' && (
+              <PageWrapper>
+                <BusinessDomains category="trade" onBack={() => setCurrentPage('business')} />
+              </PageWrapper>
+            )}
+
+            {currentPage === 'business-realty' && (
+              <PageWrapper>
+                <BusinessDomains category="realty" onBack={() => setCurrentPage('business')} />
               </PageWrapper>
             )}
             
