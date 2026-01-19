@@ -34,6 +34,12 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
   const [findStatus, setFindStatus] = useState<'idle' | 'searching' | 'success'>('idle');
   const [findError, setFindError] = useState('');
 
+  const generateCustomerId = () => {
+     const year = new Date().getFullYear().toString().slice(2);
+     const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+     return `PKT-${year}-${randomNum}`;
+  };
+
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError('');
@@ -42,9 +48,11 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
     if (loginId === 'pickitko92' && loginPw === 'goqudeo12!') {
       const adminUser = {
         id: 'pickitko92',
+        customerId: 'ADMIN-MASTER',
         name: 'PICKIT MASTER',
         role: 'admin',
-        email: 'pickit.korea.official@gmail.com'
+        email: 'pickit.korea.official@gmail.com',
+        joinedAt: '2025-01-01'
       };
       localStorage.setItem('pickit_user', JSON.stringify(adminUser));
       onLogin(adminUser);
@@ -57,6 +65,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
     const user = storedUsers.find((u: any) => u.id === loginId && u.password === loginPw);
 
     if (user) {
+      // Ensure role is user
       const userData = { ...user, role: 'user' };
       localStorage.setItem('pickit_user', JSON.stringify(userData));
       onLogin(userData);
@@ -86,11 +95,13 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
 
     const newUser = {
       id: signupData.id,
+      customerId: generateCustomerId(), // Generate Unique Customer ID
       password: signupData.password,
       name: signupData.name,
       phone: signupData.phone,
       email: signupData.email,
-      joinedAt: new Date().toISOString()
+      address: '', // Init address
+      joinedAt: new Date().toLocaleDateString('ko-KR')
     };
 
     const storedUsers = JSON.parse(localStorage.getItem('pickit_users_db') || '[]');
@@ -103,7 +114,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
     storedUsers.push(newUser);
     localStorage.setItem('pickit_users_db', JSON.stringify(storedUsers));
 
-    alert("회원가입이 완료되었습니다. 로그인해주세요.");
+    alert(`회원가입이 완료되었습니다.\n고객번호: ${newUser.customerId}`);
     setAuthMode('login');
   };
 

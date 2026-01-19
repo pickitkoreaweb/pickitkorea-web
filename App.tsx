@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, UserCircle, LogOut, Gift, LayoutDashboard } from 'lucide-react';
+import { Menu, X, ChevronDown, UserCircle, LogOut, Gift, LayoutDashboard, User } from 'lucide-react';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import BusinessCardShowcase from './components/BusinessCardShowcase';
@@ -21,14 +21,19 @@ import InquiryBoard from './components/InquiryBoard';
 import AuthView from './components/AuthView';
 import EventView from './components/EventView';
 import AdminDashboard from './components/AdminDashboard';
+import MyPage from './components/MyPage';
 
-type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'inquiry' | 'contact' | 'policy' | 'auth' | 'event' | 'admin-dashboard';
+type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'inquiry' | 'contact' | 'policy' | 'auth' | 'event' | 'admin-dashboard' | 'mypage';
 
-interface User {
+interface UserData {
   id: string;
+  customerId: string; // Unique PKT ID
   name: string;
   role: 'admin' | 'user';
   email: string;
+  phone: string;
+  address?: string;
+  joinedAt: string;
 }
 
 interface SiteImages {
@@ -36,7 +41,7 @@ interface SiteImages {
   feature1: string;
 }
 
-const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; currentUser: User | null; onLogout: () => void }> = ({ currentPage, setPage, currentUser, onLogout }) => {
+const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; currentUser: UserData | null; onLogout: () => void }> = ({ currentPage, setPage, currentUser, onLogout }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -131,12 +136,19 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
           {/* User Auth Section */}
           {currentUser ? (
               <div className="flex items-center gap-4 border-l border-zinc-800 pl-4">
-                  {currentUser.role === 'admin' && (
+                  {currentUser.role === 'admin' ? (
                        <button 
                           onClick={() => handleNavClick('admin-dashboard')}
                           className="flex items-center gap-1 text-[10px] bg-red-900/30 text-red-500 border border-red-900/50 px-2 py-1 rounded hover:bg-red-900/50 transition-colors interactable"
                        >
                            <LayoutDashboard className="w-3 h-3" /> ADMIN
+                       </button>
+                  ) : (
+                      <button 
+                          onClick={() => handleNavClick('mypage')}
+                          className={`flex items-center gap-1 text-[10px] px-2 py-1 rounded transition-colors interactable ${currentPage === 'mypage' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}
+                       >
+                           <User className="w-3 h-3" /> MY PAGE
                        </button>
                   )}
                   <div className="flex flex-col text-right">
@@ -180,12 +192,19 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
               </div>
           )}
           
-          {currentUser?.role === 'admin' && (
+          {currentUser?.role === 'admin' ? (
               <button 
                   onClick={() => handleNavClick('admin-dashboard')}
                   className="text-2xl font-serif text-red-500 hover:text-red-400 text-left flex items-center gap-2"
               >
                   <LayoutDashboard className="w-6 h-6" /> Admin Dashboard
+              </button>
+          ) : currentUser && (
+              <button 
+                  onClick={() => handleNavClick('mypage')}
+                  className="text-2xl font-serif text-[#D4AF37] hover:text-white text-left flex items-center gap-2"
+              >
+                  <User className="w-6 h-6" /> My Page
               </button>
           )}
 
@@ -227,7 +246,7 @@ const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<UserData | null>(null);
 
   // Global Site Content Config
   const [siteImages, setSiteImages] = useState<SiteImages>({
@@ -250,7 +269,7 @@ export default function App() {
     }
   }, []);
 
-  const handleLogin = (user: User) => {
+  const handleLogin = (user: UserData) => {
       setCurrentUser(user);
   };
 
@@ -263,6 +282,10 @@ export default function App() {
   const updateSiteImages = (newImages: SiteImages) => {
       setSiteImages(newImages);
       localStorage.setItem('pickit_site_images', JSON.stringify(newImages));
+  };
+  
+  const handleUpdateUser = (updatedUser: UserData) => {
+      setCurrentUser(updatedUser);
   };
 
   return (
@@ -386,6 +409,16 @@ export default function App() {
                     <AdminDashboard 
                         siteImages={siteImages} 
                         updateSiteImages={updateSiteImages} 
+                    />
+                </PageWrapper>
+            )}
+
+            {currentPage === 'mypage' && currentUser && (
+                <PageWrapper>
+                    <MyPage 
+                        currentUser={currentUser} 
+                        onLogout={handleLogout}
+                        onUpdateUser={handleUpdateUser}
                     />
                 </PageWrapper>
             )}

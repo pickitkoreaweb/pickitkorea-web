@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Trash2, Check } from 'lucide-react';
+import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Trash2, Check, PenTool, Plus } from 'lucide-react';
 
 interface User {
   id: string;
+  customerId: string; // Unique PKT ID
   name: string;
   role: 'admin' | 'user';
   email: string;
   phone?: string;
+  address?: string;
   joinedAt?: string;
 }
 
 interface Order {
   orderId: string;
+  customerId: string;
   date: string;
   item: string;
   amount: string;
@@ -35,6 +38,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [userOrders, setUserOrders] = useState<Order[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // Order Editing State
+  const [editingOrder, setEditingOrder] = useState<string | null>(null); // Order ID
+  const [newStatus, setNewStatus] = useState<Order['status']>('Pending');
 
   // Content Management State
   const [editingImages, setEditingImages] = useState<SiteImages>(siteImages);
@@ -43,46 +50,55 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
   useEffect(() => {
     // Load Users from LocalStorage
     const storedUsers = JSON.parse(localStorage.getItem('pickit_users_db') || '[]');
-    // Add some dummy users if empty for demonstration
-    if (storedUsers.length === 0) {
-        const dummies = [
-            { id: 'user1', name: '김철수', email: 'kim@test.com', phone: '010-1111-2222', role: 'user', joinedAt: '2025-12-01' },
-            { id: 'user2', name: '이영희', email: 'lee@test.com', phone: '010-3333-4444', role: 'user', joinedAt: '2026-01-15' },
-        ];
-        setUsers(dummies);
-        localStorage.setItem('pickit_users_db', JSON.stringify(dummies));
-    } else {
-        setUsers(storedUsers);
-    }
+    setUsers(storedUsers);
   }, []);
 
-  // Mock Orders Generator
-  const generateMockOrders = (userId: string): Order[] => {
-    // Deterministic mock data based on userId length
-    const count = userId.length % 3 + 1;
-    const orders: Order[] = [];
-    const statuses: Order['status'][] = ['Delivered', 'Shipped', 'Processing'];
-    const items = ['Black Metal Card (Custom)', 'Rose Gold Edition', 'Silver Brushed'];
-
-    for (let i = 0; i < count; i++) {
-        orders.push({
-            orderId: `ORD-${userId.toUpperCase().slice(0,3)}-${1000 + i}`,
-            date: `2026-01-${10 + i}`,
-            item: items[i % items.length],
-            amount: `${(i + 1) * 150000} KRW`,
-            status: statuses[i % statuses.length],
-            designFile: i === 0 ? 'custom_logo.ai' : undefined
-        });
+  useEffect(() => {
+    // Load Orders whenever selectedUser changes
+    if (selectedUser) {
+        const allOrders: Order[] = JSON.parse(localStorage.getItem('pickit_orders') || '[]');
+        const filtered = allOrders.filter(o => o.customerId === selectedUser.customerId);
+        setUserOrders(filtered);
     }
-    return orders;
+  }, [selectedUser]);
+
+  // Create a Mock Order for the selected user (Admin function)
+  const createMockOrder = () => {
+    if (!selectedUser) return;
+    
+    const newOrder: Order = {
+        orderId: `ORD-${Math.floor(Math.random() * 100000)}`,
+        customerId: selectedUser.customerId,
+        date: new Date().toLocaleDateString('ko-KR').replace(/\. /g, '-').slice(0, -1),
+        item: 'Black Metal Custom',
+        amount: '150,000 KRW',
+        status: 'Pending',
+        designFile: 'admin_created.ai'
+    };
+
+    const allOrders: Order[] = JSON.parse(localStorage.getItem('pickit_orders') || '[]');
+    const updatedOrders = [newOrder, ...allOrders];
+    localStorage.setItem('pickit_orders', JSON.stringify(updatedOrders));
+    
+    // Update local state
+    setUserOrders([newOrder, ...userOrders]);
   };
 
-  const handleUserClick = (user: User) => {
-    setSelectedUser(user);
-    setUserOrders(generateMockOrders(user.id));
+  const handleStatusUpdate = (orderId: string) => {
+      const allOrders: Order[] = JSON.parse(localStorage.getItem('pickit_orders') || '[]');
+      const updatedOrders = allOrders.map(o => o.orderId === orderId ? { ...o, status: newStatus } : o);
+      localStorage.setItem('pickit_orders', JSON.stringify(updatedOrders));
+      
+      // Update local state
+      setUserOrders(userOrders.map(o => o.orderId === orderId ? { ...o, status: newStatus } : o));
+      setEditingOrder(null);
   };
 
-  // Image Handling
+  const filteredUsers = users.filter(u => 
+    u.name.includes(searchTerm) || u.email.includes(searchTerm) || u.customerId?.includes(searchTerm)
+  );
+
+  // Content Management Logic
   const handleImageChange = (key: keyof SiteImages, value: string) => {
     setEditingImages(prev => ({ ...prev, [key]: value }));
   };
@@ -105,10 +121,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         setTimeout(() => setSaveStatus('idle'), 2000);
     }, 1000);
   };
-
-  const filteredUsers = users.filter(u => 
-    u.name.includes(searchTerm) || u.email.includes(searchTerm) || u.id.includes(searchTerm)
-  );
 
   return (
     <div className="pt-24 pb-12 px-6 min-h-screen bg-[#050505]">
@@ -144,12 +156,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         {activeTab === 'users' && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in-up">
                 {/* User List */}
-                <div className="lg:col-span-5 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 h-[600px] flex flex-col">
+                <div className="lg:col-span-5 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 h-[700px] flex flex-col">
                     <div className="relative mb-6">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
                         <input 
                             type="text" 
-                            placeholder="Search users..." 
+                            placeholder="Search Name or Customer ID..." 
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full bg-black border border-zinc-700 rounded-lg py-2 pl-10 pr-4 text-sm text-white focus:border-[#D4AF37] outline-none"
@@ -160,13 +172,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                         {filteredUsers.map(user => (
                             <div 
                                 key={user.id} 
-                                onClick={() => handleUserClick(user)}
+                                onClick={() => setSelectedUser(user)}
                                 className={`p-4 rounded-xl border cursor-pointer transition-all ${selectedUser?.id === user.id ? 'bg-[#D4AF37]/10 border-[#D4AF37]' : 'bg-black border-zinc-800 hover:border-zinc-600'}`}
                             >
                                 <div className="flex justify-between items-start">
                                     <div>
                                         <p className={`font-bold text-sm ${selectedUser?.id === user.id ? 'text-[#D4AF37]' : 'text-white'}`}>{user.name}</p>
-                                        <p className="text-xs text-zinc-500">{user.email}</p>
+                                        <div className="flex items-center gap-2 text-xs text-zinc-500 mt-1">
+                                            <span className="font-mono text-zinc-400">{user.customerId}</span>
+                                            <span>|</span>
+                                            <span>{user.email}</span>
+                                        </div>
                                     </div>
                                     <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase ${user.role === 'admin' ? 'bg-red-900/30 text-red-500' : 'bg-zinc-800 text-zinc-400'}`}>
                                         {user.role}
@@ -174,21 +190,24 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                 </div>
                             </div>
                         ))}
+                        {filteredUsers.length === 0 && (
+                            <p className="text-zinc-500 text-center text-sm py-10">No users found.</p>
+                        )}
                     </div>
                 </div>
 
                 {/* User Details & Orders */}
-                <div className="lg:col-span-7 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 h-[600px] overflow-y-auto custom-scrollbar">
+                <div className="lg:col-span-7 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 h-[700px] overflow-y-auto custom-scrollbar">
                     {selectedUser ? (
                         <div className="animate-fade-in-up">
                             <div className="flex justify-between items-start mb-8 border-b border-zinc-800 pb-6">
                                 <div>
                                     <h2 className="text-2xl font-bold text-white mb-1">{selectedUser.name}</h2>
-                                    <div className="flex gap-4 text-sm text-zinc-400">
-                                        <span>ID: {selectedUser.id}</span>
-                                        <span>|</span>
-                                        <span>Phone: {selectedUser.phone || 'N/A'}</span>
+                                    <div className="flex gap-4 text-sm text-zinc-400 mt-2">
+                                        <span className="bg-zinc-800 px-2 py-0.5 rounded text-white font-mono">{selectedUser.customerId}</span>
+                                        <span className="border-l border-zinc-700 pl-4">Phone: {selectedUser.phone || 'N/A'}</span>
                                     </div>
+                                    <p className="text-sm text-zinc-500 mt-2">Address: {selectedUser.address || 'Not registered'}</p>
                                 </div>
                                 <div className="text-right">
                                     <p className="text-xs text-zinc-500 uppercase tracking-wider">Joined Date</p>
@@ -196,9 +215,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                 </div>
                             </div>
 
-                            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                                <Package className="w-5 h-5 text-[#D4AF37]" /> Purchase History
-                            </h3>
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                                    <Package className="w-5 h-5 text-[#D4AF37]" /> Order History
+                                </h3>
+                                <button 
+                                    onClick={createMockOrder}
+                                    className="text-xs font-bold flex items-center gap-1 bg-white text-black px-3 py-1.5 rounded hover:bg-[#D4AF37] transition-colors"
+                                >
+                                    <Plus className="w-3 h-3" /> Create Order
+                                </button>
+                            </div>
                             
                             <div className="space-y-4">
                                 {userOrders.map((order, idx) => (
@@ -207,17 +234,42 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                             <div>
                                                 <div className="flex items-center gap-2 mb-1">
                                                     <span className="text-[#D4AF37] font-bold text-sm">{order.item}</span>
-                                                    {order.status === 'Delivered' && <Check className="w-3 h-3 text-green-500" />}
                                                 </div>
                                                 <p className="text-xs text-zinc-500">Order ID: {order.orderId}</p>
                                             </div>
-                                            <span className={`text-xs font-bold px-2 py-1 rounded border ${
-                                                order.status === 'Delivered' ? 'border-green-900 text-green-500 bg-green-900/10' :
-                                                order.status === 'Shipped' ? 'border-blue-900 text-blue-500 bg-blue-900/10' :
-                                                'border-yellow-900 text-yellow-500 bg-yellow-900/10'
-                                            }`}>
-                                                {order.status}
-                                            </span>
+
+                                            {/* Status Editing */}
+                                            {editingOrder === order.orderId ? (
+                                                <div className="flex items-center gap-2">
+                                                    <select 
+                                                        value={newStatus}
+                                                        onChange={(e) => setNewStatus(e.target.value as Order['status'])}
+                                                        className="bg-zinc-800 text-white text-xs p-1 rounded border border-zinc-600"
+                                                    >
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="Processing">Processing</option>
+                                                        <option value="Shipped">Shipped</option>
+                                                        <option value="Delivered">Delivered</option>
+                                                    </select>
+                                                    <button onClick={() => handleStatusUpdate(order.orderId)} className="p-1 bg-green-900/50 text-green-500 rounded hover:bg-green-900"><Check className="w-3 h-3" /></button>
+                                                    <button onClick={() => setEditingOrder(null)} className="p-1 bg-zinc-800 text-zinc-400 rounded hover:bg-zinc-700"><X className="w-3 h-3" /></button>
+                                                </div>
+                                            ) : (
+                                                <button 
+                                                    onClick={() => {
+                                                        setEditingOrder(order.orderId);
+                                                        setNewStatus(order.status);
+                                                    }}
+                                                    className={`text-xs font-bold px-2 py-1 rounded border flex items-center gap-2 hover:opacity-80 transition-opacity ${
+                                                        order.status === 'Delivered' ? 'border-green-900 text-green-500 bg-green-900/10' :
+                                                        order.status === 'Shipped' ? 'border-blue-900 text-blue-500 bg-blue-900/10' :
+                                                        'border-yellow-900 text-yellow-500 bg-yellow-900/10'
+                                                    }`}
+                                                >
+                                                    {order.status}
+                                                    <PenTool className="w-3 h-3 opacity-50" />
+                                                </button>
+                                            )}
                                         </div>
                                         
                                         <div className="flex justify-between items-center text-xs text-zinc-400 border-t border-zinc-800 pt-3">
@@ -234,14 +286,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                     </div>
                                 ))}
                                 {userOrders.length === 0 && (
-                                    <div className="text-center py-10 text-zinc-500 text-sm">No purchase history found.</div>
+                                    <div className="text-center py-10 text-zinc-500 text-sm bg-zinc-900/10 rounded-xl">
+                                        No purchase history found. <br/>
+                                        Click 'Create Order' to add one.
+                                    </div>
                                 )}
                             </div>
                         </div>
                     ) : (
                         <div className="h-full flex flex-col items-center justify-center text-zinc-600">
                             <Users className="w-16 h-16 mb-4 opacity-20" />
-                            <p>Select a user to view details</p>
+                            <p>Select a user from the list to view details</p>
                         </div>
                     )}
                 </div>
