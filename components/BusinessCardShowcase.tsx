@@ -1,5 +1,5 @@
 import React from 'react';
-import { Fingerprint, UserCheck, Star, ShieldCheck } from 'lucide-react';
+import { Fingerprint, UserCheck, Star, ShieldCheck, ScanLine, Smartphone } from 'lucide-react';
 
 const BusinessCardShowcase: React.FC = () => {
   return (
@@ -48,11 +48,11 @@ const BusinessCardShowcase: React.FC = () => {
                 </li>
                 <li className="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors">
                     <div className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center flex-shrink-0">
-                        <Fingerprint className="w-5 h-5 text-white" />
+                        <Smartphone className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                        <h4 className="font-bold text-white text-lg">Unique Identity</h4>
-                        <p className="text-sm text-zinc-400 mt-1">레이저 각인으로 완성되는 나만의 아이덴티티.</p>
+                        <h4 className="font-bold text-white text-lg">Smart NFC Technology</h4>
+                        <p className="text-sm text-zinc-400 mt-1">스마트폰 태깅으로 포트폴리오와 연락처를 즉시 전송하세요.</p>
                     </div>
                 </li>
              </ul>
@@ -62,62 +62,88 @@ const BusinessCardShowcase: React.FC = () => {
              </a>
           </div>
 
-          {/* Visual Content - Single High-Quality Metal Card */}
+          {/* Visual Content - Single High-Quality Metal Business Card */}
           <div className="flex-1 w-full order-1 lg:order-2 flex justify-center items-center py-10">
-             <div className="relative w-full max-w-[420px] aspect-[1.586/1] perspective-1000 group transform scale-[0.85] md:scale-100">
+             <div className="relative w-full max-w-[440px] aspect-[1.586/1] perspective-1000 group transform scale-[0.9] md:scale-100">
                 
-                {/* 3D Depth Layers for Thickness */}
-                <div className="absolute inset-0 bg-zinc-700 rounded-xl transform translate-y-1 translate-x-1 transition-transform group-hover:translate-x-2 group-hover:translate-y-2 duration-500"></div>
-                <div className="absolute inset-0 bg-zinc-800 rounded-xl transform translate-y-0.5 translate-x-0.5 transition-transform group-hover:translate-x-1 group-hover:translate-y-1 duration-500"></div>
+                {/* 3D Depth Layers for Thickness - Tighter radius for sharp metal look */}
+                <div className="absolute inset-0 bg-zinc-800 rounded-lg transform translate-y-2 translate-x-2 transition-transform group-hover:translate-x-3 group-hover:translate-y-3 duration-500 shadow-2xl"></div>
 
                 {/* Main Card Surface with Float Animation */}
-                <div className="absolute inset-0 rounded-xl overflow-hidden flex flex-col justify-between p-8 bg-[#111] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-zinc-700 animate-float hover:animate-none transition-all duration-500 hover:scale-105 hover:shadow-[0_30px_60px_rgba(0,0,0,0.6)]">
+                <div className="absolute inset-0 rounded-lg overflow-hidden border border-zinc-800 shadow-[0_30px_60px_rgba(0,0,0,0.7)] animate-float hover:animate-none transition-all duration-500 bg-[#121212]">
                     
-                    {/* Metal Texture Base */}
-                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 mix-blend-overlay"></div>
-                    <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 via-[#111] to-black"></div>
-
-                    {/* Anisotropic Shine (Metal effect) */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-80 pointer-events-none"></div>
-                    <div className="absolute -inset-full top-[-100%] left-[-100%] block w-[200%] h-[200%] bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.15)_0%,_rgba(0,0,0,0)_60%)] rotate-45 transform pointer-events-none group-hover:translate-x-10 group-hover:translate-y-10 transition-transform duration-1000"></div>
-
-                    {/* Top Section */}
-                    <div className="flex justify-between items-center z-10 relative">
-                        <div className="flex items-center gap-2">
-                             <div className="w-8 h-8 rounded-full border border-zinc-600 bg-gradient-to-b from-zinc-700 to-zinc-800 flex items-center justify-center shadow-inner">
-                                <ShieldCheck className="w-4 h-4 text-zinc-400" />
-                             </div>
-                             <span className="text-zinc-500 text-xs tracking-[0.2em] font-medium">PICKIT METAL</span>
-                        </div>
-                        <div className="text-[10px] text-zinc-600 font-mono tracking-widest border border-zinc-800 px-2 py-1 rounded">
-                            MEMBER SINCE 2026
-                        </div>
-                    </div>
-
-                    {/* Middle Section - Name & Title */}
-                    <div className="z-10 relative my-auto">
-                        <h3 className="text-3xl md:text-4xl font-sans font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 drop-shadow-md tracking-tight mb-2">
-                            KIM JENY
-                        </h3>
-                        <div className="flex items-center gap-3">
-                            <div className="h-[1px] w-8 bg-zinc-700"></div>
-                            <p className="text-xs font-semibold text-zinc-400 tracking-[0.3em] uppercase">CEO</p>
-                        </div>
-                    </div>
-
-                    {/* Bottom Section */}
-                    <div className="flex justify-between items-end z-10 relative">
-                        <div className="text-[9px] text-zinc-500 font-medium tracking-wider space-y-1">
-                           <p>+82 10 1234 5678</p>
-                           <p>JENY.KIM@PICKIT.COM</p>
-                           <p>SEOUL, KOREA</p>
-                        </div>
+                    {/* Metal Texture Base - Brushed Aluminum Dark */}
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/brushed-alum-dark.png')] opacity-40 mix-blend-overlay"></div>
+                    
+                    {/* Design Layout: Asymmetrical Split */}
+                    <div className="absolute inset-0 flex">
                         
-                        {/* QR / Logo Area */}
-                        <div className="w-12 h-12 border border-zinc-800 bg-black/50 p-1 rounded flex items-center justify-center">
-                             <div className="w-full h-full border border-zinc-900 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-30"></div>
+                        {/* Left Content Area (Info) - 65% width */}
+                        <div className="w-[65%] h-full p-8 flex flex-col justify-center relative z-10">
+                            {/* Decorative Line */}
+                            <div className="absolute top-8 left-8 w-8 h-[2px] bg-[#D4AF37]"></div>
+
+                            {/* Name & Title */}
+                            <div className="mt-4 mb-10">
+                                <h3 className="text-3xl font-serif font-bold text-white tracking-wide mb-2 drop-shadow-md">Jeny Kim</h3>
+                                <p className="text-[10px] text-[#D4AF37] font-bold tracking-[0.2em] uppercase">Executive Director</p>
+                            </div>
+                            
+                            {/* Contact Details - Clean List */}
+                            <div className="space-y-2.5">
+                                <div className="flex items-center gap-3 group/link cursor-pointer">
+                                    <div className="w-5 h-5 rounded-full border border-zinc-800 bg-zinc-900/50 flex items-center justify-center group-hover/link:border-[#D4AF37] transition-colors">
+                                        <span className="text-[8px] text-zinc-500 group-hover/link:text-[#D4AF37]">M</span>
+                                    </div>
+                                    <span className="text-[10px] text-zinc-400 font-medium tracking-wider group-hover/link:text-white transition-colors">+82 10 1234 5678</span>
+                                </div>
+                                <div className="flex items-center gap-3 group/link cursor-pointer">
+                                    <div className="w-5 h-5 rounded-full border border-zinc-800 bg-zinc-900/50 flex items-center justify-center group-hover/link:border-[#D4AF37] transition-colors">
+                                        <span className="text-[8px] text-zinc-500 group-hover/link:text-[#D4AF37]">E</span>
+                                    </div>
+                                    <span className="text-[10px] text-zinc-400 font-medium tracking-wider group-hover/link:text-white transition-colors">jeny.kim@pickit.com</span>
+                                </div>
+                                <div className="flex items-center gap-3 group/link cursor-pointer">
+                                    <div className="w-5 h-5 rounded-full border border-zinc-800 bg-zinc-900/50 flex items-center justify-center group-hover/link:border-[#D4AF37] transition-colors">
+                                        <span className="text-[8px] text-zinc-500 group-hover/link:text-[#D4AF37]">W</span>
+                                    </div>
+                                    <span className="text-[10px] text-zinc-400 font-medium tracking-wider group-hover/link:text-white transition-colors">www.pickit-korea.com</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Right Content Area (Brand & Tech) - 35% width */}
+                        <div className="w-[35%] h-full bg-gradient-to-br from-[#1a1a1a] to-black border-l border-zinc-800 flex flex-col items-center justify-between p-6 relative overflow-hidden">
+                             {/* Subtle Pattern */}
+                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+                             
+                             {/* Gold Glow Effect */}
+                             <div className="absolute -right-10 -top-10 w-40 h-40 bg-[#D4AF37] rounded-full blur-[90px] opacity-10 pointer-events-none"></div>
+
+                             {/* Top Logo Mark */}
+                             <div className="relative z-10 w-full flex justify-end">
+                                 <div className="w-8 h-8 border border-[#D4AF37] flex items-center justify-center transform rotate-45">
+                                     <div className="w-4 h-4 bg-[#D4AF37] transform rotate-45"></div>
+                                 </div>
+                             </div>
+
+                             {/* Vertical Brand Text */}
+                             <div className="relative z-10 flex-1 flex items-center justify-center w-full">
+                                <span className="text-zinc-700 font-bold text-[32px] opacity-20 transform -rotate-90 whitespace-nowrap tracking-[0.3em] absolute">PICKIT</span>
+                             </div>
+                             
+                             {/* QR Code Area */}
+                             <div className="relative z-10 w-12 h-12 p-0.5 bg-gradient-to-br from-zinc-700 to-zinc-900 rounded-sm shadow-lg">
+                                 <div className="w-full h-full bg-white flex items-center justify-center overflow-hidden">
+                                     <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-60 mix-blend-multiply scale-50"></div>
+                                     <ScanLine className="absolute w-full h-full text-black opacity-20 p-2" />
+                                 </div>
+                             </div>
                         </div>
                     </div>
+
+                    {/* Dynamic Lighting/Sheen Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none transform -translate-x-full group-hover:translate-x-full ease-in-out"></div>
                 </div>
              </div>
           </div>
