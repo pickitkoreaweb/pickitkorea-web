@@ -3,17 +3,26 @@ import { ArrowRight, ChevronDown } from 'lucide-react';
 
 interface HeroProps {
   setPage: (page: string) => void;
+  bgImage?: string;
 }
 
-const Hero: React.FC<HeroProps> = ({ setPage }) => {
+const Hero: React.FC<HeroProps> = ({ setPage, bgImage }) => {
+  const backgroundUrl = bgImage || 'https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2500&auto=format&fit=crop';
+
   return (
     <section className="relative w-full h-[100dvh] min-h-[600px] flex flex-col items-center justify-center overflow-hidden bg-[#050505]">
       {/* Ambient Spotlight Effect */}
       <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[500px] md:w-[800px] h-[500px] md:h-[800px] bg-white/5 rounded-full blur-[100px] md:blur-[150px] pointer-events-none z-0"></div>
       
-      {/* 3D Background */}
+      {/* 3D Background with Fallback */}
       <div className="absolute inset-0 z-0 flex items-center justify-center">
-         <div className="w-full h-full md:w-full md:h-full flex items-center justify-center opacity-70 md:opacity-100">
+         {/* Fallback Image - Visible if iframe fails to load or takes time */}
+         <div 
+            className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-screen transition-all duration-1000"
+            style={{ backgroundImage: `url('${backgroundUrl}')` }}
+         ></div>
+         
+         <div className="w-full h-full md:w-full md:h-full flex items-center justify-center opacity-70 md:opacity-100 relative z-10">
              <iframe 
                 src='https://my.spline.design/metalcryptocreditcard-0N6iUXg47n3Zg8qjTcdGsG8X/' 
                 frameBorder='0' 
@@ -21,14 +30,15 @@ const Hero: React.FC<HeroProps> = ({ setPage }) => {
                 height='100%'
                 className="w-full h-full pointer-events-auto scale-[0.55] md:scale-110"
                 title="Spline 3D Metal Card"
+                loading="lazy"
               ></iframe>
          </div>
           {/* Overlay to ensure text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/50 pointer-events-none"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/50 pointer-events-none z-20"></div>
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto mt-0 md:mt-20 pointer-events-none w-full">
+      <div className="relative z-30 text-center px-6 max-w-5xl mx-auto mt-0 md:mt-20 pointer-events-none w-full">
         <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-6 md:mb-8 animate-fade-in-up shadow-[0_0_15px_rgba(255,255,255,0.05)]">
           <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse shadow-[0_0_10px_rgba(212,175,55,0.8)]"></span>
           <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-300">The Black Edition</span>
@@ -66,7 +76,7 @@ const Hero: React.FC<HeroProps> = ({ setPage }) => {
       </div>
 
       {/* Elegant Scroll Indicator - Refined */}
-      <div className="hidden md:flex absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce text-zinc-600 flex-col items-center gap-2 pointer-events-none">
+      <div className="hidden md:flex absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce text-zinc-600 flex-col items-center gap-2 pointer-events-none z-30">
         <span className="text-[9px] tracking-[0.3em] uppercase opacity-40">Scroll</span>
         <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-zinc-500 to-transparent"></div>
       </div>

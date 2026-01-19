@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, UserCircle, LogOut, Gift } from 'lucide-react';
+import { Menu, X, ChevronDown, UserCircle, LogOut, Gift, LayoutDashboard } from 'lucide-react';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import BusinessCardShowcase from './components/BusinessCardShowcase';
@@ -20,14 +20,20 @@ import PackagingShowcase from './components/PackagingShowcase';
 import InquiryBoard from './components/InquiryBoard';
 import AuthView from './components/AuthView';
 import EventView from './components/EventView';
+import AdminDashboard from './components/AdminDashboard';
 
-type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'inquiry' | 'contact' | 'policy' | 'auth' | 'event';
+type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'inquiry' | 'contact' | 'policy' | 'auth' | 'event' | 'admin-dashboard';
 
 interface User {
   id: string;
   name: string;
   role: 'admin' | 'user';
   email: string;
+}
+
+interface SiteImages {
+  heroBg: string;
+  feature1: string;
 }
 
 const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; currentUser: User | null; onLogout: () => void }> = ({ currentPage, setPage, currentUser, onLogout }) => {
@@ -113,7 +119,7 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
             <span className={`absolute -bottom-1 left-0 w-full h-[1px] bg-[#D4AF37] transform origin-left transition-transform duration-300 ${currentPage === 'inquiry' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
           </button>
 
-          {/* EVENT BUTTON - Highlighted */}
+          {/* EVENT BUTTON */}
           <button 
              onClick={() => handleNavClick('event')} 
              className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 flex items-center gap-1.5 ${currentPage === 'event' ? 'text-[#E1306C]' : 'text-white hover:text-[#E1306C]'}`}
@@ -125,6 +131,14 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
           {/* User Auth Section */}
           {currentUser ? (
               <div className="flex items-center gap-4 border-l border-zinc-800 pl-4">
+                  {currentUser.role === 'admin' && (
+                       <button 
+                          onClick={() => handleNavClick('admin-dashboard')}
+                          className="flex items-center gap-1 text-[10px] bg-red-900/30 text-red-500 border border-red-900/50 px-2 py-1 rounded hover:bg-red-900/50 transition-colors interactable"
+                       >
+                           <LayoutDashboard className="w-3 h-3" /> ADMIN
+                       </button>
+                  )}
                   <div className="flex flex-col text-right">
                       <span className={`text-[9px] font-bold tracking-widest uppercase ${currentUser.role === 'admin' ? 'text-red-500' : 'text-zinc-500'}`}>
                           {currentUser.role === 'admin' ? 'ADMINISTRATOR' : 'MEMBER'}
@@ -164,6 +178,15 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
                   </div>
                   <button onClick={onLogout} className="ml-auto text-xs text-red-500 font-bold">LOGOUT</button>
               </div>
+          )}
+          
+          {currentUser?.role === 'admin' && (
+              <button 
+                  onClick={() => handleNavClick('admin-dashboard')}
+                  className="text-2xl font-serif text-red-500 hover:text-red-400 text-left flex items-center gap-2"
+              >
+                  <LayoutDashboard className="w-6 h-6" /> Admin Dashboard
+              </button>
           )}
 
           <button onClick={() => handleNavClick('about')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">About Us</button>
@@ -206,11 +229,24 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-  // Check for session on load
+  // Global Site Content Config
+  const [siteImages, setSiteImages] = useState<SiteImages>({
+      heroBg: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2500&auto=format&fit=crop',
+      feature1: 'https://images.unsplash.com/photo-1614623466144-d83049185c7c?q=80&w=1600&auto=format&fit=crop'
+  });
+
+  // Check for session and saved images on load
   useEffect(() => {
+    // Auth
     const savedUser = localStorage.getItem('pickit_user');
     if (savedUser) {
         setCurrentUser(JSON.parse(savedUser));
+    }
+
+    // Images
+    const savedImages = localStorage.getItem('pickit_site_images');
+    if (savedImages) {
+        setSiteImages(JSON.parse(savedImages));
     }
   }, []);
 
@@ -222,6 +258,11 @@ export default function App() {
       localStorage.removeItem('pickit_user');
       setCurrentUser(null);
       setCurrentPage('home');
+  };
+  
+  const updateSiteImages = (newImages: SiteImages) => {
+      setSiteImages(newImages);
+      localStorage.setItem('pickit_site_images', JSON.stringify(newImages));
   };
 
   return (
@@ -243,12 +284,15 @@ export default function App() {
             {/* HOME PAGE: Curated Landing */}
             {currentPage === 'home' && (
               <div className="animate-fade-in-up">
-                <Hero setPage={(page: string) => setCurrentPage(page as Page)} />
+                <Hero 
+                    setPage={(page: string) => setCurrentPage(page as Page)} 
+                    bgImage={siteImages.heroBg}
+                />
                 <RevealOnScroll>
                     <CompanyIntro />
                 </RevealOnScroll>
                 <RevealOnScroll>
-                    <Features />
+                    <Features qcImage={siteImages.feature1} />
                 </RevealOnScroll>
                 <RevealOnScroll>
                     <PackagingShowcase />
@@ -264,7 +308,7 @@ export default function App() {
               <PageWrapper>
                 <CompanyIntro />
                 <RevealOnScroll>
-                    <Features />
+                    <Features qcImage={siteImages.feature1} />
                 </RevealOnScroll>
               </PageWrapper>
             )}
@@ -281,7 +325,7 @@ export default function App() {
             {currentPage === 'metal-custom' && (
               <PageWrapper>
                 <div className="pt-10">
-                    <Features />
+                    <Features qcImage={siteImages.feature1} />
                     <RevealOnScroll>
                         <UploadSection />
                     </RevealOnScroll>
@@ -334,6 +378,15 @@ export default function App() {
             {currentPage === 'policy' && (
                 <PageWrapper>
                     <PolicyView />
+                </PageWrapper>
+            )}
+            
+            {currentPage === 'admin-dashboard' && currentUser?.role === 'admin' && (
+                <PageWrapper>
+                    <AdminDashboard 
+                        siteImages={siteImages} 
+                        updateSiteImages={updateSiteImages} 
+                    />
                 </PageWrapper>
             )}
           </main>
