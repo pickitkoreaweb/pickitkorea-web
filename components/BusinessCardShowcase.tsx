@@ -3,9 +3,16 @@ import { Fingerprint, UserCheck, Star, ShieldCheck } from 'lucide-react';
 
 const BusinessCardShowcase: React.FC = () => {
   return (
-    <section className="py-24 px-6 bg-zinc-950 border-t border-zinc-900 relative overflow-hidden">
+    <section className="py-24 px-6 bg-zinc-950 border-t border-zinc-900 relative overflow-hidden perspective-1000">
       {/* Background Gradient */}
       <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-zinc-900/30 to-transparent pointer-events-none"></div>
+
+      {/* Floating 3D Cubes (Background Decoration) */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-[10%] w-20 h-20 border border-white/5 bg-white/5 backdrop-blur-sm transform rotate-45 animate-float-delayed"></div>
+          <div className="absolute bottom-40 right-[20%] w-32 h-32 border border-white/5 bg-transparent transform -rotate-12 animate-float"></div>
+          <div className="absolute top-1/2 left-[40%] w-12 h-12 bg-gradient-to-br from-[#D4AF37]/20 to-transparent blur-sm animate-pulse-slow"></div>
+      </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
@@ -60,11 +67,11 @@ const BusinessCardShowcase: React.FC = () => {
              <div className="relative w-full max-w-[420px] aspect-[1.586/1] perspective-1000 group">
                 
                 {/* 3D Depth Layers for Thickness */}
-                <div className="absolute inset-0 bg-zinc-700 rounded-xl transform translate-y-1 translate-x-1"></div>
-                <div className="absolute inset-0 bg-zinc-800 rounded-xl transform translate-y-0.5 translate-x-0.5"></div>
+                <div className="absolute inset-0 bg-zinc-700 rounded-xl transform translate-y-1 translate-x-1 transition-transform group-hover:translate-x-2 group-hover:translate-y-2 duration-500"></div>
+                <div className="absolute inset-0 bg-zinc-800 rounded-xl transform translate-y-0.5 translate-x-0.5 transition-transform group-hover:translate-x-1 group-hover:translate-y-1 duration-500"></div>
 
-                {/* Main Card Surface */}
-                <div className="absolute inset-0 rounded-xl overflow-hidden flex flex-col justify-between p-8 bg-[#111] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-zinc-700">
+                {/* Main Card Surface with Float Animation */}
+                <div className="absolute inset-0 rounded-xl overflow-hidden flex flex-col justify-between p-8 bg-[#111] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-zinc-700 animate-float hover:animate-none transition-all duration-500 hover:scale-105 hover:shadow-[0_30px_60px_rgba(0,0,0,0.6)]">
                     
                     {/* Metal Texture Base */}
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 mix-blend-overlay"></div>
@@ -72,7 +79,7 @@ const BusinessCardShowcase: React.FC = () => {
 
                     {/* Anisotropic Shine (Metal effect) */}
                     <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-80 pointer-events-none"></div>
-                    <div className="absolute -inset-full top-[-100%] left-[-100%] block w-[200%] h-[200%] bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.15)_0%,_rgba(0,0,0,0)_60%)] rotate-45 transform pointer-events-none"></div>
+                    <div className="absolute -inset-full top-[-100%] left-[-100%] block w-[200%] h-[200%] bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.15)_0%,_rgba(0,0,0,0)_60%)] rotate-45 transform pointer-events-none group-hover:translate-x-10 group-hover:translate-y-10 transition-transform duration-1000"></div>
 
                     {/* Top Section */}
                     <div className="flex justify-between items-center z-10 relative">

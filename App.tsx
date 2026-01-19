@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, UserCircle, LogOut } from 'lucide-react';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import BusinessCardShowcase from './components/BusinessCardShowcase';
@@ -17,10 +17,19 @@ import ScrollProgress from './components/ScrollProgress';
 import RevealOnScroll from './components/RevealOnScroll';
 import PrivateConcierge from './components/PrivateConcierge';
 import PackagingShowcase from './components/PackagingShowcase';
+import InquiryBoard from './components/InquiryBoard';
+import AuthView from './components/AuthView';
 
-type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'contact' | 'policy';
+type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'inquiry' | 'contact' | 'policy' | 'auth';
 
-const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = ({ currentPage, setPage }) => {
+interface User {
+  id: string;
+  name: string;
+  role: 'admin' | 'user';
+  email: string;
+}
+
+const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; currentUser: User | null; onLogout: () => void }> = ({ currentPage, setPage, currentUser, onLogout }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -94,8 +103,31 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = (
           <button onClick={() => handleNavClick('faq')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 ${currentPage === 'faq' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
             FAQ
           </button>
+
+          <button onClick={() => handleNavClick('inquiry')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 ${currentPage === 'inquiry' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
+            INQUIRY
+          </button>
+
+          {/* User Auth Section */}
+          {currentUser ? (
+              <div className="flex items-center gap-4 border-l border-zinc-800 pl-4">
+                  <div className="flex flex-col text-right">
+                      <span className={`text-[9px] font-bold tracking-widest uppercase ${currentUser.role === 'admin' ? 'text-red-500' : 'text-zinc-500'}`}>
+                          {currentUser.role === 'admin' ? 'ADMINISTRATOR' : 'MEMBER'}
+                      </span>
+                      <span className="text-xs font-bold text-white">{currentUser.name}</span>
+                  </div>
+                  <button onClick={onLogout} className="text-zinc-500 hover:text-white interactable">
+                      <LogOut className="w-4 h-4" />
+                  </button>
+              </div>
+          ) : (
+             <button onClick={() => handleNavClick('auth')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 ${currentPage === 'auth' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
+                LOGIN
+             </button>
+          )}
           
-          <button id="contact-btn" onClick={() => handleNavClick('contact')} className={`interactable px-6 py-2.5 bg-white text-black text-xs font-bold tracking-widest hover:bg-zinc-300 transition-colors`}>
+          <button id="contact-btn" onClick={() => handleNavClick('contact')} className={`interactable px-6 py-2.5 bg-white text-black text-xs font-bold tracking-widest hover:bg-zinc-300 transition-colors ml-2`}>
             CONTACT
           </button>
         </div>
@@ -109,6 +141,17 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = (
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-zinc-800 p-8 flex flex-col gap-8 md:hidden shadow-2xl animate-fade-in-up h-[calc(100vh-80px)] overflow-y-auto">
+          {currentUser && (
+              <div className="flex items-center gap-3 pb-6 border-b border-zinc-800">
+                  <UserCircle className="w-10 h-10 text-zinc-500" />
+                  <div>
+                      <p className="text-sm font-bold text-white">{currentUser.name}</p>
+                      <p className="text-xs text-zinc-500 uppercase">{currentUser.role === 'admin' ? 'Administrator' : 'Member'}</p>
+                  </div>
+                  <button onClick={onLogout} className="ml-auto text-xs text-red-500 font-bold">LOGOUT</button>
+              </div>
+          )}
+
           <button onClick={() => handleNavClick('about')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">About Us</button>
           
           <div className="space-y-6 pl-4 border-l border-zinc-800">
@@ -119,6 +162,12 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = (
 
           <button onClick={() => handleNavClick('materials')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">Materials</button>
           <button onClick={() => handleNavClick('faq')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">FAQ</button>
+          <button onClick={() => handleNavClick('inquiry')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">Inquiry</button>
+          
+          {!currentUser && (
+             <button onClick={() => handleNavClick('auth')} className="text-2xl font-serif text-[#D4AF37] hover:text-white text-left">Login / Sign Up</button>
+          )}
+
           <button onClick={() => handleNavClick('contact')} className="text-sm font-bold tracking-widest text-black bg-white py-4 text-center mt-auto mb-10 rounded-lg">CONTACT US</button>
         </div>
       )}
@@ -136,6 +185,25 @@ const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  // Check for session on load
+  useEffect(() => {
+    const savedUser = localStorage.getItem('pickit_user');
+    if (savedUser) {
+        setCurrentUser(JSON.parse(savedUser));
+    }
+  }, []);
+
+  const handleLogin = (user: User) => {
+      setCurrentUser(user);
+  };
+
+  const handleLogout = () => {
+      localStorage.removeItem('pickit_user');
+      setCurrentUser(null);
+      setCurrentPage('home');
+  };
 
   return (
     <>
@@ -144,7 +212,12 @@ export default function App() {
         <div className="min-h-screen bg-[#050505] text-zinc-100 selection:bg-white/20 selection:text-white overflow-x-hidden font-sans cursor-none">
           <CustomCursor />
           <ScrollProgress />
-          <Navbar currentPage={currentPage} setPage={setCurrentPage} />
+          <Navbar 
+            currentPage={currentPage} 
+            setPage={setCurrentPage} 
+            currentUser={currentUser}
+            onLogout={handleLogout}
+          />
           <PrivateConcierge />
           
           <main>
@@ -212,6 +285,18 @@ export default function App() {
             {currentPage === 'faq' && (
               <PageWrapper>
                 <FAQ />
+              </PageWrapper>
+            )}
+
+            {currentPage === 'inquiry' && (
+              <PageWrapper>
+                <InquiryBoard currentUser={currentUser} />
+              </PageWrapper>
+            )}
+
+            {currentPage === 'auth' && (
+              <PageWrapper>
+                 <AuthView onLogin={handleLogin} setPage={setCurrentPage} />
               </PageWrapper>
             )}
 

@@ -12,11 +12,17 @@
             fontFamily: {
               sans: ['Inter', 'Noto Sans KR', 'sans-serif'],
               serif: ['Playfair Display', 'serif'],
+              signature: ['Nanum Brush Script', 'cursive'],
             },
             animation: {
               'fade-in-up': 'fadeInUp 1s ease-out forwards',
               'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
               'shine': 'shine 8s ease-in-out infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'float-delayed': 'float 6s ease-in-out 3s infinite',
+              'spin-slow': 'spin 15s linear infinite',
+              'spin-reverse-slow': 'spin-reverse 20s linear infinite',
+              'orbit': 'orbit 20s linear infinite',
             },
             keyframes: {
               fadeInUp: {
@@ -26,6 +32,18 @@
               shine: {
                 '0%, 100%': { backgroundPosition: '0% 50%' },
                 '50%': { backgroundPosition: '100% 50%' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' },
+              },
+              'spin-reverse': {
+                'from': { transform: 'rotate(360deg)' },
+                'to': { transform: 'rotate(0deg)' },
+              },
+              orbit: {
+                '0%': { transform: 'rotate(0deg) translateX(100px) rotate(0deg)' },
+                '100%': { transform: 'rotate(360deg) translateX(100px) rotate(-360deg)' },
               }
             }
           }
@@ -34,7 +52,7 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Nanum+Brush+Script&display=swap" rel="stylesheet">
     <style>
       body {
         font-family: 'Inter', 'Noto Sans KR', sans-serif;
@@ -45,6 +63,9 @@
       }
       .font-serif {
         font-family: 'Playfair Display', serif;
+      }
+      .font-signature {
+        font-family: 'Nanum Brush Script', cursive;
       }
       /* Hide scrollbar for Chrome, Safari and Opera */
       .no-scrollbar::-webkit-scrollbar {
@@ -67,6 +88,17 @@
         z-index: 9999;
         opacity: 0.04;
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+
+      /* 3D Utilities */
+      .perspective-1000 {
+        perspective: 1000px;
+      }
+      .preserve-3d {
+        transform-style: preserve-3d;
+      }
+      .backface-hidden {
+        backface-visibility: hidden;
       }
     </style>
   <script type="importmap">

@@ -4,7 +4,14 @@ const CompanyIntro: React.FC = () => {
   return (
     <section className="py-32 px-6 bg-[#050505] relative overflow-hidden">
       {/* Editorial Grid Line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-full bg-zinc-900"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-full bg-zinc-900 z-10"></div>
+
+      {/* Background Kinetic Element: Slow Spinning Rings */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-20 pointer-events-none">
+          <div className="absolute inset-0 border border-zinc-800 rounded-full animate-spin-slow"></div>
+          <div className="absolute inset-10 border border-zinc-800/50 rounded-full animate-spin-reverse-slow"></div>
+          <div className="absolute inset-32 border border-zinc-900 rounded-full animate-spin-slow duration-[30s]"></div>
+      </div>
 
       <div className="max-w-5xl mx-auto relative z-10">
         <div className="text-center mb-20">
@@ -37,11 +44,11 @@ const CompanyIntro: React.FC = () => {
                 <div className="mt-16">
                     <p className="text-2xl text-zinc-500 mb-4 font-light">Sincerely,</p>
                     <div className="relative inline-block">
-                         {/* Gold Foil Signature Effect - Korean Name */}
-                        <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#D4AF37] to-[#805e10] tracking-wider" style={{ filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.5))' }}>
+                         {/* White Script Signature */}
+                        <h3 className="text-4xl md:text-5xl font-signature text-white font-normal tracking-wide transform -rotate-2" style={{ textShadow: '0 0 10px rgba(255,255,255,0.2)' }}>
                             김 정 우
                         </h3>
-                        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mt-2"></div>
+                        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-zinc-500 to-transparent mt-2"></div>
                     </div>
                     <p className="text-[10px] text-zinc-600 tracking-[0.3em] uppercase mt-4">CEO, PICKIT KOREA</p>
                 </div>
