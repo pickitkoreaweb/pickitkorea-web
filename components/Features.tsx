@@ -154,7 +154,7 @@ const Features: React.FC<FeaturesProps> = ({ qcImage }) => {
                             <Zap className="w-3 h-3 text-[#D4AF37]" /> Vector Based
                         </div>
                         <div className="px-4 py-2 rounded bg-zinc-900 border border-zinc-800 text-xs font-mono text-zinc-400">
-                            > 0.001mm Accuracy
+                            &gt; 0.001mm Accuracy
                         </div>
                     </div>
                 </div>
