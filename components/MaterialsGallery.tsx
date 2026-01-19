@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { ArrowRight, RotateCcw, MousePointerClick, Layers } from 'lucide-react';
+import React, { useState } from 'react';
+import { MousePointerClick, Layers } from 'lucide-react';
 
 const MaterialsGallery: React.FC = () => {
   const [activeMaterial, setActiveMaterial] = useState<number>(0);
@@ -11,19 +11,21 @@ const MaterialsGallery: React.FC = () => {
       name: "OBSIDIAN BLACK",
       type: "Mirror Finish",
       desc: "빛을 완벽하게 흡수하고 반사하는 심연의 블랙. 다이아몬드 코팅(DLC)으로 완성된 압도적인 내구성과 거울 같은 광택을 자랑합니다.",
-      // Metal Sphere CSS
+      // Photorealistic Metal Sphere CSS (PBR Style)
       sphere: {
-        background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 0%, rgba(80,80,80,1) 10%, rgba(10,10,10,1) 40%, #000000 100%)",
-        reflection: "linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.2) 50%, rgba(0,0,0,0.8) 51%, rgba(0,0,0,0.9) 100%)",
-        shadow: "rgba(0,0,0,0.8)"
+        // Base Color
+        base: "radial-gradient(circle at 35% 35%, rgba(255,255,255,0.9) 0%, rgba(80,80,80,1) 15%, rgba(10,10,10,1) 50%, #000000 100%)",
+        // Horizon Reflection (Sharp cut for metal look)
+        reflection: "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 45%, rgba(255,255,255,0.9) 50%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.8) 100%)",
+        // Glow / Ambient
+        shadow: "0 20px 50px rgba(0,0,0,0.9)"
       },
-      // Card CSS
       card: {
-        bg: "bg-[#111]",
-        texture: "https://www.transparenttextures.com/patterns/stardust.png",
-        border: "border-zinc-700",
+        bg: "#080808",
+        border: "#333333",
         text: "text-zinc-300",
-        highlight: "from-white/10 to-transparent"
+        texture: "https://www.transparenttextures.com/patterns/stardust.png",
+        accent: "text-white"
       }
     },
     {
@@ -32,16 +34,16 @@ const MaterialsGallery: React.FC = () => {
       type: "Brushed Texture",
       desc: "순수한 스테인리스 스틸의 본질. 수만 번의 헤어라인 가공을 통해 완성된 차가우면서도 세련된 인더스트리얼 무드.",
       sphere: {
-        background: "radial-gradient(circle at 30% 30%, #ffffff 0%, #d1d5db 20%, #9ca3af 50%, #4b5563 100%)",
-        reflection: "linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.8) 50%, #374151 51%, #1f2937 100%)",
-        shadow: "rgba(255,255,255,0.2)"
+        base: "radial-gradient(circle at 35% 35%, #ffffff 0%, #e5e7eb 20%, #9ca3af 60%, #4b5563 100%)",
+        reflection: "linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 45%, rgba(255,255,255,1) 50%, #6b7280 50%, #374151 100%)",
+        shadow: "0 20px 50px rgba(255,255,255,0.15)"
       },
       card: {
-        bg: "bg-[#e5e7eb]",
-        texture: "https://www.transparenttextures.com/patterns/brushed-alum.png",
-        border: "border-zinc-300",
+        bg: "#D1D5DB", // Light Gray
+        border: "#E5E7EB",
         text: "text-zinc-800",
-        highlight: "from-white/40 to-transparent"
+        texture: "https://www.transparenttextures.com/patterns/brushed-alum.png",
+        accent: "text-black"
       }
     },
     {
@@ -50,16 +52,16 @@ const MaterialsGallery: React.FC = () => {
       type: "24K Real Plating",
       desc: "변치 않는 부의 상징. 실제 24K 골드 도금 처리를 통해 깊이 있는 황금빛 광채와 묵직한 존재감을 선사합니다.",
       sphere: {
-        background: "radial-gradient(circle at 30% 30%, #fffbeb 0%, #fcd34d 20%, #b45309 60%, #451a03 100%)",
-        reflection: "linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 40%, rgba(253, 224, 71, 0.4) 50%, #78350f 51%, #451a03 100%)",
-        shadow: "rgba(251, 191, 36, 0.3)"
+        base: "radial-gradient(circle at 35% 35%, #fffbeb 0%, #fcd34d 20%, #b45309 60%, #451a03 100%)",
+        reflection: "linear-gradient(180deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 45%, rgba(255,240,150,1) 50%, #92400e 50%, #451a03 100%)",
+        shadow: "0 20px 50px rgba(234, 179, 8, 0.3)"
       },
       card: {
-        bg: "bg-[#E6C673]",
-        texture: "https://www.transparenttextures.com/patterns/cubes.png",
-        border: "border-[#d4af37]",
+        bg: "#E6C673", // Gold
+        border: "#FDE047",
         text: "text-yellow-950",
-        highlight: "from-yellow-100/30 to-transparent"
+        texture: "https://www.transparenttextures.com/patterns/cubes.png",
+        accent: "text-yellow-900"
       }
     },
     {
@@ -68,16 +70,16 @@ const MaterialsGallery: React.FC = () => {
       type: "Pink Gold",
       desc: "우아함의 절정. 구리와 금의 완벽한 비율로 탄생한 로즈 골드는 부드럽지만 강렬한 인상을 남깁니다.",
       sphere: {
-        background: "radial-gradient(circle at 30% 30%, #fff1f2 0%, #fda4af 20%, #be123c 60%, #4c0519 100%)",
-        reflection: "linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 40%, rgba(255, 200, 200, 0.4) 50%, #881337 51%, #4c0519 100%)",
-        shadow: "rgba(244, 63, 94, 0.3)"
+        base: "radial-gradient(circle at 35% 35%, #fff1f2 0%, #fda4af 20%, #be123c 60%, #4c0519 100%)",
+        reflection: "linear-gradient(180deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 45%, rgba(255,200,200,1) 50%, #9f1239 50%, #4c0519 100%)",
+        shadow: "0 20px 50px rgba(244, 63, 94, 0.3)"
       },
       card: {
-        bg: "bg-[#fda4af]",
-        texture: "https://www.transparenttextures.com/patterns/stardust.png",
-        border: "border-rose-400",
+        bg: "#FDA4AF", // Rose
+        border: "#FECDD3",
         text: "text-rose-950",
-        highlight: "from-white/30 to-transparent"
+        texture: "https://www.transparenttextures.com/patterns/stardust.png",
+        accent: "text-rose-900"
       }
     }
   ];
@@ -86,10 +88,13 @@ const MaterialsGallery: React.FC = () => {
 
   return (
     <section className="py-24 md:py-32 px-6 bg-[#050505] relative overflow-hidden">
-      {/* Background Ambience */}
+      {/* Dynamic Background Ambience */}
       <div 
-        className="absolute inset-0 transition-opacity duration-1000 blur-[150px] opacity-10 pointer-events-none"
-        style={{ background: currentMat.sphere.background }}
+        className="absolute inset-0 transition-colors duration-1000 ease-in-out opacity-10 pointer-events-none"
+        style={{ 
+          background: currentMat.sphere.base, 
+          filter: 'blur(150px)' 
+        }}
       ></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -113,7 +118,10 @@ const MaterialsGallery: React.FC = () => {
                     {materials.map((mat, index) => (
                         <div 
                             key={mat.id}
-                            onClick={() => setActiveMaterial(index)}
+                            onClick={() => {
+                                setActiveMaterial(index);
+                                setIsFlipped(false); // Reset flip on material change
+                            }}
                             className={`group relative p-6 border rounded-xl cursor-pointer transition-all duration-500 overflow-hidden ${activeMaterial === index ? 'bg-zinc-900 border-[#D4AF37]' : 'bg-transparent border-zinc-800 hover:border-zinc-600'}`}
                         >
                             <div className="flex justify-between items-center relative z-10">
@@ -144,34 +152,37 @@ const MaterialsGallery: React.FC = () => {
             {/* Right Column: Visualizer */}
             <div className="w-full xl:w-2/3 flex flex-col md:flex-row gap-12 items-center justify-center relative min-h-[500px]">
                 
-                {/* 1. Photorealistic Sphere */}
+                {/* 1. Photorealistic Metal Sphere */}
                 <div className="relative group">
                     <div className="absolute -top-12 left-1/2 -translate-x-1/2 text-[10px] text-zinc-500 font-mono tracking-widest uppercase opacity-50">Raw Material</div>
                     
-                    <div className="w-48 h-48 md:w-64 md:h-64 rounded-full relative shadow-2xl transition-all duration-500">
-                        {/* Base PBR Gradient */}
+                    <div 
+                        className="w-48 h-48 md:w-64 md:h-64 rounded-full relative transition-all duration-700 ease-out"
+                        style={{ boxShadow: currentMat.sphere.shadow }}
+                    >
+                        {/* 1. Base Gradient (Overall Color & Light) */}
                         <div 
-                            className="absolute inset-0 rounded-full transition-all duration-700 ease-out"
-                            style={{ background: currentMat.sphere.background }}
+                            className="absolute inset-0 rounded-full transition-all duration-700"
+                            style={{ background: currentMat.sphere.base }}
                         ></div>
 
-                        {/* Horizon Reflection (The key to metal look) */}
+                        {/* 2. Horizon Reflection (The Metal Look) */}
                         <div 
-                            className="absolute inset-0 rounded-full opacity-80 mix-blend-overlay transition-all duration-700"
+                            className="absolute inset-0 rounded-full transition-all duration-700 mix-blend-overlay"
                             style={{ background: currentMat.sphere.reflection }}
                         ></div>
                         
-                        {/* Inner Shadow for Mass */}
-                        <div className="absolute inset-0 rounded-full shadow-[inset_-10px_-10px_30px_rgba(0,0,0,0.5)]"></div>
+                        {/* 3. Inner Shadow (Depth) */}
+                        <div className="absolute inset-0 rounded-full shadow-[inset_-10px_-10px_30px_rgba(0,0,0,0.6)]"></div>
 
-                        {/* Specular Highlight (Sharp) */}
-                        <div className="absolute top-[20%] left-[20%] w-[15%] h-[10%] bg-white rounded-[50%] blur-[2px] opacity-90 mix-blend-overlay filter brightness-150"></div>
-                        <div className="absolute top-[22%] left-[22%] w-[5%] h-[3%] bg-white rounded-[50%] blur-[1px]"></div>
+                        {/* 4. Specular Highlight (Hotspot) */}
+                        <div className="absolute top-[20%] left-[20%] w-[25%] h-[15%] bg-white rounded-[50%] blur-[8px] opacity-90 mix-blend-soft-light filter brightness-150 transform -rotate-45"></div>
+                        <div className="absolute top-[25%] left-[25%] w-[5%] h-[5%] bg-white rounded-full blur-[1px] shadow-[0_0_10px_white]"></div>
 
-                        {/* Rim Light (Edge) */}
-                        <div className="absolute inset-0 rounded-full shadow-[inset_2px_2px_4px_rgba(255,255,255,0.4)] mix-blend-overlay"></div>
+                        {/* 5. Rim Light (Edge definition) */}
+                        <div className="absolute inset-0 rounded-full shadow-[inset_2px_2px_4px_rgba(255,255,255,0.4)] mix-blend-screen"></div>
 
-                        {/* Orbiting Rings */}
+                        {/* Orbiting Rings (Decoration) */}
                         <div className="absolute -inset-8 border border-white/5 rounded-full animate-spin-slow pointer-events-none"></div>
                         <div className="absolute -inset-16 border border-white/5 rounded-full animate-spin-reverse-slow pointer-events-none opacity-50"></div>
                     </div>
@@ -196,72 +207,84 @@ const MaterialsGallery: React.FC = () => {
                         </div>
                     </div>
 
+                    {/* Card Container with Explicit Transform Style for 3D Flip */}
                     <div 
-                        className={`w-[320px] h-[200px] md:w-[380px] md:h-[240px] relative preserve-3d transition-transform duration-700 cursor-pointer shadow-2xl ${isFlipped ? 'rotate-y-180' : 'rotate-y-0'}`}
+                        className="w-[320px] h-[200px] md:w-[380px] md:h-[240px] relative preserve-3d transition-transform duration-700 cursor-pointer shadow-2xl"
+                        style={{ transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
                         onClick={() => setIsFlipped(!isFlipped)}
                     >
                         {/* FRONT FACE */}
-                        <div className={`absolute inset-0 backface-hidden rounded-xl overflow-hidden border ${currentMat.card.bg} ${currentMat.card.border} shadow-xl`}>
+                        <div 
+                            className="absolute inset-0 backface-hidden rounded-xl overflow-hidden shadow-xl border transition-colors duration-500"
+                            style={{ 
+                                backgroundColor: currentMat.card.bg,
+                                borderColor: currentMat.card.border
+                            }}
+                        >
                             {/* Material Texture */}
                             <div className="absolute inset-0 opacity-30" style={{ backgroundImage: `url(${currentMat.card.texture})` }}></div>
                             
                             {/* Metallic Sheen Gradient */}
-                            <div className={`absolute inset-0 bg-gradient-to-tr ${currentMat.card.highlight} opacity-50`}></div>
+                            <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-50"></div>
                             <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-transparent"></div>
 
                             {/* Card Elements */}
                             <div className={`relative z-10 h-full p-6 flex flex-col justify-between ${currentMat.card.text}`}>
                                 <div className="flex justify-between items-start">
-                                    <div className="w-10 h-6 bg-yellow-200/80 rounded-sm overflow-hidden relative border border-yellow-400/50">
-                                        <div className="absolute inset-0 border border-black/20 rounded-sm"></div>
-                                        <div className="w-full h-1/2 border-b border-black/10"></div>
-                                        <div className="w-1/2 h-full border-r border-black/10 absolute top-0 left-0"></div>
+                                    {/* Chip */}
+                                    <div className="w-11 h-8 bg-gradient-to-br from-zinc-300 to-zinc-500 rounded-md border border-zinc-400 flex items-center justify-center shadow-md opacity-90">
+                                         <div className="w-6 h-4 border border-zinc-600 rounded-sm opacity-50"></div>
                                     </div>
-                                    <span className="text-xs font-bold tracking-widest opacity-70">PICKIT</span>
+                                    <span className={`text-xs font-bold tracking-widest opacity-80 ${currentMat.card.accent}`}>PICKIT</span>
                                 </div>
                                 
                                 <div className="text-center transform translate-y-2">
-                                     <h3 className="text-lg md:text-xl font-mono tracking-[0.2em] drop-shadow-md">4567 8901 2345 6789</h3>
+                                     <h3 className={`text-lg md:text-xl font-mono tracking-[0.2em] drop-shadow-sm font-bold ${currentMat.card.accent}`}>
+                                         4567 8901 2345 6789
+                                     </h3>
                                 </div>
 
                                 <div className="flex justify-between items-end">
                                     <div>
                                         <p className="text-[8px] opacity-60 uppercase tracking-wider mb-0.5">Card Holder</p>
-                                        <p className="font-bold tracking-wider text-sm">KIM JENY</p>
+                                        <p className={`font-bold tracking-wider text-sm ${currentMat.card.accent}`}>KIM JENY</p>
                                     </div>
                                     <div>
                                         <p className="text-[8px] opacity-60 uppercase tracking-wider mb-0.5">Valid Thru</p>
-                                        <p className="font-bold tracking-wider text-sm">09/29</p>
+                                        <p className={`font-bold tracking-wider text-sm ${currentMat.card.accent}`}>09/29</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* BACK FACE */}
-                        <div className={`absolute inset-0 backface-hidden rounded-xl overflow-hidden border rotate-y-180 bg-zinc-900 border-zinc-700`}>
+                        <div 
+                            className="absolute inset-0 backface-hidden rounded-xl overflow-hidden shadow-xl border bg-zinc-900 border-zinc-700"
+                            style={{ transform: 'rotateY(180deg)' }}
+                        >
                             {/* Magnetic Stripe */}
-                            <div className="w-full h-10 bg-black mt-6 relative">
+                            <div className="w-full h-12 bg-black mt-6 relative">
                                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-30"></div>
                             </div>
 
                             <div className="p-6 relative">
                                 <div className="flex justify-between items-center mb-4">
-                                    <div className="w-2/3 h-8 bg-white/10 flex items-center justify-end px-2">
-                                        <span className="font-mono text-black bg-white px-2 py-0.5 italic text-sm font-bold skew-x-[-10deg]">123</span>
+                                    <div className="w-2/3 h-8 bg-white/90 flex items-center justify-end px-2 skew-x-[-10deg]">
+                                        <span className="font-mono text-black px-2 py-0.5 italic text-sm font-bold skew-x-[10deg]">123</span>
                                     </div>
-                                    <div className="w-8 h-8 opacity-50 grayscale">
+                                    <div className="w-10 h-10 opacity-50 grayscale border border-zinc-700 rounded p-1">
                                         <Layers className="w-full h-full text-zinc-500" />
                                     </div>
                                 </div>
                                 
-                                <p className="text-[8px] text-zinc-500 leading-relaxed text-justify">
+                                <p className="text-[7px] text-zinc-500 leading-relaxed text-justify px-1">
                                     This card is issued by PICKIT KOREA Inc. pursuant to license by Visa International. 
                                     Use of this card is subject to the agreement, as amended, 
                                     which constitutes the holder's acceptance of these terms.
                                 </p>
                                 
                                 <div className="mt-4 flex justify-center">
-                                    <p className="text-zinc-600 text-xs font-bold tracking-widest">PICKIT.KOREA.OFFICIAL</p>
+                                    <p className="text-zinc-600 text-[10px] font-bold tracking-[0.3em]">PICKIT.KOREA.OFFICIAL</p>
                                 </div>
                             </div>
                         </div>
