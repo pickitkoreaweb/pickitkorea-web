@@ -61,6 +61,14 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleUserClick = () => {
+    if (currentUser?.role === 'admin') {
+      handleNavClick('admin-dashboard');
+    } else {
+      handleNavClick('mypage');
+    }
+  };
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${isScrolled || currentPage !== 'home' ? 'bg-[#050505]/80 backdrop-blur-2xl border-b border-white/5 py-4 shadow-[0_4px_30px_rgba(0,0,0,0.5)]' : 'bg-transparent py-6 md:py-8'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -151,12 +159,18 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
                            <User className="w-3 h-3" /> MY PAGE
                        </button>
                   )}
-                  <div className="flex flex-col text-right">
-                      <span className={`text-[9px] font-bold tracking-widest uppercase ${currentUser.role === 'admin' ? 'text-red-500' : 'text-zinc-500'}`}>
+                  
+                  {/* User Profile Clickable Area */}
+                  <div 
+                      onClick={handleUserClick}
+                      className="flex flex-col text-right cursor-pointer group interactable"
+                  >
+                      <span className={`text-[9px] font-bold tracking-widest uppercase transition-colors group-hover:text-white ${currentUser.role === 'admin' ? 'text-red-500' : 'text-zinc-500'}`}>
                           {currentUser.role === 'admin' ? 'ADMINISTRATOR' : 'MEMBER'}
                       </span>
-                      <span className="text-xs font-bold text-white">{currentUser.name}</span>
+                      <span className="text-xs font-bold text-white transition-colors group-hover:text-[#D4AF37]">{currentUser.name}</span>
                   </div>
+                  
                   <button onClick={onLogout} className="text-zinc-500 hover:text-white interactable">
                       <LogOut className="w-4 h-4" />
                   </button>
@@ -182,13 +196,24 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
       {isMobileMenuOpen && (
         <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-zinc-800 p-8 flex flex-col gap-8 md:hidden shadow-2xl animate-fade-in-up h-[calc(100vh-80px)] overflow-y-auto">
           {currentUser && (
-              <div className="flex items-center gap-3 pb-6 border-b border-zinc-800">
+              <div 
+                  className="flex items-center gap-3 pb-6 border-b border-zinc-800 cursor-pointer active:bg-zinc-900/50 rounded p-2 -mx-2 transition-colors"
+                  onClick={handleUserClick}
+              >
                   <UserCircle className="w-10 h-10 text-zinc-500" />
                   <div>
                       <p className="text-sm font-bold text-white">{currentUser.name}</p>
                       <p className="text-xs text-zinc-500 uppercase">{currentUser.role === 'admin' ? 'Administrator' : 'Member'}</p>
                   </div>
-                  <button onClick={onLogout} className="ml-auto text-xs text-red-500 font-bold">LOGOUT</button>
+                  <button 
+                      onClick={(e) => {
+                          e.stopPropagation(); // Prevent parent click
+                          onLogout();
+                      }} 
+                      className="ml-auto text-xs text-red-500 font-bold px-3 py-1 border border-red-900/50 rounded"
+                  >
+                      LOGOUT
+                  </button>
               </div>
           )}
           
