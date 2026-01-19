@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus, Trash2, FileSpreadsheet, Download, ShieldAlert } from 'lucide-react';
+import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus, Trash2, FileSpreadsheet, Download, ShieldAlert, Lock } from 'lucide-react';
 
 interface User {
   id: string;
@@ -46,6 +46,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
   // Order Editing State
   const [editingOrder, setEditingOrder] = useState<string | null>(null); // Order ID
   const [newStatus, setNewStatus] = useState<Order['status']>('Pending');
+
+  // Password Reset State
+  const [resetPassword, setResetPassword] = useState('');
 
   // Content Management State
   const [editingImages, setEditingImages] = useState<SiteImages>(siteImages);
@@ -96,8 +99,35 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         const allOrders: Order[] = JSON.parse(localStorage.getItem('pickit_orders') || '[]');
         const filtered = allOrders.filter(o => o.customerId === selectedUser.customerId);
         setUserOrders(filtered);
+        
+        // Clear password reset field when changing user selection
+        setResetPassword('');
     }
   }, [selectedUser]);
+
+  // Handle Admin Password Reset
+  const handlePasswordReset = () => {
+    if (!selectedUser) return;
+    if (!resetPassword.trim()) {
+        alert("변경할 비밀번호를 입력해주세요.");
+        return;
+    }
+
+    if (window.confirm(`[관리자 권한]\n${selectedUser.name} (${selectedUser.id}) 회원의 비밀번호를 변경하시겠습니까?`)) {
+        const storedUsers = JSON.parse(localStorage.getItem('pickit_users_db') || '[]');
+        
+        const updatedUsers = storedUsers.map((u: any) => {
+            if (u.id === selectedUser.id) {
+                return { ...u, password: resetPassword };
+            }
+            return u;
+        });
+
+        localStorage.setItem('pickit_users_db', JSON.stringify(updatedUsers));
+        setResetPassword('');
+        alert("비밀번호가 성공적으로 변경되었습니다.\n해당 회원은 새 비밀번호로 로그인해야 합니다.");
+    }
+  };
 
   // Create a Mock Order for the selected user (Admin function)
   const createMockOrder = () => {
@@ -312,7 +342,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                 <div className="lg:col-span-7 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 h-[700px] overflow-y-auto custom-scrollbar">
                     {selectedUser ? (
                         <div className="animate-fade-in-up">
-                            <div className="flex justify-between items-start mb-8 border-b border-zinc-800 pb-6">
+                            <div className="flex justify-between items-start mb-6 border-b border-zinc-800 pb-6">
                                 <div>
                                     <h2 className="text-2xl font-bold text-white mb-1">{selectedUser.name}</h2>
                                     <div className="flex flex-col gap-1 text-sm text-zinc-400 mt-2">
@@ -331,6 +361,32 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                     <p className="text-xs text-zinc-500 uppercase tracking-wider">Joined Date</p>
                                     <p className="text-white font-mono">{selectedUser.joinedAt || '2026-01-01'}</p>
                                 </div>
+                            </div>
+                            
+                            {/* Security Action (Change Password) */}
+                            <div className="bg-red-900/10 border border-red-900/30 rounded-xl p-5 mb-8">
+                                <div className="flex items-center gap-2 mb-3">
+                                    <Lock className="w-4 h-4 text-red-500" />
+                                    <h3 className="text-sm font-bold text-red-500 uppercase tracking-wider">Account Security</h3>
+                                </div>
+                                <div className="flex gap-3">
+                                    <input 
+                                        type="text" 
+                                        value={resetPassword}
+                                        onChange={(e) => setResetPassword(e.target.value)}
+                                        placeholder="Enter new password" 
+                                        className="flex-1 bg-black border border-zinc-700 rounded-lg px-4 py-2 text-sm text-white focus:border-red-500 outline-none placeholder-zinc-600"
+                                    />
+                                    <button 
+                                        onClick={handlePasswordReset}
+                                        className="px-4 py-2 bg-red-500 text-white font-bold text-xs rounded-lg hover:bg-red-600 transition-colors shadow-lg shadow-red-900/20"
+                                    >
+                                        Change Password
+                                    </button>
+                                </div>
+                                <p className="text-[10px] text-red-400/60 mt-2">
+                                    * 관리자 권한으로 비밀번호를 강제 변경합니다. 변경 후 회원에게 통보해주시기 바랍니다.
+                                </p>
                             </div>
 
                             <div className="flex justify-between items-center mb-4">
