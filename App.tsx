@@ -86,7 +86,7 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-10">
+        <div className="hidden md:flex items-center gap-8">
           <button 
             onClick={() => handleNavClick('about')} 
             className={`interactable text-xs font-bold tracking-widest transition-all duration-300 relative group ${currentPage === 'about' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}
@@ -142,49 +142,59 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
              <span className="bg-[#E1306C] text-white text-[8px] px-1 rounded font-bold animate-pulse">NEW</span>
           </button>
 
-          {/* User Auth Section */}
-          {currentUser ? (
-              <div className="flex items-center gap-4 border-l border-zinc-800 pl-4">
-                  {currentUser.role === 'admin' ? (
-                       <button 
-                          onClick={() => handleNavClick('admin-dashboard')}
-                          className="flex items-center gap-1 text-[10px] bg-red-900/30 text-red-500 border border-red-900/50 px-2 py-1 rounded hover:bg-red-900/50 transition-colors interactable"
-                       >
-                           <LayoutDashboard className="w-3 h-3" /> ADMIN
-                       </button>
-                  ) : (
-                      <button 
-                          onClick={() => handleNavClick('mypage')}
-                          className={`flex items-center gap-1 text-[10px] px-2 py-1 rounded transition-colors interactable ${currentPage === 'mypage' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}
-                       >
-                           <User className="w-3 h-3" /> 마이페이지
-                       </button>
-                  )}
-                  
-                  {/* User Profile Clickable Area */}
-                  <div 
-                      onClick={handleUserClick}
-                      className="flex flex-col text-right cursor-pointer group interactable"
-                  >
-                      <span className={`text-[9px] font-bold tracking-widest uppercase transition-colors group-hover:text-white ${currentUser.role === 'admin' ? 'text-red-500' : 'text-zinc-500'}`}>
-                          {currentUser.role === 'admin' ? 'ADMINISTRATOR' : 'MEMBER'}
-                      </span>
-                      <span className="text-xs font-bold text-white transition-colors group-hover:text-[#D4AF37]">{currentUser.name}</span>
+          {/* Right Side Actions Group */}
+          <div className="flex items-center gap-3 ml-4">
+              {currentUser ? (
+                  <div className="flex items-center gap-4 border-r border-zinc-800 pr-6 mr-2">
+                      {/* User Profile Clickable Area */}
+                      <div 
+                          onClick={handleUserClick}
+                          className="flex flex-col text-right cursor-pointer group interactable"
+                      >
+                          <span className={`text-[9px] font-bold tracking-widest uppercase transition-colors group-hover:text-white ${currentUser.role === 'admin' ? 'text-red-500' : 'text-zinc-500'}`}>
+                              {currentUser.role === 'admin' ? 'ADMINISTRATOR' : 'MEMBER'}
+                          </span>
+                          <span className="text-xs font-bold text-white transition-colors group-hover:text-[#D4AF37]">{currentUser.name}</span>
+                      </div>
+                      
+                      <button onClick={onLogout} className="text-zinc-500 hover:text-white interactable">
+                          <LogOut className="w-4 h-4" />
+                      </button>
                   </div>
-                  
-                  <button onClick={onLogout} className="text-zinc-500 hover:text-white interactable">
-                      <LogOut className="w-4 h-4" />
-                  </button>
-              </div>
-          ) : (
-             <button onClick={() => handleNavClick('auth')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 ${currentPage === 'auth' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
-                LOGIN
-             </button>
-          )}
-          
-          <button id="contact-btn" onClick={() => handleNavClick('contact')} className={`interactable px-6 py-2.5 bg-white text-black text-xs font-bold tracking-widest hover:bg-[#D4AF37] hover:scale-105 transition-all duration-300 ml-2 shadow-[0_0_15px_rgba(255,255,255,0.2)]`}>
-            CONTACT
-          </button>
+              ) : (
+                 <button onClick={() => handleNavClick('auth')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 mr-4 ${currentPage === 'auth' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
+                    LOGIN
+                 </button>
+              )}
+
+              {/* My Page / Admin Button - Always Visible */}
+              {currentUser?.role === 'admin' ? (
+                   <button 
+                      onClick={() => handleNavClick('admin-dashboard')}
+                      className="flex items-center gap-1 text-[10px] bg-red-900/30 text-red-500 border border-red-900/50 px-3 py-2 rounded hover:bg-red-900/50 transition-colors interactable"
+                   >
+                       <LayoutDashboard className="w-3 h-3" /> ADMIN
+                   </button>
+              ) : (
+                  <button 
+                      onClick={() => {
+                          if (!currentUser) {
+                              alert("로그인이 필요합니다.");
+                              handleNavClick('auth');
+                          } else {
+                              handleNavClick('mypage');
+                          }
+                      }}
+                      className={`flex items-center gap-1 text-[10px] px-3 py-2 rounded transition-colors interactable font-bold tracking-wider ${currentPage === 'mypage' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}
+                   >
+                       <User className="w-3 h-3" /> 마이페이지
+                   </button>
+              )}
+              
+              <button id="contact-btn" onClick={() => handleNavClick('contact')} className={`interactable px-6 py-2.5 bg-white text-black text-xs font-bold tracking-widest hover:bg-[#D4AF37] hover:scale-105 transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.2)]`}>
+                CONTACT
+              </button>
+          </div>
         </div>
 
         {/* Mobile Toggle */}
@@ -225,9 +235,16 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
               >
                   <LayoutDashboard className="w-6 h-6" /> Admin Dashboard
               </button>
-          ) : currentUser && (
+          ) : (
               <button 
-                  onClick={() => handleNavClick('mypage')}
+                  onClick={() => {
+                      if (!currentUser) {
+                          alert("로그인이 필요합니다.");
+                          handleNavClick('auth');
+                      } else {
+                          handleNavClick('mypage');
+                      }
+                  }}
                   className="text-2xl font-serif text-[#D4AF37] hover:text-white text-left flex items-center gap-2"
               >
                   <User className="w-6 h-6" /> 마이페이지 (My Page)
