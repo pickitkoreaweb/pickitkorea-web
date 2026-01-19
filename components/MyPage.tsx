@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Package, Settings, LogOut, Save, ChevronRight, Truck, Clock, AlertTriangle } from 'lucide-react';
+import { User, Settings, LogOut, Save, ChevronRight, Clock, AlertTriangle, MessageSquare, ChevronDown, ShieldCheck } from 'lucide-react';
 
 interface UserData {
   id: string; // Login ID
@@ -13,14 +13,15 @@ interface UserData {
   joinedAt: string;
 }
 
-interface Order {
-  orderId: string;
-  customerId: string;
+interface Inquiry {
+  id: number;
+  title: string;
+  author: string;
   date: string;
-  item: string;
-  amount: string;
-  status: 'Pending' | 'Processing' | 'Shipped' | 'Delivered';
-  trackingNum?: string;
+  content: string;
+  password: string;
+  status: 'waiting' | 'answered';
+  reply?: string;
 }
 
 interface MyPageProps {
@@ -30,8 +31,9 @@ interface MyPageProps {
 }
 
 const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) => {
-  const [activeTab, setActiveTab] = useState<'profile' | 'orders'>('orders');
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [activeTab, setActiveTab] = useState<'profile' | 'inquiries'>('inquiries');
+  const [myInquiries, setMyInquiries] = useState<Inquiry[]>([]);
+  const [expandedInquiry, setExpandedInquiry] = useState<number | null>(null);
   
   // Edit Profile State
   const [isEditing, setIsEditing] = useState(false);
@@ -44,10 +46,12 @@ const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) 
   });
 
   useEffect(() => {
-    // Load Orders
-    const allOrders: Order[] = JSON.parse(localStorage.getItem('pickit_orders') || '[]');
-    const myOrders = allOrders.filter(o => o.customerId === currentUser.customerId);
-    setOrders(myOrders);
+    // Load Inquiries instead of Orders
+    const allInquiries: Inquiry[] = JSON.parse(localStorage.getItem('pickit_inquiries') || '[]');
+    // Filter inquiries where author matches current user's name
+    // Note: In a real app, we should filter by ID, but based on InquiryBoard logic, we use name.
+    const userInquiries = allInquiries.filter(item => item.author === currentUser.name);
+    setMyInquiries(userInquiries);
 
     // Sync form with current user prop
     setEditForm({
@@ -87,14 +91,12 @@ const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) 
       }
   }
 
-  const getStatusStep = (status: string) => {
-      switch(status) {
-          case 'Pending': return 1;
-          case 'Processing': return 2;
-          case 'Shipped': return 3;
-          case 'Delivered': return 4;
-          default: return 0;
-      }
+  const toggleInquiry = (id: number) => {
+    if (expandedInquiry === id) {
+        setExpandedInquiry(null);
+    } else {
+        setExpandedInquiry(id);
+    }
   };
 
   return (
@@ -137,10 +139,10 @@ const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) 
             <div className="lg:col-span-1">
                 <nav className="flex flex-col gap-2 sticky top-24">
                     <button 
-                        onClick={() => setActiveTab('orders')}
-                        className={`text-left px-5 py-4 rounded-xl font-bold text-sm flex items-center justify-between transition-all ${activeTab === 'orders' ? 'bg-white text-black' : 'bg-zinc-900/30 text-zinc-500 hover:text-white hover:bg-zinc-900'}`}
+                        onClick={() => setActiveTab('inquiries')}
+                        className={`text-left px-5 py-4 rounded-xl font-bold text-sm flex items-center justify-between transition-all ${activeTab === 'inquiries' ? 'bg-white text-black' : 'bg-zinc-900/30 text-zinc-500 hover:text-white hover:bg-zinc-900'}`}
                     >
-                        <span className="flex items-center gap-3"><Package className="w-4 h-4" /> 주문 내역 (Orders)</span>
+                        <span className="flex items-center gap-3"><MessageSquare className="w-4 h-4" /> 문의 내역 (Inquiries)</span>
                         <ChevronRight className="w-4 h-4" />
                     </button>
                     <button 
@@ -156,70 +158,88 @@ const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) 
             {/* Main Content Area */}
             <div className="lg:col-span-3">
                 
-                {/* ORDER HISTORY TAB */}
-                {activeTab === 'orders' && (
+                {/* INQUIRY HISTORY TAB */}
+                {activeTab === 'inquiries' && (
                     <div className="space-y-6 animate-fade-in-up">
-                        <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                            <Truck className="w-5 h-5 text-[#D4AF37]" /> 주문 내역 (Order History)
-                        </h3>
+                        <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                                <MessageSquare className="w-5 h-5 text-[#D4AF37]" /> 문의 내역 (Inquiry History)
+                            </h3>
+                            <button 
+                                onClick={() => document.getElementById('contact-btn')?.click()}
+                                className="text-xs font-bold text-black bg-white px-4 py-2 rounded hover:bg-[#D4AF37] transition-colors"
+                            >
+                                새 문의하기
+                            </button>
+                        </div>
 
-                        {orders.length === 0 ? (
+                        {myInquiries.length === 0 ? (
                             <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-12 text-center">
-                                <Package className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
-                                <h4 className="text-zinc-400 font-bold mb-2">No orders found</h4>
-                                <p className="text-zinc-600 text-sm">아직 주문 내역이 없습니다. 나만의 메탈 카드를 만들어보세요.</p>
+                                <MessageSquare className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
+                                <h4 className="text-zinc-400 font-bold mb-2">No inquiries found</h4>
+                                <p className="text-zinc-600 text-sm">작성된 문의 내역이 없습니다.</p>
                             </div>
                         ) : (
-                            orders.map((order, idx) => {
-                                const step = getStatusStep(order.status);
-                                return (
-                                    <div key={idx} className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 md:p-8 hover:border-zinc-700 transition-all">
-                                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                                            <div>
-                                                <div className="flex items-center gap-3 mb-1">
-                                                    <span className="text-[#D4AF37] font-bold text-lg">{order.item}</span>
+                            <div className="space-y-4">
+                                {myInquiries.map((inquiry) => (
+                                    <div key={inquiry.id} className="bg-zinc-900/30 border border-zinc-800 rounded-xl overflow-hidden transition-all hover:border-zinc-700">
+                                        {/* Inquiry Header */}
+                                        <div 
+                                            className="p-6 cursor-pointer flex flex-col md:flex-row gap-4 justify-between items-start md:items-center"
+                                            onClick={() => toggleInquiry(inquiry.id)}
+                                        >
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-3 mb-2">
                                                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
-                                                        order.status === 'Delivered' ? 'border-green-900 text-green-500 bg-green-900/20' : 
-                                                        order.status === 'Shipped' ? 'border-blue-900 text-blue-500 bg-blue-900/20' :
-                                                        'border-yellow-900 text-yellow-500 bg-yellow-900/20'
+                                                        inquiry.status === 'answered' 
+                                                            ? 'border-[#D4AF37] text-[#D4AF37] bg-[#D4AF37]/10' 
+                                                            : 'border-zinc-600 text-zinc-500'
                                                     }`}>
-                                                        {order.status.toUpperCase()}
+                                                        {inquiry.status === 'answered' ? '답변완료' : '대기중'}
                                                     </span>
+                                                    <span className="text-zinc-500 text-xs font-mono">{inquiry.date}</span>
                                                 </div>
-                                                <div className="flex gap-4 text-xs text-zinc-500 font-mono">
-                                                    <span>Order ID: {order.orderId}</span>
-                                                    <span>|</span>
-                                                    <span>{order.date}</span>
-                                                </div>
+                                                <h4 className="text-white font-bold text-sm md:text-base hover:text-[#D4AF37] transition-colors">
+                                                    {inquiry.title}
+                                                </h4>
                                             </div>
-                                            <div className="text-right">
-                                                <span className="text-white font-bold text-xl">{order.amount}</span>
-                                            </div>
+                                            <ChevronDown className={`w-5 h-5 text-zinc-500 transition-transform duration-300 ${expandedInquiry === inquiry.id ? 'rotate-180' : ''}`} />
                                         </div>
 
-                                        {/* Status Progress Bar */}
-                                        <div className="relative pt-4 pb-2">
-                                            <div className="absolute top-1/2 left-0 w-full h-1 bg-zinc-800 -translate-y-1/2 rounded-full"></div>
-                                            <div 
-                                                className="absolute top-1/2 left-0 h-1 bg-[#D4AF37] -translate-y-1/2 rounded-full transition-all duration-1000"
-                                                style={{ width: `${((step - 1) / 3) * 100}%` }}
-                                            ></div>
-                                            
-                                            <div className="relative flex justify-between">
-                                                {['Pending', 'Processing', 'Shipped', 'Delivered'].map((s, i) => {
-                                                    const isCompleted = i + 1 <= step;
-                                                    return (
-                                                        <div key={s} className="flex flex-col items-center gap-2">
-                                                            <div className={`w-3 h-3 rounded-full border-2 transition-all ${isCompleted ? 'bg-[#D4AF37] border-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,0.5)]' : 'bg-zinc-900 border-zinc-600'}`}></div>
-                                                            <span className={`text-[10px] uppercase font-bold tracking-wider ${isCompleted ? 'text-white' : 'text-zinc-600'}`}>{s}</span>
+                                        {/* Expanded Content */}
+                                        {expandedInquiry === inquiry.id && (
+                                            <div className="bg-black/30 border-t border-zinc-800 p-6 animate-fade-in-up">
+                                                <div className="mb-6">
+                                                    <p className="text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap">
+                                                        {inquiry.content}
+                                                    </p>
+                                                </div>
+
+                                                {/* Admin Reply */}
+                                                {inquiry.reply && (
+                                                    <div className="bg-zinc-800/30 rounded-lg p-5 border border-zinc-700/50">
+                                                        <div className="flex items-center gap-2 mb-3">
+                                                            <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
+                                                            <span className="text-[#D4AF37] font-bold text-xs tracking-wider">PICKIT OFFICIAL</span>
+                                                            <span className="text-zinc-500 text-[10px]">Administrator</span>
                                                         </div>
-                                                    )
-                                                })}
+                                                        <p className="text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap pl-6 border-l border-zinc-700">
+                                                            {inquiry.reply}
+                                                        </p>
+                                                    </div>
+                                                )}
+
+                                                {!inquiry.reply && (
+                                                    <div className="flex items-center gap-2 text-zinc-500 text-xs bg-zinc-900/50 p-3 rounded">
+                                                        <Clock className="w-3 h-3" />
+                                                        <span>관리자 답변을 기다리고 있습니다.</span>
+                                                    </div>
+                                                )}
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
-                                );
-                            })
+                                ))}
+                            </div>
                         )}
                     </div>
                 )}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus } from 'lucide-react';
+import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus, Trash2 } from 'lucide-react';
 
 interface User {
   id: string;
@@ -93,6 +93,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
       // Update local state
       setUserOrders(userOrders.map(o => o.orderId === orderId ? { ...o, status: newStatus } : o));
       setEditingOrder(null);
+  };
+
+  const handleDeleteOrder = (orderId: string) => {
+    if (window.confirm("Are you sure you want to permanently delete this order?")) {
+        const allOrders: Order[] = JSON.parse(localStorage.getItem('pickit_orders') || '[]');
+        const updatedOrders = allOrders.filter(o => o.orderId !== orderId);
+        localStorage.setItem('pickit_orders', JSON.stringify(updatedOrders));
+        
+        // Update local state
+        setUserOrders(userOrders.filter(o => o.orderId !== orderId));
+    }
   };
 
   const filteredUsers = users.filter(u => 
@@ -236,7 +247,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                             
                             <div className="space-y-4">
                                 {userOrders.map((order, idx) => (
-                                    <div key={idx} className="bg-black border border-zinc-800 rounded-xl p-5 hover:border-zinc-600 transition-colors">
+                                    <div key={idx} className="bg-black border border-zinc-800 rounded-xl p-5 hover:border-zinc-600 transition-colors relative group">
                                         <div className="flex justify-between items-start mb-4">
                                             <div>
                                                 <div className="flex items-center gap-2 mb-1">
@@ -262,20 +273,31 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                                     <button onClick={() => setEditingOrder(null)} className="p-1 bg-zinc-800 text-zinc-400 rounded hover:bg-zinc-700"><X className="w-3 h-3" /></button>
                                                 </div>
                                             ) : (
-                                                <button 
-                                                    onClick={() => {
-                                                        setEditingOrder(order.orderId);
-                                                        setNewStatus(order.status);
-                                                    }}
-                                                    className={`text-xs font-bold px-2 py-1 rounded border flex items-center gap-2 hover:opacity-80 transition-opacity ${
-                                                        order.status === 'Delivered' ? 'border-green-900 text-green-500 bg-green-900/10' :
-                                                        order.status === 'Shipped' ? 'border-blue-900 text-blue-500 bg-blue-900/10' :
-                                                        'border-yellow-900 text-yellow-500 bg-yellow-900/10'
-                                                    }`}
-                                                >
-                                                    {order.status}
-                                                    <PenTool className="w-3 h-3 opacity-50" />
-                                                </button>
+                                                <div className="flex items-center gap-2">
+                                                    <button 
+                                                        onClick={() => {
+                                                            setEditingOrder(order.orderId);
+                                                            setNewStatus(order.status);
+                                                        }}
+                                                        className={`text-xs font-bold px-2 py-1 rounded border flex items-center gap-2 hover:opacity-80 transition-opacity ${
+                                                            order.status === 'Delivered' ? 'border-green-900 text-green-500 bg-green-900/10' :
+                                                            order.status === 'Shipped' ? 'border-blue-900 text-blue-500 bg-blue-900/10' :
+                                                            'border-yellow-900 text-yellow-500 bg-yellow-900/10'
+                                                        }`}
+                                                    >
+                                                        {order.status}
+                                                        <PenTool className="w-3 h-3 opacity-50" />
+                                                    </button>
+                                                    
+                                                    {/* Delete Button */}
+                                                    <button 
+                                                        onClick={() => handleDeleteOrder(order.orderId)}
+                                                        className="p-1.5 bg-zinc-900 text-zinc-500 rounded border border-zinc-800 hover:text-red-500 hover:border-red-500/50 hover:bg-red-900/10 transition-colors"
+                                                        title="Delete Order"
+                                                    >
+                                                        <Trash2 className="w-3 h-3" />
+                                                    </button>
+                                                </div>
                                             )}
                                         </div>
                                         
