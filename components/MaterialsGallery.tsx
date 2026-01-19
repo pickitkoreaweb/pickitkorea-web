@@ -23,7 +23,7 @@ const MaterialsGallery: React.FC = () => {
       card: {
         bg: "#080808",
         border: "#333333",
-        text: "text-zinc-300",
+        text: "text-zinc-400",
         texture: "https://www.transparenttextures.com/patterns/stardust.png",
         accent: "text-white"
       }
@@ -41,7 +41,7 @@ const MaterialsGallery: React.FC = () => {
       card: {
         bg: "#D1D5DB", // Light Gray
         border: "#E5E7EB",
-        text: "text-zinc-800",
+        text: "text-zinc-600",
         texture: "https://www.transparenttextures.com/patterns/brushed-alum.png",
         accent: "text-black"
       }
@@ -59,9 +59,9 @@ const MaterialsGallery: React.FC = () => {
       card: {
         bg: "#E6C673", // Gold
         border: "#FDE047",
-        text: "text-yellow-950",
+        text: "text-yellow-900/70",
         texture: "https://www.transparenttextures.com/patterns/cubes.png",
-        accent: "text-yellow-900"
+        accent: "text-yellow-950"
       }
     },
     {
@@ -77,9 +77,9 @@ const MaterialsGallery: React.FC = () => {
       card: {
         bg: "#FDA4AF", // Rose
         border: "#FECDD3",
-        text: "text-rose-950",
+        text: "text-rose-950/70",
         texture: "https://www.transparenttextures.com/patterns/stardust.png",
-        accent: "text-rose-900"
+        accent: "text-rose-950"
       }
     }
   ];
@@ -259,32 +259,39 @@ const MaterialsGallery: React.FC = () => {
 
                         {/* BACK FACE */}
                         <div 
-                            className="absolute inset-0 backface-hidden rounded-xl overflow-hidden shadow-xl border bg-zinc-900 border-zinc-700"
-                            style={{ transform: 'rotateY(180deg)' }}
+                            className="absolute inset-0 backface-hidden rounded-xl overflow-hidden shadow-xl border transition-colors duration-500"
+                            style={{ 
+                                transform: 'rotateY(180deg)',
+                                backgroundColor: currentMat.card.bg,
+                                borderColor: currentMat.card.border
+                            }}
                         >
+                            {/* Material Texture (Same as Front) */}
+                            <div className="absolute inset-0 opacity-30" style={{ backgroundImage: `url(${currentMat.card.texture})` }}></div>
+                            
                             {/* Magnetic Stripe */}
-                            <div className="w-full h-12 bg-black mt-6 relative">
+                            <div className="w-full h-12 bg-black mt-6 relative z-10">
                                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-30"></div>
                             </div>
 
-                            <div className="p-6 relative">
+                            <div className="p-6 relative z-10">
                                 <div className="flex justify-between items-center mb-4">
                                     <div className="w-2/3 h-8 bg-white/90 flex items-center justify-end px-2 skew-x-[-10deg]">
                                         <span className="font-mono text-black px-2 py-0.5 italic text-sm font-bold skew-x-[10deg]">123</span>
                                     </div>
-                                    <div className="w-10 h-10 opacity-50 grayscale border border-zinc-700 rounded p-1">
-                                        <Layers className="w-full h-full text-zinc-500" />
+                                    <div className={`w-10 h-10 opacity-50 grayscale border rounded p-1 ${currentMat.card.text} border-current`}>
+                                        <Layers className="w-full h-full" />
                                     </div>
                                 </div>
                                 
-                                <p className="text-[7px] text-zinc-500 leading-relaxed text-justify px-1">
+                                <p className={`text-[7px] leading-relaxed text-justify px-1 opacity-70 ${currentMat.card.text}`}>
                                     This card is issued by PICKIT KOREA Inc. pursuant to license by Visa International. 
                                     Use of this card is subject to the agreement, as amended, 
                                     which constitutes the holder's acceptance of these terms.
                                 </p>
                                 
                                 <div className="mt-4 flex justify-center">
-                                    <p className="text-zinc-600 text-[10px] font-bold tracking-[0.3em]">PICKIT.KOREA.OFFICIAL</p>
+                                    <p className={`text-[10px] font-bold tracking-[0.3em] ${currentMat.card.text}`}>PICKIT.KOREA.OFFICIAL</p>
                                 </div>
                             </div>
                         </div>
