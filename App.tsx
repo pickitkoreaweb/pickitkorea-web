@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, UserCircle, LogOut } from 'lucide-react';
+import { Menu, X, ChevronDown, UserCircle, LogOut, Gift } from 'lucide-react';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import BusinessCardShowcase from './components/BusinessCardShowcase';
@@ -19,8 +19,9 @@ import PrivateConcierge from './components/PrivateConcierge';
 import PackagingShowcase from './components/PackagingShowcase';
 import InquiryBoard from './components/InquiryBoard';
 import AuthView from './components/AuthView';
+import EventView from './components/EventView';
 
-type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'inquiry' | 'contact' | 'policy' | 'auth';
+type Page = 'home' | 'about' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'inquiry' | 'contact' | 'policy' | 'auth' | 'event';
 
 interface User {
   id: string;
@@ -108,6 +109,15 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
             INQUIRY
           </button>
 
+          {/* EVENT BUTTON - Highlighted */}
+          <button 
+             onClick={() => handleNavClick('event')} 
+             className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 flex items-center gap-1.5 ${currentPage === 'event' ? 'text-[#E1306C]' : 'text-white hover:text-[#E1306C]'}`}
+          >
+             EVENT
+             <span className="bg-[#E1306C] text-white text-[8px] px-1 rounded font-bold animate-pulse">NEW</span>
+          </button>
+
           {/* User Auth Section */}
           {currentUser ? (
               <div className="flex items-center gap-4 border-l border-zinc-800 pl-4">
@@ -163,6 +173,11 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
           <button onClick={() => handleNavClick('materials')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">Materials</button>
           <button onClick={() => handleNavClick('faq')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">FAQ</button>
           <button onClick={() => handleNavClick('inquiry')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">Inquiry</button>
+          
+          {/* Mobile Event Button */}
+          <button onClick={() => handleNavClick('event')} className="text-2xl font-serif text-[#E1306C] hover:text-white text-left flex items-center gap-2">
+              Event <span className="text-xs bg-[#E1306C] text-white px-2 py-0.5 rounded-full font-bold">NEW</span>
+          </button>
           
           {!currentUser && (
              <button onClick={() => handleNavClick('auth')} className="text-2xl font-serif text-[#D4AF37] hover:text-white text-left">Login / Sign Up</button>
@@ -297,6 +312,12 @@ export default function App() {
             {currentPage === 'auth' && (
               <PageWrapper>
                  <AuthView onLogin={handleLogin} setPage={setCurrentPage} />
+              </PageWrapper>
+            )}
+            
+            {currentPage === 'event' && (
+              <PageWrapper>
+                 <EventView />
               </PageWrapper>
             )}
 
