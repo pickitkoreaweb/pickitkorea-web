@@ -1,4 +1,5 @@
 import React from 'react';
+import { Download } from 'lucide-react';
 
 const CompanyIntro: React.FC = () => {
   return (
@@ -51,6 +52,51 @@ const CompanyIntro: React.FC = () => {
                         <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-zinc-500 to-transparent mt-2"></div>
                     </div>
                     <p className="text-[10px] text-zinc-600 tracking-[0.3em] uppercase mt-4">CEO, PICKIT KOREA</p>
+                </div>
+            </div>
+        </div>
+
+        {/* Brand Identity / Instagram Profile Asset */}
+        <div className="mt-32 pt-20 border-t border-zinc-900 flex flex-col items-center">
+            <h4 className="text-white font-serif text-2xl mb-8">Brand Identity</h4>
+            <p className="text-zinc-500 text-sm mb-12 max-w-md text-center">
+                PICKIT의 공식 브랜드 심볼입니다. <br/>
+                인스타그램 및 소셜 미디어 프로필에 최적화된 디자인입니다.
+            </p>
+            
+            <div className="relative group perspective-1000">
+                {/* The Logo Container - Designed to be screenshotted */}
+                <div className="relative w-64 h-64 md:w-80 md:h-80 bg-zinc-950 border border-zinc-800 flex flex-col items-center justify-center shadow-2xl transition-transform duration-500 group-hover:rotate-y-6 overflow-hidden">
+                    {/* Background Texture */}
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80"></div>
+                    
+                    {/* The Icon */}
+                    <div className="relative z-10 w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-[#D4AF37] to-[#805e10] rounded-none transform rotate-45 flex items-center justify-center shadow-[0_10px_30px_rgba(212,175,55,0.3)] mb-8">
+                         <div className="w-8 h-8 md:w-10 md:h-10 bg-zinc-950 rounded-full transform -rotate-45 border border-[#D4AF37]/50"></div>
+                         {/* Shine */}
+                         <div className="absolute inset-0 bg-white/20 blur-md rounded-none transform scale-0 group-hover:scale-100 transition-transform duration-700"></div>
+                    </div>
+
+                    {/* Text */}
+                    <h1 className="relative z-10 text-2xl md:text-3xl font-bold tracking-[0.4em] text-white pl-2 drop-shadow-lg">
+                        PICKIT
+                    </h1>
+                    <span className="relative z-10 text-[8px] md:text-[10px] text-[#D4AF37] tracking-[0.6em] uppercase mt-2 font-medium">
+                        KOREA
+                    </span>
+
+                    {/* Corner accents */}
+                    <div className="absolute top-4 left-4 w-2 h-2 border-t border-l border-[#D4AF37]/50"></div>
+                    <div className="absolute top-4 right-4 w-2 h-2 border-t border-r border-[#D4AF37]/50"></div>
+                    <div className="absolute bottom-4 left-4 w-2 h-2 border-b border-l border-[#D4AF37]/50"></div>
+                    <div className="absolute bottom-4 right-4 w-2 h-2 border-b border-r border-[#D4AF37]/50"></div>
+                </div>
+
+                <div className="absolute -bottom-12 left-0 w-full text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="text-xs text-zinc-500 flex items-center justify-center gap-2">
+                        <Download className="w-3 h-3" /> Right click to save image
+                    </span>
                 </div>
             </div>
         </div>

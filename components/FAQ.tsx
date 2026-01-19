@@ -194,8 +194,11 @@ const FAQ: React.FC = () => {
 
                     <div className="p-4 bg-zinc-900/30 rounded-xl border border-zinc-800 border-dashed text-center">
                          <p className="text-zinc-500 text-sm mb-2">더 많은 후기가 궁금하신가요?</p>
-                         <button className="text-xs text-white underline hover:text-[#D4AF37] transition-colors">
-                            인스타그램 @PICKIT_OFFICIAL 확인하기
+                         <button 
+                            onClick={() => window.open('https://www.instagram.com/pickit.korea.official/', '_blank')}
+                            className="text-xs text-white underline hover:text-[#D4AF37] transition-colors"
+                         >
+                            인스타그램 @pickit.korea.official 확인하기
                          </button>
                     </div>
                 </div>

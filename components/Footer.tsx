@@ -23,11 +23,26 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
               Seoul, Korea.
             </p>
             <div className="flex gap-4">
-              {[Instagram, Twitter, Facebook].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-400 hover:bg-white hover:text-black transition-all duration-300 interactable group">
-                  <Icon className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                </a>
-              ))}
+              <a 
+                href="https://www.instagram.com/pickit.korea.official/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-400 hover:bg-[#E1306C] hover:text-white transition-all duration-300 interactable group"
+              >
+                <Instagram className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              </a>
+              <a 
+                href="#" 
+                className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-400 hover:bg-[#1DA1F2] hover:text-white transition-all duration-300 interactable group"
+              >
+                <Twitter className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              </a>
+              <a 
+                href="#" 
+                className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-400 hover:bg-[#4267B2] hover:text-white transition-all duration-300 interactable group"
+              >
+                <Facebook className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              </a>
             </div>
           </div>
 
