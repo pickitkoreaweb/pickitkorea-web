@@ -24,10 +24,17 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
             
             {/* Business Info Added */}
             <div className="space-y-3 mb-8 text-zinc-500 text-xs font-medium">
-                 <div className="flex items-start gap-2.5">
-                    <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-zinc-400" />
-                    <p className="leading-relaxed">서울특별시 강남구 역삼로20길 10<br/>테헤란로 쓰리엠타워 11층 PICKITKOREA</p>
-                 </div>
+                 <a 
+                    href="https://map.naver.com/p/search/서울특별시 강남구 역삼로20길 10" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-2.5 hover:text-white transition-colors group cursor-pointer"
+                 >
+                    <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-zinc-400 group-hover:text-[#D4AF37] transition-colors" />
+                    <p className="leading-relaxed border-b border-transparent group-hover:border-zinc-700">
+                        서울특별시 강남구 역삼로20길 10<br/>테헤란로 쓰리엠타워 11층 PICKITKOREA
+                    </p>
+                 </a>
                  <div className="flex items-center gap-2.5">
                     <Phone className="w-3.5 h-3.5 shrink-0 text-zinc-400" />
                     <p>010-8282-1043</p>

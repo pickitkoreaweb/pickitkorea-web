@@ -109,18 +109,23 @@ ${formData.message}
                   </div>
                 </div>
 
-                <div className="flex items-start gap-5">
-                  <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10 shrink-0">
-                    <MapPin className="w-5 h-5 text-white" />
+                <a 
+                   href="https://map.naver.com/p/search/서울특별시 강남구 역삼로20길 10" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   className="flex items-start gap-5 group"
+                >
+                  <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10 shrink-0 group-hover:bg-[#D4AF37]/20 group-hover:border-[#D4AF37] transition-all">
+                    <MapPin className="w-5 h-5 text-white group-hover:text-[#D4AF37] transition-colors" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-zinc-500 uppercase tracking-wide mb-1">Office</h4>
-                    <p className="text-white text-lg font-medium leading-relaxed">
+                    <h4 className="text-sm font-bold text-zinc-500 uppercase tracking-wide mb-1 group-hover:text-white transition-colors">Office</h4>
+                    <p className="text-white text-lg font-medium leading-relaxed underline decoration-zinc-700 decoration-1 underline-offset-4 group-hover:decoration-[#D4AF37] transition-all">
                       서울특별시 강남구 역삼로20길 10 <br />
                       테헤란로 쓰리엠타워 11층 PICKITKOREA
                     </p>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
           </div>
