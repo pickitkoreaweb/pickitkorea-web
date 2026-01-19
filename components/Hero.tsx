@@ -30,14 +30,14 @@ const Hero: React.FC<HeroProps> = ({ setPage }) => {
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto mt-0 md:mt-20 pointer-events-none w-full">
         <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-6 md:mb-8 animate-fade-in-up shadow-[0_0_15px_rgba(255,255,255,0.05)]">
-          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shadow-[0_0_10px_rgba(255,255,255,0.8)]"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse shadow-[0_0_10px_rgba(212,175,55,0.8)]"></span>
           <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-300">The Black Edition</span>
         </div>
         
-        {/* Luxury Typography - Removed Italic */}
+        {/* Luxury Typography - Refined Gradients */}
         <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-200 to-zinc-600 animate-fade-in-up delay-100 drop-shadow-2xl leading-[1.1] md:leading-[0.9]">
           UNBREAKABLE<br />
-          <span className="font-light opacity-90">Authority.</span>
+          <span className="font-light opacity-90 text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 to-zinc-500">Authority.</span>
         </h1>
         
         <p className="text-sm md:text-xl text-zinc-400 mb-8 md:mb-12 max-w-xs md:max-w-xl mx-auto leading-relaxed animate-fade-in-up delay-200 font-light tracking-wide break-keep">
@@ -48,11 +48,14 @@ const Hero: React.FC<HeroProps> = ({ setPage }) => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 pointer-events-auto animate-fade-in-up delay-300 w-full sm:w-auto px-6 sm:px-0">
           <button 
             onClick={() => setPage('metal-custom')}
-            className="w-full sm:w-auto group relative px-8 md:px-10 py-4 bg-white text-black rounded-none font-bold tracking-widest text-xs transition-all hover:bg-zinc-200 active:scale-95 flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+            className="w-full sm:w-auto group relative px-8 md:px-10 py-4 bg-white text-black rounded-none font-bold tracking-widest text-xs transition-all hover:bg-[#D4AF37] hover:text-black flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(255,255,255,0.1)] overflow-hidden"
           >
-            CUSTOMIZE NOW
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            {/* Shimmer Effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent translate-x-[-150%] group-hover:animate-shine z-10"></div>
+            <span className="relative z-20">CUSTOMIZE NOW</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative z-20" />
           </button>
+          
           <button 
             onClick={() => setPage('materials')}
             className="w-full sm:w-auto px-8 md:px-10 py-4 border border-zinc-700 text-zinc-300 hover:text-white hover:border-white transition-colors bg-black/40 backdrop-blur-md font-bold tracking-widest text-xs rounded-none"
@@ -62,10 +65,10 @@ const Hero: React.FC<HeroProps> = ({ setPage }) => {
         </div>
       </div>
 
-      {/* Elegant Scroll Indicator - Hidden on very small screens to save space */}
-      <div className="hidden md:flex absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce text-zinc-600 flex-col items-center gap-2">
-        <span className="text-[10px] tracking-[0.3em] uppercase opacity-50">Explore</span>
-        <div className="w-[1px] h-12 bg-gradient-to-b from-zinc-600 to-transparent"></div>
+      {/* Elegant Scroll Indicator - Refined */}
+      <div className="hidden md:flex absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce text-zinc-600 flex-col items-center gap-2 pointer-events-none">
+        <span className="text-[9px] tracking-[0.3em] uppercase opacity-40">Scroll</span>
+        <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-zinc-500 to-transparent"></div>
       </div>
     </section>
   );

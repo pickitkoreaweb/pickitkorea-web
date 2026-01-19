@@ -51,7 +51,7 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || currentPage !== 'home' ? 'bg-[#050505]/90 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-6 md:py-8'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${isScrolled || currentPage !== 'home' ? 'bg-[#050505]/80 backdrop-blur-2xl border-b border-white/5 py-4 shadow-[0_4px_30px_rgba(0,0,0,0.5)]' : 'bg-transparent py-6 md:py-8'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
         <div 
@@ -59,7 +59,7 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
             onClick={() => handleNavClick('home')}
             data-cursor="hover"
         >
-          <div className="w-8 h-8 bg-gradient-to-br from-white to-zinc-400 rounded-none transform rotate-45 flex items-center justify-center transition-transform duration-500 group-hover:rotate-90 shadow-lg">
+          <div className="w-8 h-8 bg-gradient-to-br from-white via-zinc-200 to-zinc-500 rounded-none transform rotate-45 flex items-center justify-center transition-transform duration-700 group-hover:rotate-[225deg] shadow-[0_0_15px_rgba(255,255,255,0.3)]">
             <div className="w-3 h-3 bg-black rounded-full transform -rotate-45"></div>
           </div>
           <span className="text-xl font-bold tracking-[0.2em] text-white">PICKIT</span>
@@ -69,9 +69,10 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
         <div className="hidden md:flex items-center gap-10">
           <button 
             onClick={() => handleNavClick('about')} 
-            className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 ${currentPage === 'about' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}
+            className={`interactable text-xs font-bold tracking-widest transition-all duration-300 relative group ${currentPage === 'about' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}
           >
             ABOUT
+            <span className={`absolute -bottom-1 left-0 w-full h-[1px] bg-[#D4AF37] transform origin-left transition-transform duration-300 ${currentPage === 'about' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
           </button>
 
           {/* Metal Card Dropdown */}
@@ -81,32 +82,35 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
               <ChevronDown className="w-3 h-3 transition-transform duration-300 group-hover:rotate-180" />
             </button>
             
-            <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-[#0a0a0a] border border-zinc-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] transition-all duration-300 ${isDropdownOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 translate-y-4 invisible'}`}>
+            <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-[#0a0a0a]/95 backdrop-blur-xl border border-zinc-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)] transition-all duration-300 ${isDropdownOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 translate-y-4 invisible'}`}>
                <button 
                   onClick={() => handleNavClick('metal-biz')}
-                  className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-white transition-colors border-b border-zinc-900 interactable"
+                  className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-[#D4AF37] transition-colors border-b border-zinc-900 interactable"
                >
                   BUSINESS CARD
                </button>
                <button 
                   onClick={() => handleNavClick('metal-custom')}
-                  className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-white transition-colors interactable"
+                  className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-[#D4AF37] transition-colors interactable"
                >
                   CUSTOM CARD
                </button>
             </div>
           </div>
 
-          <button onClick={() => handleNavClick('materials')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 ${currentPage === 'materials' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
+          <button onClick={() => handleNavClick('materials')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 relative group ${currentPage === 'materials' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
             MATERIALS
+            <span className={`absolute -bottom-1 left-0 w-full h-[1px] bg-[#D4AF37] transform origin-left transition-transform duration-300 ${currentPage === 'materials' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
           </button>
           
-          <button onClick={() => handleNavClick('faq')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 ${currentPage === 'faq' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
+          <button onClick={() => handleNavClick('faq')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 relative group ${currentPage === 'faq' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
             FAQ
+            <span className={`absolute -bottom-1 left-0 w-full h-[1px] bg-[#D4AF37] transform origin-left transition-transform duration-300 ${currentPage === 'faq' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
           </button>
 
-          <button onClick={() => handleNavClick('inquiry')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 ${currentPage === 'inquiry' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
+          <button onClick={() => handleNavClick('inquiry')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 relative group ${currentPage === 'inquiry' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
             INQUIRY
+            <span className={`absolute -bottom-1 left-0 w-full h-[1px] bg-[#D4AF37] transform origin-left transition-transform duration-300 ${currentPage === 'inquiry' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
           </button>
 
           {/* EVENT BUTTON - Highlighted */}
@@ -137,7 +141,7 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
              </button>
           )}
           
-          <button id="contact-btn" onClick={() => handleNavClick('contact')} className={`interactable px-6 py-2.5 bg-white text-black text-xs font-bold tracking-widest hover:bg-zinc-300 transition-colors ml-2`}>
+          <button id="contact-btn" onClick={() => handleNavClick('contact')} className={`interactable px-6 py-2.5 bg-white text-black text-xs font-bold tracking-widest hover:bg-[#D4AF37] hover:scale-105 transition-all duration-300 ml-2 shadow-[0_0_15px_rgba(255,255,255,0.2)]`}>
             CONTACT
           </button>
         </div>
@@ -224,7 +228,7 @@ export default function App() {
     <>
       <Preloader onComplete={() => setLoading(false)} />
       {!loading && (
-        <div className="min-h-screen bg-[#050505] text-zinc-100 selection:bg-white/20 selection:text-white overflow-x-hidden font-sans cursor-none">
+        <div className="min-h-screen bg-[#050505] text-zinc-100 selection:bg-[#D4AF37] selection:text-black overflow-x-hidden font-sans cursor-none">
           <CustomCursor />
           <ScrollProgress />
           <Navbar 
@@ -290,7 +294,7 @@ export default function App() {
                 <MaterialsGallery />
                 <div className="py-20 text-center">
                      <h3 className="text-2xl font-serif text-white mb-6">Ready to choose?</h3>
-                     <button onClick={() => setCurrentPage('metal-custom')} className="px-10 py-4 bg-white text-black font-bold text-xs tracking-widest hover:bg-zinc-200 transition-colors interactable">
+                     <button onClick={() => setCurrentPage('metal-custom')} className="px-10 py-4 bg-white text-black font-bold text-xs tracking-widest hover:bg-[#D4AF37] transition-all duration-300 interactable shadow-lg">
                         START CUSTOMIZING
                      </button>
                 </div>
