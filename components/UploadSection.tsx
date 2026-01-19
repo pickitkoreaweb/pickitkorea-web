@@ -186,8 +186,8 @@ const UploadSection: React.FC = () => {
 
             {/* Live Card Preview - Expanded Fan Layout */}
             <div className="w-full xl:w-2/3 h-[400px] md:h-[500px] relative flex justify-center items-center order-1 xl:order-2 perspective-1000 overflow-visible">
-                {/* Scale wrapper for Mobile to prevent clipping */}
-                <div className="relative w-[340px] md:w-[380px] h-[215px] md:h-[240px] flex items-center justify-center scale-[0.85] md:scale-100 transition-transform origin-center">
+                {/* Scale wrapper for Mobile to prevent clipping - Updated Scale to 0.7 */}
+                <div className="relative w-[340px] md:w-[380px] h-[215px] md:h-[240px] flex items-center justify-center scale-[0.7] md:scale-100 transition-transform origin-center">
                     
                     {/* Platinum/Silver Card (Left/Bottom) */}
                     <div className="absolute top-0 left-0 w-full h-full rounded-xl shadow-2xl transition-all duration-700 transform md:-translate-x-48 md:group-hover:-translate-x-52 translate-y-16 md:translate-y-0 z-10 bg-[#e3e3e3] border border-zinc-300 scale-[0.9] md:scale-100 opacity-60 md:opacity-100">

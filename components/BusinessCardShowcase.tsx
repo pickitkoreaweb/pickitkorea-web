@@ -64,7 +64,7 @@ const BusinessCardShowcase: React.FC = () => {
 
           {/* Visual Content - Single High-Quality Metal Card */}
           <div className="flex-1 w-full order-1 lg:order-2 flex justify-center items-center py-10">
-             <div className="relative w-full max-w-[420px] aspect-[1.586/1] perspective-1000 group">
+             <div className="relative w-full max-w-[420px] aspect-[1.586/1] perspective-1000 group transform scale-90 md:scale-100">
                 
                 {/* 3D Depth Layers for Thickness */}
                 <div className="absolute inset-0 bg-zinc-700 rounded-xl transform translate-y-1 translate-x-1 transition-transform group-hover:translate-x-2 group-hover:translate-y-2 duration-500"></div>
