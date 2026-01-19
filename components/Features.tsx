@@ -142,19 +142,18 @@ const Features: React.FC<FeaturesProps> = ({ qcImage }) => {
                     </div>
                     <h3 className="text-3xl font-bold text-white mb-6">Programmed Precision.</h3>
                     <p className="text-zinc-400 text-lg leading-relaxed mb-8 break-keep">
-                        사람의 손으로는 불가능한 영역입니다. <br/>
-                        PICKIT의 레이저 각인 시스템은 컴퓨터 프로그래밍을 통해 
-                        <strong className="text-white"> 1000 DPI 이상의 고해상도</strong>로 이미지를 구현합니다.
-                        머리카락 굵기의 1/10 수준인 초정밀 레이저 빔이 금속 표면을 영구적으로 조각하여, 
-                        세월이 흘러도 지워지지 않는 당신만의 시그니처를 남깁니다.
+                        타협하지 않는 퀄리티를 위해 레이저 각인 솔루션의 글로벌 리더, <strong className="text-white">Mr. Carve 정품 장비</strong>를 전격 도입했습니다. <br/><br/>
+                        PICKIT은 <strong className="text-white">0.0001mm (0.1µm)</strong> 수준의 초정밀 나노 각인 기술을 통해 
+                        육안으로는 식별하기 힘든 미세한 디테일까지 완벽하게 구현합니다. 
+                        단순한 각인이 아닌, 금속 위에 새겨지는 하나의 예술 작품을 경험하세요.
                     </p>
                     
                     <div className="flex gap-4">
                         <div className="px-4 py-2 rounded bg-zinc-900 border border-zinc-800 text-xs font-mono text-zinc-400 flex items-center gap-2">
-                            <Zap className="w-3 h-3 text-[#D4AF37]" /> Vector Based
+                            <Zap className="w-3 h-3 text-[#D4AF37]" /> Powered by Mr. Carve
                         </div>
                         <div className="px-4 py-2 rounded bg-zinc-900 border border-zinc-800 text-xs font-mono text-zinc-400">
-                            &gt; 0.001mm Accuracy
+                            0.0001mm Precision
                         </div>
                     </div>
                 </div>
@@ -199,9 +198,9 @@ const Features: React.FC<FeaturesProps> = ({ qcImage }) => {
                     <div className="absolute bottom-6 right-6 p-3 bg-black/80 backdrop-blur border border-zinc-800 rounded-lg">
                         <div className="flex flex-col gap-1 font-mono text-[10px]">
                             <span className="text-zinc-500">// LASER_CONFIG</span>
-                            <span className="text-green-500">POWER: 85%</span>
-                            <span className="text-green-500">SPEED: 2000mm/s</span>
-                            <span className="text-blue-400">FREQ: 35kHz</span>
+                            <span className="text-green-500">EQUIP: MR.CARVE S4</span>
+                            <span className="text-green-500">PRECISION: 0.1µm</span>
+                            <span className="text-blue-400">DEPTH: 0.05mm</span>
                             <span className="text-zinc-400 animate-pulse">STATUS: ENGRAVING...</span>
                         </div>
                     </div>
