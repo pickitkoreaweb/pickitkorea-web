@@ -34,10 +34,10 @@ const Hero: React.FC<HeroProps> = ({ setPage }) => {
           <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-300">The Black Edition</span>
         </div>
         
-        {/* Luxury Typography */}
-        <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-medium tracking-tighter mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-200 to-zinc-600 animate-fade-in-up delay-100 drop-shadow-2xl leading-[1.1] md:leading-[0.9]">
+        {/* Luxury Typography - Removed Italic */}
+        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-200 to-zinc-600 animate-fade-in-up delay-100 drop-shadow-2xl leading-[1.1] md:leading-[0.9]">
           UNBREAKABLE<br />
-          <span className="italic font-light opacity-90">Authourity.</span>
+          <span className="font-light opacity-90">Authority.</span>
         </h1>
         
         <p className="text-sm md:text-xl text-zinc-400 mb-8 md:mb-12 max-w-xs md:max-w-xl mx-auto leading-relaxed animate-fade-in-up delay-200 font-light tracking-wide break-keep">

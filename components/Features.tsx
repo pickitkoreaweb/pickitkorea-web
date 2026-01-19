@@ -73,7 +73,7 @@ const Features: React.FC = () => {
                 <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)] animate-pulse"></div>
                 
                 <div className="z-10 text-center">
-                  <span className="text-5xl font-serif italic text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-600 opacity-20">PICKIT</span>
+                  <span className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-600 opacity-20">PICKIT</span>
                 </div>
              </div>
           </div>

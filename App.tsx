@@ -126,16 +126,16 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void }> = (
   );
 };
 
+// Fade in animation wrapper for page transitions
+const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="animate-fade-in-up min-h-screen pt-20">
+    {children}
+  </div>
+);
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [loading, setLoading] = useState(true);
-
-  // Fade in animation wrapper for page transitions
-  const PageWrapper = ({ children }: { children: React.ReactNode }) => (
-    <div className="animate-fade-in-up min-h-screen pt-20">
-      {children}
-    </div>
-  );
 
   return (
     <>

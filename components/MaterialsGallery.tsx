@@ -59,9 +59,9 @@ const MaterialsGallery: React.FC = () => {
         <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div>
                 <span className="text-zinc-500 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Our Materials</span>
-                <h2 className="text-4xl md:text-6xl font-serif text-white leading-none">
+                <h2 className="text-4xl md:text-6xl font-bold text-white leading-none">
                     Essence of <br/>
-                    <span className="italic text-zinc-400">Pure Metal.</span>
+                    <span className="text-zinc-400">Pure Metal.</span>
                 </h2>
             </div>
             <p className="text-zinc-400 max-w-sm text-sm leading-relaxed text-right md:text-left">
@@ -128,7 +128,7 @@ const MaterialCard: React.FC<{ material: any, index: number, isActive: boolean, 
                 <div className={`text-xs font-bold tracking-[0.2em] uppercase mb-2 transition-colors duration-300 ${isActive ? 'text-white' : 'text-zinc-600 group-hover:text-zinc-400'}`}>
                     {index + 1 < 10 ? `0${index + 1}` : index + 1}
                 </div>
-                <h3 className={`text-2xl md:text-3xl font-serif mb-4 transition-all duration-300 ${isActive ? 'text-white translate-y-0' : 'text-zinc-500 translate-y-4 group-hover:text-zinc-300'}`}>
+                <h3 className={`text-2xl md:text-3xl font-bold mb-4 transition-all duration-300 ${isActive ? 'text-white translate-y-0' : 'text-zinc-500 translate-y-4 group-hover:text-zinc-300'}`}>
                     {material.name.split(' ')[0]}<br/>
                     {material.name.split(' ')[1]}
                 </h3>

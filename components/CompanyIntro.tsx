@@ -9,9 +9,9 @@ const CompanyIntro: React.FC = () => {
       <div className="max-w-5xl mx-auto relative z-10">
         <div className="text-center mb-20">
             <span className="inline-block px-3 py-1 border border-zinc-800 rounded-full text-[10px] tracking-[0.2em] uppercase text-zinc-500 mb-8 bg-zinc-950">The Philosophy</span>
-            <h2 className="font-serif text-4xl md:text-6xl text-white leading-tight">
+            <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
                 Not just a Card,<br/>
-                It's a <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#FCE2C4] to-[#D4AF37] animate-shine bg-[length:200%_auto]">Statement.</span>
+                It's a <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#FCE2C4] to-[#D4AF37] animate-shine bg-[length:200%_auto]">Statement.</span>
             </h2>
         </div>
 
@@ -35,11 +35,11 @@ const CompanyIntro: React.FC = () => {
                     오직 당신만을 위해 존재하는 단 하나의 마스터피스.
                 </p>
                 <div className="mt-16">
-                    <p className="font-serif italic text-2xl text-zinc-500 mb-4">Sincerely,</p>
+                    <p className="text-2xl text-zinc-500 mb-4 font-light">Sincerely,</p>
                     <div className="relative inline-block">
-                         {/* Gold Foil Signature Effect */}
-                        <h3 className="text-3xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#D4AF37] to-[#805e10] tracking-wider" style={{ filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.5))' }}>
-                            KIM JEONG WOO
+                         {/* Gold Foil Signature Effect - Korean Name */}
+                        <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#D4AF37] to-[#805e10] tracking-wider" style={{ filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.5))' }}>
+                            김 정 우
                         </h3>
                         <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mt-2"></div>
                     </div>

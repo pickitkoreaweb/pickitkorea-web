@@ -49,9 +49,9 @@ const PackagingShowcase: React.FC = () => {
                    <span className="text-xs font-semibold tracking-wide uppercase text-[#D4AF37]">Unboxing Experience</span>
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl font-serif text-white mb-6">
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
                     A Gift for <br/>
-                    <span className="italic text-zinc-500">Your Success.</span>
+                    <span className="text-zinc-500">Your Success.</span>
                 </h2>
                 
                 <p className="text-lg text-zinc-400 mb-10 leading-relaxed">
