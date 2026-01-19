@@ -13,17 +13,15 @@ const MaterialsGallery: React.FC = () => {
       desc: "빛을 완벽하게 흡수하고 반사하는 심연의 블랙. 다이아몬드 코팅(DLC)으로 완성된 압도적인 내구성과 거울 같은 광택을 자랑합니다.",
       // Photorealistic Metal Sphere CSS (PBR Style)
       sphere: {
-        // Base Color
         base: "radial-gradient(circle at 35% 35%, rgba(255,255,255,0.9) 0%, rgba(80,80,80,1) 15%, rgba(10,10,10,1) 50%, #000000 100%)",
-        // Horizon Reflection (Sharp cut for metal look)
         reflection: "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 45%, rgba(255,255,255,0.9) 50%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.8) 100%)",
-        // Glow / Ambient
         shadow: "0 20px 50px rgba(0,0,0,0.9)"
       },
+      // Card Styling
       card: {
         bg: "#080808",
         border: "#333333",
-        text: "text-zinc-400",
+        text: "text-zinc-400", // Text color for back face
         texture: "https://www.transparenttextures.com/patterns/stardust.png",
         accent: "text-white"
       }
@@ -59,7 +57,7 @@ const MaterialsGallery: React.FC = () => {
       card: {
         bg: "#E6C673", // Gold
         border: "#FDE047",
-        text: "text-yellow-900/70",
+        text: "text-yellow-900/80",
         texture: "https://www.transparenttextures.com/patterns/cubes.png",
         accent: "text-yellow-950"
       }
@@ -77,7 +75,7 @@ const MaterialsGallery: React.FC = () => {
       card: {
         bg: "#FDA4AF", // Rose
         border: "#FECDD3",
-        text: "text-rose-950/70",
+        text: "text-rose-950/80",
         texture: "https://www.transparenttextures.com/patterns/stardust.png",
         accent: "text-rose-950"
       }
@@ -262,7 +260,7 @@ const MaterialsGallery: React.FC = () => {
                             className="absolute inset-0 backface-hidden rounded-xl overflow-hidden shadow-xl border transition-colors duration-500"
                             style={{ 
                                 transform: 'rotateY(180deg)',
-                                backgroundColor: currentMat.card.bg,
+                                backgroundColor: currentMat.card.bg, // Sync Back Face Color
                                 borderColor: currentMat.card.border
                             }}
                         >
@@ -276,15 +274,19 @@ const MaterialsGallery: React.FC = () => {
 
                             <div className="p-6 relative z-10">
                                 <div className="flex justify-between items-center mb-4">
+                                    {/* Signature Panel */}
                                     <div className="w-2/3 h-8 bg-white/90 flex items-center justify-end px-2 skew-x-[-10deg]">
                                         <span className="font-mono text-black px-2 py-0.5 italic text-sm font-bold skew-x-[10deg]">123</span>
                                     </div>
-                                    <div className={`w-10 h-10 opacity-50 grayscale border rounded p-1 ${currentMat.card.text} border-current`}>
+                                    
+                                    {/* Hologram Box */}
+                                    <div className={`w-10 h-10 opacity-60 grayscale border rounded p-1 ${currentMat.card.text} border-current`}>
                                         <Layers className="w-full h-full" />
                                     </div>
                                 </div>
                                 
-                                <p className={`text-[7px] leading-relaxed text-justify px-1 opacity-70 ${currentMat.card.text}`}>
+                                {/* Legal Text - Contrast Aware */}
+                                <p className={`text-[7px] leading-relaxed text-justify px-1 opacity-80 ${currentMat.card.text}`}>
                                     This card is issued by PICKIT KOREA Inc. pursuant to license by Visa International. 
                                     Use of this card is subject to the agreement, as amended, 
                                     which constitutes the holder's acceptance of these terms.
