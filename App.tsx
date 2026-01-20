@@ -400,9 +400,7 @@ export default function App() {
                 <RevealOnScroll>
                     <CompanyIntro />
                 </RevealOnScroll>
-                <RevealOnScroll>
-                    <BusinessDomains />
-                </RevealOnScroll>
+                {/* BusinessDomains Removed for Clarity */}
                 <RevealOnScroll>
                     <Features qcImage={siteImages.feature1} />
                 </RevealOnScroll>
