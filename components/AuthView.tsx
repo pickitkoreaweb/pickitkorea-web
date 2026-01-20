@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { User, Lock, Mail, Phone, ShieldCheck, ArrowRight, Check, X, FileText, KeyRound, ArrowLeft, Loader2, Calendar, Smartphone, Timer, CheckCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { User, Lock, Phone, ArrowLeft, Check, X, FileText, KeyRound, Loader2, CheckCircle } from 'lucide-react';
 
 interface AuthViewProps {
   onLogin: (userData: any) => void;
@@ -30,38 +30,10 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
     agreeTerms: false
   });
 
-  // Verification State
-  const [showVerifyModal, setShowVerifyModal] = useState(false);
-  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
-  const [verifyCode, setVerifyCode] = useState('');
-  const [verifyTimer, setVerifyTimer] = useState(180); // 3 minutes
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [verificationStep, setVerificationStep] = useState<'request' | 'confirm'>('request');
-  const [selectedCarrier, setSelectedCarrier] = useState('SKT');
-
   // Find Password State
   const [findData, setFindData] = useState({ name: '', phone: '' });
   const [findStatus, setFindStatus] = useState<'idle' | 'searching' | 'success'>('idle');
   const [findError, setFindError] = useState('');
-
-  // Timer Logic
-  useEffect(() => {
-    let interval: number;
-    if (isTimerRunning && verifyTimer > 0) {
-      interval = setInterval(() => {
-        setVerifyTimer((prev) => prev - 1);
-      }, 1000);
-    } else if (verifyTimer === 0) {
-      setIsTimerRunning(false);
-    }
-    return () => clearInterval(interval);
-  }, [isTimerRunning, verifyTimer]);
-
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m}:${s < 10 ? '0' : ''}${s}`;
-  };
 
   const generateCustomerId = () => {
      const year = new Date().getFullYear().toString().slice(2);
@@ -106,14 +78,14 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
   const handleSignupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!isPhoneVerified) {
-        alert("휴대폰 본인인증을 완료해주세요.");
-        return;
-    }
-
     if (signupData.password !== signupData.confirmPassword) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
+    }
+
+    if (!signupData.name || !signupData.phone) {
+        alert("이름과 연락처를 입력해주세요.");
+        return;
     }
 
     if (!signupData.agreeTerms) {
@@ -150,36 +122,6 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
 
     alert(`회원가입이 완료되었습니다.\n고객번호: ${newUser.customerId}`);
     setAuthMode('login');
-  };
-
-  // Verification Handlers
-  const openVerificationModal = () => {
-    if (!signupData.name || !signupData.phone) {
-        alert("이름과 휴대폰 번호를 입력해주세요.");
-        return;
-    }
-    setVerificationStep('request');
-    setVerifyCode('');
-    setVerifyTimer(180);
-    setShowVerifyModal(true);
-  };
-
-  const requestVerificationCode = () => {
-      // Simulate API Call
-      setIsTimerRunning(true);
-      setVerificationStep('confirm');
-      alert(`[PICKIT] 인증번호 [123456]이 발송되었습니다.\n(시뮬레이션 모드)`);
-  };
-
-  const confirmVerificationCode = () => {
-      if (verifyCode === '123456') {
-          setIsPhoneVerified(true);
-          setShowVerifyModal(false);
-          setIsTimerRunning(false);
-          alert("본인인증이 완료되었습니다.");
-      } else {
-          alert("인증번호가 일치하지 않습니다.");
-      }
   };
 
   const handleFindSubmit = (e: React.FormEvent) => {
@@ -359,7 +301,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
                                     Verifying...
                                 </>
                             ) : (
-                                "VERIFY USER"
+                                "FIND ACCOUNT"
                             )}
                         </button>
                     </form>
@@ -368,11 +310,11 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
                         <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 mb-6">
                             <div className="flex items-center justify-center gap-2 text-green-500 mb-2">
                                 <Check className="w-5 h-5" />
-                                <span className="font-bold text-sm">인증 성공</span>
+                                <span className="font-bold text-sm">계정 확인</span>
                             </div>
                             <p className="text-zinc-400 text-xs leading-relaxed">
-                                입력하신 휴대폰 번호로<br/>
-                                <strong className="text-white">임시 비밀번호</strong>가 발송되었습니다.
+                                입력하신 정보와 일치하는 계정이 존재합니다.<br/>
+                                비밀번호 찾기는 고객센터로 문의해주세요.
                             </p>
                         </div>
                         <button 
@@ -391,7 +333,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
           <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-3xl backdrop-blur-md animate-fade-in-up shadow-2xl">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-serif text-white mb-2">Create Account</h2>
-              <p className="text-zinc-500 text-sm">본인 인증 후 안전하게 가입하세요.</p>
+              <p className="text-zinc-500 text-sm">간편하게 가입하고 멤버십 혜택을 누리세요.</p>
             </div>
 
             <form onSubmit={handleSignupSubmit} className="space-y-3">
@@ -402,11 +344,9 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
                         placeholder="Name (실명)"
                         value={signupData.name}
                         onChange={(e) => setSignupData({...signupData, name: e.target.value})}
-                        className={`w-full bg-black border rounded-xl p-3 pl-3 text-white text-sm focus:outline-none transition-colors ${isPhoneVerified ? 'border-green-900/50 text-green-500 bg-green-900/10' : 'border-zinc-800 focus:border-white'}`}
+                        className="w-full bg-black border border-zinc-800 rounded-xl p-3 pl-3 text-white text-sm focus:border-white outline-none"
                         required
-                        readOnly={isPhoneVerified}
                     />
-                    {isPhoneVerified && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 text-green-500" />}
                  </div>
                  <input 
                     type="text" 
@@ -419,34 +359,15 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
                  />
               </div>
 
-              {/* Phone Verification Section */}
-              <div className="flex gap-2">
-                 <div className="relative flex-1">
-                    <input 
-                        type="text" 
-                        placeholder="Phone (010-0000-0000)"
-                        value={signupData.phone}
-                        onChange={(e) => setSignupData({...signupData, phone: e.target.value})}
-                        className={`w-full bg-black border rounded-xl p-3 text-white text-sm focus:outline-none transition-colors ${isPhoneVerified ? 'border-green-900/50 text-green-500 bg-green-900/10' : 'border-zinc-800 focus:border-white'}`}
-                        required
-                        readOnly={isPhoneVerified}
-                    />
-                    {isPhoneVerified && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 text-green-500" />}
-                 </div>
-                 <button 
-                    type="button"
-                    onClick={openVerificationModal}
-                    disabled={isPhoneVerified}
-                    className={`px-4 rounded-xl text-xs font-bold transition-colors border whitespace-nowrap ${isPhoneVerified ? 'bg-green-900/20 border-green-800 text-green-500 cursor-default' : 'bg-[#D4AF37] border-[#D4AF37] text-black hover:bg-[#FCE2C4]'}`}
-                 >
-                    {isPhoneVerified ? <CheckCircle className="w-4 h-4" /> : "본인인증"}
-                 </button>
-              </div>
-              {isPhoneVerified && (
-                  <p className="text-[10px] text-green-500 flex items-center gap-1 pl-1">
-                      <CheckCircle className="w-3 h-3" /> 본인인증이 완료되었습니다.
-                  </p>
-              )}
+              {/* Phone Input (Simplified) */}
+              <input 
+                  type="text" 
+                  placeholder="Phone (010-0000-0000)"
+                  value={signupData.phone}
+                  onChange={(e) => setSignupData({...signupData, phone: e.target.value})}
+                  className="w-full bg-black border border-zinc-800 rounded-xl p-3 text-white text-sm focus:border-white outline-none"
+                  required
+              />
 
               <input 
                  type="email" 
@@ -540,104 +461,12 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
 
               <button 
                 type="submit" 
-                className="w-full py-4 bg-white text-black font-bold text-xs rounded-xl hover:bg-zinc-200 transition-colors mt-4 disabled:opacity-50 disabled:cursor-not-allowed tracking-widest shadow-lg"
-                disabled={!isPhoneVerified}
+                className="w-full py-4 bg-white text-black font-bold text-xs rounded-xl hover:bg-zinc-200 transition-colors mt-4 tracking-widest shadow-lg"
               >
                 CREATE ACCOUNT
               </button>
             </form>
           </div>
-        )}
-
-        {/* VERIFICATION MODAL */}
-        {showVerifyModal && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in-up">
-                <div className="bg-[#111] border border-zinc-700 rounded-2xl w-full max-w-sm shadow-2xl relative overflow-hidden">
-                    <div className="bg-zinc-900/50 p-4 border-b border-zinc-800 flex justify-between items-center">
-                        <div className="flex items-center gap-2">
-                            <ShieldCheck className="w-5 h-5 text-[#D4AF37]" />
-                            <h3 className="text-white font-bold text-sm">휴대폰 본인인증</h3>
-                        </div>
-                        <button onClick={() => setShowVerifyModal(false)} className="text-zinc-500 hover:text-white">
-                            <X className="w-5 h-5" />
-                        </button>
-                    </div>
-
-                    <div className="p-6 space-y-4">
-                        {verificationStep === 'request' ? (
-                            <>
-                                <p className="text-zinc-400 text-xs mb-2">
-                                    본인 명의의 휴대폰 번호로 인증번호를 발송합니다.
-                                </p>
-                                <div className="space-y-3">
-                                    <div className="grid grid-cols-3 gap-2">
-                                        {['SKT', 'KT', 'LGU+'].map(carrier => (
-                                            <button 
-                                                key={carrier}
-                                                onClick={() => setSelectedCarrier(carrier)}
-                                                className={`py-2 text-xs font-bold rounded border transition-colors ${selectedCarrier === carrier ? 'bg-white text-black border-white' : 'bg-zinc-900 text-zinc-500 border-zinc-700 hover:border-zinc-500'}`}
-                                            >
-                                                {carrier}
-                                            </button>
-                                        ))}
-                                        <button className="py-2 text-xs font-bold rounded border bg-zinc-900 text-zinc-500 border-zinc-700 opacity-50 cursor-not-allowed">알뜰폰</button>
-                                    </div>
-                                    
-                                    <div className="bg-zinc-900 p-3 rounded border border-zinc-800">
-                                        <p className="text-xs text-zinc-500 mb-1">휴대폰 번호</p>
-                                        <p className="text-white font-mono">{signupData.phone}</p>
-                                    </div>
-
-                                    <button 
-                                        onClick={requestVerificationCode}
-                                        className="w-full py-3 bg-[#D4AF37] text-black font-bold text-xs rounded hover:bg-[#FCE2C4] transition-colors"
-                                    >
-                                        인증번호 발송
-                                    </button>
-                                </div>
-                            </>
-                        ) : (
-                            <>
-                                <div className="text-center mb-4">
-                                    <Smartphone className="w-10 h-10 text-zinc-700 mx-auto mb-2" />
-                                    <p className="text-white text-sm font-bold">인증번호가 발송되었습니다.</p>
-                                    <p className="text-zinc-500 text-xs">문자로 수신된 6자리 번호를 입력해주세요.</p>
-                                </div>
-
-                                <div className="relative">
-                                    <input 
-                                        type="text" 
-                                        value={verifyCode}
-                                        onChange={(e) => setVerifyCode(e.target.value)}
-                                        placeholder="123456"
-                                        className="w-full bg-black border border-zinc-700 rounded-lg p-3 text-center text-white text-lg tracking-[0.5em] focus:border-[#D4AF37] outline-none"
-                                        maxLength={6}
-                                    />
-                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-[#D4AF37] text-xs font-mono font-bold">
-                                        <Timer className="w-3 h-3" />
-                                        {formatTime(verifyTimer)}
-                                    </div>
-                                </div>
-
-                                <div className="flex gap-2">
-                                    <button 
-                                        onClick={() => setVerificationStep('request')}
-                                        className="flex-1 py-3 border border-zinc-700 text-zinc-400 font-bold text-xs rounded hover:bg-zinc-900"
-                                    >
-                                        재발송
-                                    </button>
-                                    <button 
-                                        onClick={confirmVerificationCode}
-                                        className="flex-1 py-3 bg-white text-black font-bold text-xs rounded hover:bg-zinc-200"
-                                    >
-                                        인증 확인
-                                    </button>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                </div>
-            </div>
         )}
 
         {/* Terms Modal */}
