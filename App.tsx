@@ -23,6 +23,7 @@ import EventView from './components/EventView';
 import AdminDashboard from './components/AdminDashboard';
 import MyPage from './components/MyPage';
 import BusinessDomains from './components/BusinessDomains';
+import LaunchPopup from './components/LaunchPopup';
 
 type Page = 'home' | 'about' | 'business' | 'business-metal' | 'business-trade' | 'business-realty' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'inquiry' | 'contact' | 'policy' | 'auth' | 'event' | 'admin-dashboard' | 'mypage';
 
@@ -388,6 +389,7 @@ export default function App() {
             onLogout={handleLogout}
           />
           <PrivateConcierge />
+          <LaunchPopup />
           
           <main>
             {/* HOME PAGE: Curated Landing */}

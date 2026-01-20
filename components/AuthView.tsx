@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Lock, Mail, Phone, ShieldCheck, ArrowRight, Check, X, FileText, KeyRound, ArrowLeft, Loader2, Calendar, Smartphone, Timer } from 'lucide-react';
+import { User, Lock, Mail, Phone, ShieldCheck, ArrowRight, Check, X, FileText, KeyRound, ArrowLeft, Loader2, Calendar, Smartphone, Timer, CheckCircle } from 'lucide-react';
 
 interface AuthViewProps {
   onLogin: (userData: any) => void;
@@ -94,7 +94,6 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
     const user = storedUsers.find((u: any) => u.id === loginId && u.password === loginPw);
 
     if (user) {
-      // Ensure role is user
       const userData = { ...user, role: 'user' };
       localStorage.setItem('pickit_user', JSON.stringify(userData));
       onLogin(userData);
@@ -129,13 +128,13 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
 
     const newUser = {
       id: signupData.id,
-      customerId: generateCustomerId(), // Generate Unique Customer ID
+      customerId: generateCustomerId(),
       password: signupData.password,
       name: signupData.name,
       phone: signupData.phone,
       email: signupData.email,
       birthdate: signupData.birthdate,
-      address: '', // Init address
+      address: '', 
       joinedAt: new Date().toLocaleDateString('ko-KR')
     };
 
@@ -188,15 +187,12 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
       setFindStatus('searching');
       setFindError('');
 
-      // Simulate Network Delay
       setTimeout(() => {
-          // Check Admin (Hardcoded for demo)
           if (findData.name === 'PICKIT MASTER' && findData.phone === '010-8282-1043') {
              setFindStatus('success');
              return;
           }
 
-          // Check LocalStorage
           const storedUsers = JSON.parse(localStorage.getItem('pickit_users_db') || '[]');
           const user = storedUsers.find((u: any) => u.name === findData.name && u.phone === findData.phone);
 
@@ -237,7 +233,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
 
         {/* LOGIN FORM */}
         {authMode === 'login' && (
-          <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-3xl backdrop-blur-md animate-fade-in-up">
+          <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-3xl backdrop-blur-md animate-fade-in-up shadow-2xl">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-serif text-white mb-2">Welcome Back</h2>
               <p className="text-zinc-500 text-sm">PICKIT의 프리미엄 서비스를 이용해보세요.</p>
@@ -277,7 +273,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
 
               <button 
                 type="submit" 
-                className="w-full py-4 bg-[#D4AF37] text-black font-bold text-xs rounded-xl hover:bg-[#FCE2C4] transition-colors mt-4 shadow-[0_0_20px_rgba(212,175,55,0.2)]"
+                className="w-full py-4 bg-[#D4AF37] text-black font-bold text-xs rounded-xl hover:bg-[#FCE2C4] transition-colors mt-4 shadow-[0_0_20px_rgba(212,175,55,0.2)] tracking-widest"
               >
                 LOGIN
               </button>
@@ -301,7 +297,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
 
         {/* FIND PASSWORD FORM */}
         {authMode === 'find' && (
-             <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-3xl backdrop-blur-md animate-fade-in-up relative overflow-hidden">
+             <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-3xl backdrop-blur-md animate-fade-in-up relative overflow-hidden shadow-2xl">
                 <button 
                     onClick={() => setAuthMode('login')}
                     className="absolute top-6 left-6 text-zinc-500 hover:text-white transition-colors"
@@ -392,7 +388,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
 
         {/* SIGN UP FORM */}
         {authMode === 'signup' && (
-          <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-3xl backdrop-blur-md animate-fade-in-up">
+          <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-3xl backdrop-blur-md animate-fade-in-up shadow-2xl">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-serif text-white mb-2">Create Account</h2>
               <p className="text-zinc-500 text-sm">본인 인증 후 안전하게 가입하세요.</p>
@@ -400,44 +396,50 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
 
             <form onSubmit={handleSignupSubmit} className="space-y-3">
               <div className="grid grid-cols-2 gap-3">
-                 <input 
-                    type="text" 
-                    placeholder="Name (실명)"
-                    value={signupData.name}
-                    onChange={(e) => setSignupData({...signupData, name: e.target.value})}
-                    className={`bg-black border rounded-xl p-3 text-white text-sm focus:border-white outline-none ${isPhoneVerified ? 'border-zinc-700 text-zinc-500 cursor-not-allowed' : 'border-zinc-800'}`}
-                    required
-                    readOnly={isPhoneVerified}
-                 />
+                 <div className="relative">
+                    <input 
+                        type="text" 
+                        placeholder="Name (실명)"
+                        value={signupData.name}
+                        onChange={(e) => setSignupData({...signupData, name: e.target.value})}
+                        className={`w-full bg-black border rounded-xl p-3 pl-3 text-white text-sm focus:outline-none transition-colors ${isPhoneVerified ? 'border-green-900/50 text-green-500 bg-green-900/10' : 'border-zinc-800 focus:border-white'}`}
+                        required
+                        readOnly={isPhoneVerified}
+                    />
+                    {isPhoneVerified && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 text-green-500" />}
+                 </div>
                  <input 
                     type="text" 
                     placeholder="Birthdate (900101)"
                     value={signupData.birthdate}
                     onChange={(e) => setSignupData({...signupData, birthdate: e.target.value})}
                     maxLength={6}
-                    className="bg-black border border-zinc-800 rounded-xl p-3 text-white text-sm focus:border-white outline-none"
+                    className="w-full bg-black border border-zinc-800 rounded-xl p-3 text-white text-sm focus:border-white outline-none"
                     required
                  />
               </div>
 
               {/* Phone Verification Section */}
               <div className="flex gap-2">
-                 <input 
-                    type="text" 
-                    placeholder="Phone (010-0000-0000)"
-                    value={signupData.phone}
-                    onChange={(e) => setSignupData({...signupData, phone: e.target.value})}
-                    className={`flex-1 bg-black border rounded-xl p-3 text-white text-sm focus:border-white outline-none ${isPhoneVerified ? 'border-zinc-700 text-zinc-500 cursor-not-allowed' : 'border-zinc-800'}`}
-                    required
-                    readOnly={isPhoneVerified}
-                 />
+                 <div className="relative flex-1">
+                    <input 
+                        type="text" 
+                        placeholder="Phone (010-0000-0000)"
+                        value={signupData.phone}
+                        onChange={(e) => setSignupData({...signupData, phone: e.target.value})}
+                        className={`w-full bg-black border rounded-xl p-3 text-white text-sm focus:outline-none transition-colors ${isPhoneVerified ? 'border-green-900/50 text-green-500 bg-green-900/10' : 'border-zinc-800 focus:border-white'}`}
+                        required
+                        readOnly={isPhoneVerified}
+                    />
+                    {isPhoneVerified && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 text-green-500" />}
+                 </div>
                  <button 
                     type="button"
                     onClick={openVerificationModal}
                     disabled={isPhoneVerified}
-                    className={`px-4 rounded-xl text-xs font-bold transition-colors border ${isPhoneVerified ? 'bg-green-900/20 border-green-800 text-green-500' : 'bg-[#D4AF37] border-[#D4AF37] text-black hover:bg-[#FCE2C4]'}`}
+                    className={`px-4 rounded-xl text-xs font-bold transition-colors border whitespace-nowrap ${isPhoneVerified ? 'bg-green-900/20 border-green-800 text-green-500 cursor-default' : 'bg-[#D4AF37] border-[#D4AF37] text-black hover:bg-[#FCE2C4]'}`}
                  >
-                    {isPhoneVerified ? <Check className="w-4 h-4" /> : "본인인증"}
+                    {isPhoneVerified ? <CheckCircle className="w-4 h-4" /> : "본인인증"}
                  </button>
               </div>
               {isPhoneVerified && (
@@ -538,7 +540,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
 
               <button 
                 type="submit" 
-                className="w-full py-4 bg-white text-black font-bold text-xs rounded-xl hover:bg-zinc-200 transition-colors mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 bg-white text-black font-bold text-xs rounded-xl hover:bg-zinc-200 transition-colors mt-4 disabled:opacity-50 disabled:cursor-not-allowed tracking-widest shadow-lg"
                 disabled={!isPhoneVerified}
               >
                 CREATE ACCOUNT
@@ -697,13 +699,5 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin, setPage }) => {
     </section>
   );
 };
-
-// Helper component for icon
-const CheckCircle = ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-        <polyline points="22 4 12 14.01 9 11.01" />
-    </svg>
-);
 
 export default AuthView;

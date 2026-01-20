@@ -10,7 +10,7 @@ const Features: React.FC<FeaturesProps> = ({ qcImage }) => {
   const imageUrl = qcImage || "https://images.unsplash.com/photo-1614623466144-d83049185c7c?q=80&w=1600&auto=format&fit=crop";
 
   return (
-    <section id="features" className="py-24 px-6 bg-[#050505] relative overflow-hidden">
+    <section id="features" className="py-24 md:py-32 px-6 bg-[#050505] relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-zinc-900/10 skew-x-12 pointer-events-none"></div>
       
@@ -32,30 +32,30 @@ const Features: React.FC<FeaturesProps> = ({ qcImage }) => {
           </p>
         </div>
 
-        {/* 1. Technical Specs Grid */}
+        {/* 1. Technical Specs Grid - Optimized for Mobile */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
             <div className="p-6 rounded-2xl bg-zinc-900/30 border border-zinc-800 hover:border-zinc-600 transition-colors group">
                 <Layers className="w-8 h-8 text-zinc-500 mb-4 group-hover:text-white transition-colors" />
-                <h4 className="text-zinc-500 text-xs font-bold uppercase tracking-widest mb-1">Material</h4>
-                <p className="text-white text-lg font-bold">304 Stainless Steel</p>
+                <h4 className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Material</h4>
+                <p className="text-white text-base md:text-lg font-bold">304 Stainless</p>
                 <p className="text-zinc-600 text-xs mt-1">Surgical Grade</p>
             </div>
             <div className="p-6 rounded-2xl bg-zinc-900/30 border border-zinc-800 hover:border-zinc-600 transition-colors group">
                 <Scale className="w-8 h-8 text-zinc-500 mb-4 group-hover:text-white transition-colors" />
-                <h4 className="text-zinc-500 text-xs font-bold uppercase tracking-widest mb-1">Weight</h4>
-                <p className="text-white text-lg font-bold">18g ~ 21g</p>
-                <p className="text-zinc-600 text-xs mt-1">Heavy Weight Feel</p>
+                <h4 className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Weight</h4>
+                <p className="text-white text-base md:text-lg font-bold">21g (Heavy)</p>
+                <p className="text-zinc-600 text-xs mt-1">vs Plastic 5g</p>
             </div>
             <div className="p-6 rounded-2xl bg-zinc-900/30 border border-zinc-800 hover:border-zinc-600 transition-colors group">
                 <Ruler className="w-8 h-8 text-zinc-500 mb-4 group-hover:text-white transition-colors" />
-                <h4 className="text-zinc-500 text-xs font-bold uppercase tracking-widest mb-1">Thickness</h4>
-                <p className="text-white text-lg font-bold">0.8mm</p>
+                <h4 className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Thickness</h4>
+                <p className="text-white text-base md:text-lg font-bold">0.8mm</p>
                 <p className="text-zinc-600 text-xs mt-1">ISO Standard</p>
             </div>
             <div className="p-6 rounded-2xl bg-zinc-900/30 border border-zinc-800 hover:border-zinc-600 transition-colors group">
                 <ScanLine className="w-8 h-8 text-zinc-500 mb-4 group-hover:text-white transition-colors" />
-                <h4 className="text-zinc-500 text-xs font-bold uppercase tracking-widest mb-1">Finishing</h4>
-                <p className="text-white text-lg font-bold">PVD Coating</p>
+                <h4 className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Finishing</h4>
+                <p className="text-white text-base md:text-lg font-bold">PVD Coating</p>
                 <p className="text-zinc-600 text-xs mt-1">Anti-Scratch</p>
             </div>
         </div>

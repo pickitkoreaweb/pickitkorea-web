@@ -3,9 +3,9 @@ import { Fingerprint, UserCheck, Star, ShieldCheck, ScanLine, Smartphone } from 
 
 const BusinessCardShowcase: React.FC = () => {
   return (
-    <section className="py-24 px-6 bg-zinc-950 border-t border-zinc-900 relative overflow-hidden perspective-1000">
+    <section className="py-24 md:py-32 px-6 bg-zinc-950 border-t border-zinc-900 relative overflow-hidden perspective-1000">
       {/* Background Gradient */}
-      <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-zinc-900/30 to-transparent pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-full md:w-2/3 h-full bg-gradient-to-l from-zinc-900/30 to-transparent pointer-events-none"></div>
 
       {/* Floating 3D Cubes (Background Decoration) */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -18,7 +18,7 @@ const BusinessCardShowcase: React.FC = () => {
         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
           
           {/* Text Content */}
-          <div className="flex-1 order-2 lg:order-1">
+          <div className="flex-1 order-2 lg:order-1 text-center lg:text-left">
              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 mb-6">
                 <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                 <span className="text-xs font-semibold tracking-wide uppercase text-yellow-500">Premium Business Edition</span>
@@ -29,14 +29,14 @@ const BusinessCardShowcase: React.FC = () => {
                 <span className="text-zinc-500">단 하나의 메탈 명함.</span>
              </h2>
              
-             <p className="text-lg text-zinc-400 mb-8 leading-relaxed">
-                비즈니스의 시작은 명함을 건네는 순간부터입니다. <br />
+             <p className="text-lg text-zinc-400 mb-8 leading-relaxed break-keep">
+                비즈니스의 시작은 명함을 건네는 순간부터입니다. <br className="hidden md:block"/>
                 종이 명함으로는 담을 수 없는 무게감과 신뢰를 전달하세요. 
                 PICKIT 프리미엄 메탈 명함은 단순한 정보 전달을 넘어, 
                 당신의 품격을 대변하는 가장 강력한 비즈니스 도구입니다.
              </p>
 
-             <ul className="space-y-4 mb-10">
+             <ul className="space-y-4 mb-10 text-left">
                 <li className="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors">
                     <div className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center flex-shrink-0">
                         <UserCheck className="w-5 h-5 text-white" />
@@ -64,7 +64,7 @@ const BusinessCardShowcase: React.FC = () => {
 
           {/* Visual Content - Single High-Quality Metal Business Card */}
           <div className="flex-1 w-full order-1 lg:order-2 flex justify-center items-center py-10">
-             <div className="relative w-full max-w-[440px] aspect-[1.586/1] perspective-1000 group transform scale-[0.9] md:scale-100">
+             <div className="relative w-[340px] md:w-full max-w-[440px] aspect-[1.586/1] perspective-1000 group">
                 
                 {/* 3D Depth Layers for Thickness - Tighter radius for sharp metal look */}
                 <div className="absolute inset-0 bg-zinc-800 rounded-lg transform translate-y-2 translate-x-2 transition-transform group-hover:translate-x-3 group-hover:translate-y-3 duration-500 shadow-2xl"></div>
@@ -79,13 +79,13 @@ const BusinessCardShowcase: React.FC = () => {
                     <div className="absolute inset-0 flex">
                         
                         {/* Left Content Area (Info) - 65% width */}
-                        <div className="w-[65%] h-full p-8 flex flex-col justify-center relative z-10">
+                        <div className="w-[65%] h-full p-6 md:p-8 flex flex-col justify-center relative z-10">
                             {/* Decorative Line */}
                             <div className="absolute top-8 left-8 w-8 h-[2px] bg-[#D4AF37]"></div>
 
                             {/* Name & Title */}
-                            <div className="mt-4 mb-10">
-                                <h3 className="text-3xl font-serif font-bold text-white tracking-wide mb-2 drop-shadow-md">Jeny Kim</h3>
+                            <div className="mt-4 mb-8 md:mb-10">
+                                <h3 className="text-2xl md:text-3xl font-serif font-bold text-white tracking-wide mb-2 drop-shadow-md">Jeny Kim</h3>
                                 <p className="text-[10px] text-[#D4AF37] font-bold tracking-[0.2em] uppercase">Executive Director</p>
                             </div>
                             
@@ -95,19 +95,19 @@ const BusinessCardShowcase: React.FC = () => {
                                     <div className="w-5 h-5 rounded-full border border-zinc-800 bg-zinc-900/50 flex items-center justify-center group-hover/link:border-[#D4AF37] transition-colors">
                                         <span className="text-[8px] text-zinc-500 group-hover/link:text-[#D4AF37]">M</span>
                                     </div>
-                                    <span className="text-[10px] text-zinc-400 font-medium tracking-wider group-hover/link:text-white transition-colors">+82 10 1234 5678</span>
+                                    <span className="text-[9px] md:text-[10px] text-zinc-400 font-medium tracking-wider group-hover/link:text-white transition-colors">+82 10 1234 5678</span>
                                 </div>
                                 <div className="flex items-center gap-3 group/link cursor-pointer">
                                     <div className="w-5 h-5 rounded-full border border-zinc-800 bg-zinc-900/50 flex items-center justify-center group-hover/link:border-[#D4AF37] transition-colors">
                                         <span className="text-[8px] text-zinc-500 group-hover/link:text-[#D4AF37]">E</span>
                                     </div>
-                                    <span className="text-[10px] text-zinc-400 font-medium tracking-wider group-hover/link:text-white transition-colors">jeny.kim@pickit.com</span>
+                                    <span className="text-[9px] md:text-[10px] text-zinc-400 font-medium tracking-wider group-hover/link:text-white transition-colors">jeny.kim@pickit.com</span>
                                 </div>
                                 <div className="flex items-center gap-3 group/link cursor-pointer">
                                     <div className="w-5 h-5 rounded-full border border-zinc-800 bg-zinc-900/50 flex items-center justify-center group-hover/link:border-[#D4AF37] transition-colors">
                                         <span className="text-[8px] text-zinc-500 group-hover/link:text-[#D4AF37]">W</span>
                                     </div>
-                                    <span className="text-[10px] text-zinc-400 font-medium tracking-wider group-hover/link:text-white transition-colors">www.pickit-korea.com</span>
+                                    <span className="text-[9px] md:text-[10px] text-zinc-400 font-medium tracking-wider group-hover/link:text-white transition-colors">www.pickit-korea.com</span>
                                 </div>
                             </div>
                         </div>
@@ -129,11 +129,11 @@ const BusinessCardShowcase: React.FC = () => {
 
                              {/* Vertical Brand Text */}
                              <div className="relative z-10 flex-1 flex items-center justify-center w-full">
-                                <span className="text-zinc-700 font-bold text-[32px] opacity-20 transform -rotate-90 whitespace-nowrap tracking-[0.3em] absolute">PICKIT</span>
+                                <span className="text-zinc-700 font-bold text-[24px] md:text-[32px] opacity-20 transform -rotate-90 whitespace-nowrap tracking-[0.3em] absolute">PICKIT</span>
                              </div>
                              
                              {/* QR Code Area */}
-                             <div className="relative z-10 w-12 h-12 p-0.5 bg-gradient-to-br from-zinc-700 to-zinc-900 rounded-sm shadow-lg">
+                             <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 p-0.5 bg-gradient-to-br from-zinc-700 to-zinc-900 rounded-sm shadow-lg">
                                  <div className="w-full h-full bg-white flex items-center justify-center overflow-hidden">
                                      <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-60 mix-blend-multiply scale-50"></div>
                                      <ScanLine className="absolute w-full h-full text-black opacity-20 p-2" />

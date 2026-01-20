@@ -28,7 +28,7 @@ const Hero: React.FC<HeroProps> = ({ setPage, bgImage }) => {
                 frameBorder='0' 
                 width='100%' 
                 height='100%'
-                className="w-full h-full pointer-events-auto scale-[0.55] md:scale-110"
+                className="w-full h-full pointer-events-auto scale-[0.6] md:scale-100 lg:scale-110"
                 title="Spline 3D Metal Card"
                 loading="lazy"
               ></iframe>
@@ -45,7 +45,7 @@ const Hero: React.FC<HeroProps> = ({ setPage, bgImage }) => {
         </div>
         
         {/* Luxury Typography - Refined Gradients */}
-        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-200 to-zinc-600 animate-fade-in-up delay-100 drop-shadow-2xl leading-[1.2] md:leading-[0.9] pb-2">
+        <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-200 to-zinc-600 animate-fade-in-up delay-100 drop-shadow-2xl leading-[0.9] md:leading-[0.85] pb-2">
           UNBREAKABLE<br />
           <span className="font-light opacity-90 text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 to-zinc-500">Authority.</span>
         </h1>
