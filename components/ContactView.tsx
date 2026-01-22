@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, ArrowRight, Handshake, Building2, User } from 'lucide-react';
 
-const ContactView: React.FC = () => {
-  const [formData, setFormData] = useState({
+type InterestType = 'Metal Card' | 'Corporate' | 'Partnership';
+
+interface ContactViewProps {
+  initialTab?: InterestType;
+}
+
+const ContactView: React.FC<ContactViewProps> = ({ initialTab = 'Metal Card' }) => {
+  const [formData, setFormData] = useState<{
+    name: string;
+    phone: string;
+    email: string;
+    interest: InterestType;
+    message: string;
+  }>({
     name: '',
     phone: '',
     email: '',
-    interest: 'Metal Card',
+    interest: initialTab,
     message: ''
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
@@ -17,7 +29,7 @@ const ContactView: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleRadioChange = (value: string) => {
+  const handleRadioChange = (value: InterestType) => {
     setFormData(prev => ({ ...prev, interest: value }));
   };
 
@@ -45,7 +57,7 @@ const ContactView: React.FC = () => {
 ${formData.message}
       `;
 
-      window.location.href = `mailto:PICKIT.KOREA.OFFICIAL@GMAIL.COM?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:pickit.korea.official@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       
       setStatus('success');
       
@@ -96,7 +108,7 @@ ${formData.message}
                   </div>
                   <div>
                     <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2">Email Inquiry</h4>
-                    <p className="text-white text-lg font-medium break-all tracking-wide">PICKIT.KOREA.OFFICIAL@GMAIL.COM</p>
+                    <p className="text-white text-lg font-medium break-all tracking-wide">pickit.korea.official@gmail.com</p>
                   </div>
                 </div>
 
@@ -111,7 +123,7 @@ ${formData.message}
                   </div>
                   <div>
                     <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2 group-hover/item:text-[#D4AF37] transition-colors">Direct Call</h4>
-                    <p className="text-white text-lg font-medium tracking-wide group-hover/item:text-[#D4AF37] transition-colors">+82 10 8282 1043</p>
+                    <p className="text-white text-lg font-medium tracking-wide group-hover/item:text-[#D4AF37] transition-colors">010-8282-1043</p>
                     <p className="text-xs text-zinc-500 mt-1 flex items-center gap-2">
                          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
                          Available • Mon-Fri, 09:00 - 18:00

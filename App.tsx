@@ -23,7 +23,7 @@ import MyPage from './components/MyPage';
 import LaunchPopup from './components/LaunchPopup';
 import Gallery from './components/Gallery';
 
-type Page = 'home' | 'about' | 'metal-custom' | 'materials' | 'gallery' | 'faq' | 'contact' | 'policy' | 'auth' | 'event' | 'admin-dashboard' | 'mypage';
+type Page = 'home' | 'about' | 'metal-custom' | 'materials' | 'gallery' | 'faq' | 'contact' | 'policy' | 'auth' | 'event' | 'admin-dashboard' | 'mypage' | 'partnership';
 
 interface UserData {
   id: string;
@@ -108,6 +108,7 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
           <NavItem page="materials" label="MATERIALS" labelKo="소재 안내" active={currentPage === 'materials'} onClick={handleNavClick} />
           <NavItem page="faq" label="FAQ" labelKo="자주 묻는 질문" active={currentPage === 'faq'} onClick={handleNavClick} />
           <NavItem page="event" label="EVENT" labelKo="이벤트" active={currentPage === 'event'} onClick={handleNavClick} isNew={true} />
+          <NavItem page="partnership" label="PARTNER" labelKo="제휴문의" active={currentPage === 'partnership'} onClick={handleNavClick} />
 
           {/* Right Actions */}
           <div className="flex items-center gap-3 ml-6 border-l border-zinc-700/50 pl-6">
@@ -160,6 +161,7 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
           <button onClick={() => handleNavClick('gallery')} className="text-xl font-serif text-zinc-300 text-left">Gallery <span className="text-xs text-zinc-600 block">갤러리</span></button>
           <button onClick={() => handleNavClick('materials')} className="text-xl font-serif text-zinc-300 text-left">Materials <span className="text-xs text-zinc-600 block">소재 안내</span></button>
           <button onClick={() => handleNavClick('event')} className="text-xl font-serif text-[#E1306C] text-left">Event <span className="text-xs text-zinc-600 block">이벤트</span></button>
+          <button onClick={() => handleNavClick('partnership')} className="text-xl font-serif text-zinc-300 text-left">Partnership <span className="text-xs text-zinc-600 block">제휴문의</span></button>
           {!currentUser && <button onClick={() => handleNavClick('auth')} className="text-xl font-serif text-[#D4AF37] text-left">Login / Sign Up <span className="text-xs text-zinc-600 block">로그인 / 회원가입</span></button>}
           <button onClick={() => handleNavClick('contact')} className="text-sm font-bold bg-white text-black py-4 rounded mt-auto">CONTACT US</button>
         </div>
@@ -222,6 +224,7 @@ export default function App() {
             {currentPage === 'auth' && <PageWrapper><AuthView onLogin={handleLogin} setPage={setCurrentPage} /></PageWrapper>}
             {currentPage === 'event' && <PageWrapper><EventView /></PageWrapper>}
             {currentPage === 'contact' && <PageWrapper><ContactView /></PageWrapper>}
+            {currentPage === 'partnership' && <PageWrapper><ContactView initialTab="Partnership" /></PageWrapper>}
             {currentPage === 'policy' && <PageWrapper><PolicyView /></PageWrapper>}
             {currentPage === 'admin-dashboard' && currentUser?.role === 'admin' && <PageWrapper><AdminDashboard siteImages={siteImages} updateSiteImages={updateSiteImages} /></PageWrapper>}
             {currentPage === 'mypage' && currentUser && <PageWrapper><MyPage currentUser={currentUser} onLogout={handleLogout} onUpdateUser={handleUpdateUser} setPage={(page: string) => setCurrentPage(page as Page)} /></PageWrapper>}
