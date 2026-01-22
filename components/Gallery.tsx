@@ -56,7 +56,11 @@ const DEFAULT_PORTFOLIO: GalleryItem[] = [
     },
 ];
 
-const Gallery: React.FC = () => {
+interface GalleryProps {
+  setPage?: (page: string) => void;
+}
+
+const Gallery: React.FC<GalleryProps> = ({ setPage }) => {
   const [filter, setFilter] = useState<FilterType>('all');
   const [portfolio, setPortfolio] = useState<GalleryItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
@@ -195,7 +199,7 @@ const Gallery: React.FC = () => {
                 지금 바로 커스터마이징을 시작해보세요.
             </p>
             <button 
-                onClick={() => document.location.href='#/metal-custom'}
+                onClick={() => setPage && setPage('metal-custom')}
                 className="group relative px-10 py-4 bg-white text-black font-bold text-xs tracking-[0.2em] overflow-hidden hover:bg-[#D4AF37] transition-colors duration-300"
             >
                 <span className="relative z-10 flex items-center gap-2">
@@ -244,7 +248,10 @@ const Gallery: React.FC = () => {
                       </p>
                       
                       <button 
-                        onClick={() => document.location.href='#/metal-custom'}
+                        onClick={() => {
+                            setSelectedItem(null);
+                            if(setPage) setPage('metal-custom');
+                        }}
                         className="px-8 py-3 border border-zinc-700 text-white text-xs font-bold tracking-widest hover:bg-white hover:text-black hover:border-white transition-all w-full md:w-auto"
                       >
                           ORDER THIS STYLE

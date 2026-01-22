@@ -591,6 +591,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         {/* CONTENT TAB */}
         {activeTab === 'content' && (
             <div className="max-w-3xl mx-auto animate-fade-in-up">
+                 
+                 {/* Hero Section */}
                  <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 mb-8">
                     <h3 className="text-xl font-bold text-white mb-6 border-b border-zinc-800 pb-4">Hero Section Image</h3>
                     <div className="space-y-6">
@@ -619,6 +621,45 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                     />
                                     <label 
                                         htmlFor="hero-upload"
+                                        className="flex items-center justify-center gap-2 w-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded p-3 text-sm text-white cursor-pointer transition-colors"
+                                    >
+                                        <Upload className="w-4 h-4" /> Choose File
+                                    </label>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                 </div>
+
+                 {/* QC Image Section (Added) */}
+                 <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 mb-8">
+                    <h3 className="text-xl font-bold text-white mb-6 border-b border-zinc-800 pb-4">Quality Control (QC) Image</h3>
+                    <div className="space-y-6">
+                        <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-zinc-700 bg-black">
+                             <img src={editingImages.feature1} alt="QC Preview" className="w-full h-full object-cover opacity-60" />
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                             <div>
+                                <label className="text-xs font-bold text-zinc-500 uppercase block mb-2">Image URL</label>
+                                <input 
+                                    type="text" 
+                                    value={editingImages.feature1} 
+                                    onChange={(e) => handleImageChange('feature1', e.target.value)}
+                                    className="w-full bg-black border border-zinc-700 rounded p-3 text-sm text-white focus:border-[#D4AF37] outline-none"
+                                />
+                             </div>
+                             <div>
+                                <label className="text-xs font-bold text-zinc-500 uppercase block mb-2">Upload File</label>
+                                <div className="relative">
+                                    <input 
+                                        type="file" 
+                                        accept="image/*"
+                                        onChange={(e) => e.target.files && handleFileUpload('feature1', e.target.files[0])}
+                                        className="hidden"
+                                        id="qc-upload"
+                                    />
+                                    <label 
+                                        htmlFor="qc-upload"
                                         className="flex items-center justify-center gap-2 w-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded p-3 text-sm text-white cursor-pointer transition-colors"
                                     >
                                         <Upload className="w-4 h-4" /> Choose File

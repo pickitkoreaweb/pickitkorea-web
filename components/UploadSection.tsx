@@ -1,7 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { Upload, Check, Loader2, FileImage, Shield, CreditCard, Truck, Gift } from 'lucide-react';
 
-const UploadSection: React.FC = () => {
+interface UploadSectionProps {
+  setPage?: (page: string) => void;
+}
+
+const UploadSection: React.FC<UploadSectionProps> = ({ setPage }) => {
   const [dragActive, setDragActive] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -188,7 +192,10 @@ const UploadSection: React.FC = () => {
                                     </div>
                                 </div>
                                 
-                                <button className="w-full bg-[#D4AF37] text-black font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:bg-[#FCE2C4] hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
+                                <button 
+                                    onClick={() => setPage && setPage('contact')}
+                                    className="w-full bg-[#D4AF37] text-black font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:bg-[#FCE2C4] hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+                                >
                                     <CreditCard className="w-4 h-4" />
                                     ORDER NOW (44,900원)
                                 </button>

@@ -28,9 +28,10 @@ interface MyPageProps {
   currentUser: UserData;
   onLogout: () => void;
   onUpdateUser: (updatedUser: UserData) => void;
+  setPage?: (page: string) => void;
 }
 
-const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) => {
+const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser, setPage }) => {
   const [activeTab, setActiveTab] = useState<'profile' | 'inquiries'>('inquiries');
   const [myInquiries, setMyInquiries] = useState<Inquiry[]>([]);
   const [expandedInquiry, setExpandedInquiry] = useState<number | null>(null);
@@ -166,7 +167,7 @@ const MyPage: React.FC<MyPageProps> = ({ currentUser, onLogout, onUpdateUser }) 
                                 <MessageSquare className="w-5 h-5 text-[#D4AF37]" /> 문의 내역 (Inquiry History)
                             </h3>
                             <button 
-                                onClick={() => document.getElementById('contact-btn')?.click()}
+                                onClick={() => setPage && setPage('contact')}
                                 className="text-xs font-bold text-black bg-white px-4 py-2 rounded hover:bg-[#D4AF37] transition-colors"
                             >
                                 새 문의하기

@@ -37,7 +37,11 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick }) 
   );
 };
 
-const FAQ: React.FC = () => {
+interface FAQProps {
+  setPage?: (page: string) => void;
+}
+
+const FAQ: React.FC<FAQProps> = ({ setPage }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
@@ -146,7 +150,7 @@ const FAQ: React.FC = () => {
                          </div>
                     </div>
                     <button 
-                        onClick={() => document.getElementById('contact-btn')?.click()} 
+                        onClick={() => setPage && setPage('contact')} 
                         className="px-6 py-2.5 bg-white text-black font-bold text-xs rounded-lg hover:bg-zinc-200 transition-colors w-full md:w-auto"
                     >
                         CONTACT US
