@@ -22,7 +22,6 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
               Engineered for those who value weight and substance.
             </p>
             
-            {/* Business Info Added */}
             <div className="space-y-3 mb-8 text-zinc-500 text-xs font-medium">
                  <a 
                     href="https://map.naver.com/p/search/서울특별시 강남구 역삼로20길 10" 
@@ -73,9 +72,8 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
           <div className="col-span-1 md:col-span-3">
             <h4 className="text-white font-bold text-xs tracking-widest uppercase mb-6">Collections</h4>
             <ul className="space-y-4 text-zinc-500 text-sm">
-              <li><button onClick={() => setPage('metal-biz')} className="hover:text-white transition-colors flex items-center gap-1 group interactable">Business Edition <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></button></li>
-              <li><button onClick={() => setPage('metal-custom')} className="hover:text-white transition-colors flex items-center gap-1 group interactable">Custom Personal <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></button></li>
-              <li><button onClick={() => setPage('materials')} className="hover:text-white transition-colors flex items-center gap-1 group interactable">Materials Guide <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></button></li>
+              <li><button onClick={() => setPage('metal-custom')} className="hover:text-white transition-colors flex items-center gap-1 group interactable">Metal Card Custom <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></button></li>
+              <li><button onClick={() => setPage('gallery')} className="hover:text-white transition-colors flex items-center gap-1 group interactable">Masterpiece Gallery <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></button></li>
             </ul>
           </div>
 
@@ -84,8 +82,8 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
             <h4 className="text-white font-bold text-xs tracking-widest uppercase mb-6">Support</h4>
             <ul className="space-y-4 text-zinc-500 text-sm">
               <li><button onClick={() => setPage('faq')} className="hover:text-white transition-colors interactable">FAQ</button></li>
-              <li><button onClick={() => setPage('policy')} className="hover:text-white transition-colors interactable">Shipping & Returns</button></li>
-              <li><button onClick={() => setPage('contact')} className="hover:text-white transition-colors interactable">Contact Us</button></li>
+              <li><button onClick={() => setPage('materials')} className="hover:text-white transition-colors interactable">Materials Guide</button></li>
+              <li><button onClick={() => setPage('contact')} className="hover:text-white transition-colors interactable">Concierge</button></li>
             </ul>
           </div>
            

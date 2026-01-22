@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, UserCircle, LogOut, LayoutDashboard, User } from 'lucide-react';
 import Hero from './components/Hero';
 import Features from './components/Features';
-import BusinessCardShowcase from './components/BusinessCardShowcase';
 import UploadSection from './components/UploadSection';
 import MaterialsGallery from './components/MaterialsGallery';
 import CompanyIntro from './components/CompanyIntro';
@@ -17,24 +16,24 @@ import ScrollProgress from './components/ScrollProgress';
 import RevealOnScroll from './components/RevealOnScroll';
 import PrivateConcierge from './components/PrivateConcierge';
 import PackagingShowcase from './components/PackagingShowcase';
-import InquiryBoard from './components/InquiryBoard';
 import AuthView from './components/AuthView';
 import EventView from './components/EventView';
 import AdminDashboard from './components/AdminDashboard';
 import MyPage from './components/MyPage';
-import BusinessDomains from './components/BusinessDomains';
 import LaunchPopup from './components/LaunchPopup';
+import Gallery from './components/Gallery';
 
-type Page = 'home' | 'about' | 'business' | 'business-metal' | 'business-trade' | 'business-realty' | 'metal-biz' | 'metal-custom' | 'materials' | 'faq' | 'inquiry' | 'contact' | 'policy' | 'auth' | 'event' | 'admin-dashboard' | 'mypage';
+// Removed 'metal-biz' from Page type
+type Page = 'home' | 'about' | 'metal-custom' | 'materials' | 'gallery' | 'faq' | 'contact' | 'policy' | 'auth' | 'event' | 'admin-dashboard' | 'mypage';
 
 interface UserData {
   id: string;
-  customerId: string; // Unique PKT ID
+  customerId: string;
   name: string;
   role: 'admin' | 'user';
   email: string;
   phone: string;
-  birthdate?: string; // Added field
+  birthdate?: string;
   address?: string;
   joinedAt: string;
 }
@@ -47,8 +46,6 @@ interface SiteImages {
 const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; currentUser: UserData | null; onLogout: () => void }> = ({ currentPage, setPage, currentUser, onLogout }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isCollectionDropdownOpen, setIsCollectionDropdownOpen] = useState(false);
-  const [isBusinessDropdownOpen, setIsBusinessDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,17 +58,7 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
   const handleNavClick = (page: Page) => {
     setPage(page);
     setIsMobileMenuOpen(false);
-    setIsCollectionDropdownOpen(false);
-    setIsBusinessDropdownOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleUserClick = () => {
-    if (currentUser?.role === 'admin') {
-      handleNavClick('admin-dashboard');
-    } else {
-      handleNavClick('mypage');
-    }
   };
 
   return (
@@ -81,7 +68,6 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
         <div 
             className="flex items-center gap-3 cursor-pointer group interactable" 
             onClick={() => handleNavClick('home')}
-            data-cursor="hover"
         >
           <div className="w-8 h-8 bg-gradient-to-br from-white via-zinc-200 to-zinc-500 rounded-none transform rotate-45 flex items-center justify-center transition-transform duration-700 group-hover:rotate-[225deg] shadow-[0_0_15px_rgba(255,255,255,0.3)]">
             <div className="w-3 h-3 bg-black rounded-full transform -rotate-45"></div>
@@ -89,147 +75,44 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
           <span className="text-xl font-bold tracking-[0.2em] text-white">PICKIT</span>
         </div>
 
-        {/* Desktop Menu */}
+        {/* Desktop Menu - Simplified */}
         <div className="hidden md:flex items-center gap-8">
-          <button 
-            onClick={() => handleNavClick('about')} 
-            className={`interactable text-xs font-bold tracking-widest transition-all duration-300 relative group ${currentPage === 'about' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}
-          >
-            ABOUT
-            <span className={`absolute -bottom-1 left-0 w-full h-[1px] bg-[#D4AF37] transform origin-left transition-transform duration-300 ${currentPage === 'about' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
-          </button>
-
-          {/* Business Dropdown */}
-          <div className="relative group" onMouseEnter={() => setIsBusinessDropdownOpen(true)} onMouseLeave={() => setIsBusinessDropdownOpen(false)}>
-            <button 
-                onClick={() => handleNavClick('business')} 
-                className={`interactable flex items-center gap-2 text-xs font-bold tracking-widest transition-colors duration-300 ${currentPage.startsWith('business') ? 'text-white' : 'text-zinc-500 group-hover:text-white'}`}
-            >
-                BUSINESS
-                <ChevronDown className="w-3 h-3 transition-transform duration-300 group-hover:rotate-180" />
-            </button>
-            
-            <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-4 w-64 bg-[#0a0a0a]/95 backdrop-blur-xl border border-zinc-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)] transition-all duration-300 ${isBusinessDropdownOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 translate-y-4 invisible'}`}>
-                <button 
-                    onClick={() => handleNavClick('business-metal')}
-                    className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-[#D4AF37] transition-colors border-b border-zinc-900 interactable"
-                >
-                    MANUFACTURING (제조)
-                </button>
-                <button 
-                    onClick={() => handleNavClick('business-trade')}
-                    className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-[#D4AF37] transition-colors border-b border-zinc-900 interactable"
-                >
-                    GLOBAL PURCHASING (구매대행)
-                </button>
-                <button 
-                    onClick={() => handleNavClick('business-realty')}
-                    className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-[#D4AF37] transition-colors interactable"
-                >
-                    REAL ESTATE (부동산)
-                </button>
-            </div>
-          </div>
-
-          {/* Collection Dropdown */}
-          <div className="relative group" onMouseEnter={() => setIsCollectionDropdownOpen(true)} onMouseLeave={() => setIsCollectionDropdownOpen(false)}>
-            <button className={`interactable flex items-center gap-2 text-xs font-bold tracking-widest transition-colors duration-300 ${['metal-biz', 'metal-custom'].includes(currentPage) ? 'text-white' : 'text-zinc-500 group-hover:text-white'}`}>
-              COLLECTION
-              <ChevronDown className="w-3 h-3 transition-transform duration-300 group-hover:rotate-180" />
-            </button>
-            
-            <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-[#0a0a0a]/95 backdrop-blur-xl border border-zinc-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)] transition-all duration-300 ${isCollectionDropdownOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 translate-y-4 invisible'}`}>
-               <button 
-                  onClick={() => handleNavClick('metal-biz')}
-                  className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-[#D4AF37] transition-colors border-b border-zinc-900 interactable"
-               >
-                  BUSINESS CARD
-               </button>
-               <button 
-                  onClick={() => handleNavClick('metal-custom')}
-                  className="block w-full text-left px-6 py-4 text-xs tracking-wider text-zinc-400 hover:bg-zinc-900 hover:text-[#D4AF37] transition-colors interactable"
-               >
-                  CUSTOM CARD
-               </button>
-            </div>
-          </div>
-
-          <button onClick={() => handleNavClick('materials')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 relative group ${currentPage === 'materials' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
-            MATERIALS
-            <span className={`absolute -bottom-1 left-0 w-full h-[1px] bg-[#D4AF37] transform origin-left transition-transform duration-300 ${currentPage === 'materials' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
-          </button>
+          <button onClick={() => handleNavClick('about')} className={`interactable text-xs font-bold tracking-widest transition-colors ${currentPage === 'about' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>ABOUT</button>
+          <button onClick={() => handleNavClick('metal-custom')} className={`interactable text-xs font-bold tracking-widest transition-colors ${currentPage === 'metal-custom' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>METAL CARD</button>
+          <button onClick={() => handleNavClick('gallery')} className={`interactable text-xs font-bold tracking-widest transition-colors ${currentPage === 'gallery' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>GALLERY</button>
+          <button onClick={() => handleNavClick('materials')} className={`interactable text-xs font-bold tracking-widest transition-colors ${currentPage === 'materials' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>MATERIALS</button>
+          <button onClick={() => handleNavClick('faq')} className={`interactable text-xs font-bold tracking-widest transition-colors ${currentPage === 'faq' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>FAQ</button>
           
-          <button onClick={() => handleNavClick('faq')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 relative group ${currentPage === 'faq' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
-            FAQ
-            <span className={`absolute -bottom-1 left-0 w-full h-[1px] bg-[#D4AF37] transform origin-left transition-transform duration-300 ${currentPage === 'faq' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
+          <button onClick={() => handleNavClick('event')} className={`interactable text-xs font-bold tracking-widest transition-colors flex items-center gap-1.5 ${currentPage === 'event' ? 'text-[#E1306C]' : 'text-white hover:text-[#E1306C]'}`}>
+             EVENT <span className="bg-[#E1306C] text-white text-[8px] px-1 rounded font-bold animate-pulse">NEW</span>
           </button>
 
-          <button onClick={() => handleNavClick('inquiry')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 relative group ${currentPage === 'inquiry' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
-            INQUIRY
-            <span className={`absolute -bottom-1 left-0 w-full h-[1px] bg-[#D4AF37] transform origin-left transition-transform duration-300 ${currentPage === 'inquiry' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
-          </button>
-
-          {/* EVENT BUTTON */}
-          <button 
-             onClick={() => handleNavClick('event')} 
-             className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 flex items-center gap-1.5 ${currentPage === 'event' ? 'text-[#E1306C]' : 'text-white hover:text-[#E1306C]'}`}
-          >
-             EVENT
-             <span className="bg-[#E1306C] text-white text-[8px] px-1 rounded font-bold animate-pulse">NEW</span>
-          </button>
-
-          {/* Right Side Actions Group */}
+          {/* Right Actions */}
           <div className="flex items-center gap-3 ml-4">
               {currentUser ? (
                   <div className="flex items-center gap-4 border-r border-zinc-800 pr-6 mr-2">
-                      {/* User Profile Clickable Area */}
-                      <div 
-                          onClick={handleUserClick}
-                          className="flex flex-col text-right cursor-pointer group interactable"
-                      >
-                          <span className={`text-[9px] font-bold tracking-widest uppercase transition-colors group-hover:text-white ${currentUser.role === 'admin' ? 'text-red-500' : 'text-zinc-500'}`}>
-                              {currentUser.role === 'admin' ? 'ADMINISTRATOR' : 'MEMBER'}
-                          </span>
-                          <span className="text-xs font-bold text-white transition-colors group-hover:text-[#D4AF37]">{currentUser.name}</span>
+                      <div onClick={() => handleNavClick(currentUser.role === 'admin' ? 'admin-dashboard' : 'mypage')} className="flex flex-col text-right cursor-pointer group interactable">
+                          <span className={`text-[9px] font-bold uppercase ${currentUser.role === 'admin' ? 'text-red-500' : 'text-zinc-500'}`}>{currentUser.role === 'admin' ? 'ADMIN' : 'MEMBER'}</span>
+                          <span className="text-xs font-bold text-white group-hover:text-[#D4AF37]">{currentUser.name}</span>
                       </div>
-                      
-                      <button onClick={onLogout} className="text-zinc-500 hover:text-white interactable">
-                          <LogOut className="w-4 h-4" />
-                      </button>
+                      <button onClick={onLogout} className="text-zinc-500 hover:text-white interactable"><LogOut className="w-4 h-4" /></button>
                   </div>
               ) : (
-                 <button onClick={() => handleNavClick('auth')} className={`interactable text-xs font-bold tracking-widest transition-colors duration-300 mr-4 ${currentPage === 'auth' ? 'text-white' : 'text-zinc-500 hover:text-white'}`}>
-                    LOGIN
-                 </button>
+                 <button onClick={() => handleNavClick('auth')} className="interactable text-xs font-bold tracking-widest text-zinc-500 hover:text-white mr-4">LOGIN</button>
               )}
 
-              {/* My Page / Admin Button - Always Visible */}
+              {/* MyPage / Admin Button */}
               {currentUser?.role === 'admin' ? (
-                   <button 
-                      onClick={() => handleNavClick('admin-dashboard')}
-                      className="flex items-center gap-1 text-[10px] bg-red-900/30 text-red-500 border border-red-900/50 px-3 py-2 rounded hover:bg-red-900/50 transition-colors interactable"
-                   >
+                   <button onClick={() => handleNavClick('admin-dashboard')} className="flex items-center gap-1 text-[10px] bg-red-900/30 text-red-500 border border-red-900/50 px-3 py-2 rounded hover:bg-red-900/50 interactable">
                        <LayoutDashboard className="w-3 h-3" /> ADMIN
                    </button>
               ) : (
-                  <button 
-                      onClick={() => {
-                          if (!currentUser) {
-                              alert("로그인이 필요합니다.");
-                              handleNavClick('auth');
-                          } else {
-                              handleNavClick('mypage');
-                          }
-                      }}
-                      className={`flex items-center gap-1 text-[10px] px-3 py-2 rounded transition-colors interactable font-bold tracking-wider ${currentPage === 'mypage' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}
-                   >
+                  <button onClick={() => currentUser ? handleNavClick('mypage') : handleNavClick('auth')} className={`flex items-center gap-1 text-[10px] px-3 py-2 rounded interactable font-bold tracking-wider ${currentPage === 'mypage' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'}`}>
                        <User className="w-3 h-3" /> 마이페이지
                    </button>
               )}
               
-              <button id="contact-btn" onClick={() => handleNavClick('contact')} className={`interactable px-6 py-2.5 bg-white text-black text-xs font-bold tracking-widest hover:bg-[#D4AF37] hover:scale-105 transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.2)]`}>
-                CONTACT
-              </button>
+              <button onClick={() => handleNavClick('contact')} className="interactable px-6 py-2.5 bg-white text-black text-xs font-bold tracking-widest hover:bg-[#D4AF37] transition-all">CONTACT</button>
           </div>
         </div>
 
@@ -241,139 +124,52 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-zinc-800 p-8 flex flex-col gap-8 md:hidden shadow-2xl animate-fade-in-up h-[calc(100vh-80px)] overflow-y-auto">
+        <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-zinc-800 p-8 flex flex-col gap-6 md:hidden h-[calc(100vh-80px)] overflow-y-auto">
           {currentUser && (
-              <div 
-                  className="flex items-center gap-3 pb-6 border-b border-zinc-800 cursor-pointer active:bg-zinc-900/50 rounded p-2 -mx-2 transition-colors"
-                  onClick={handleUserClick}
-              >
+              <div className="flex items-center gap-3 pb-6 border-b border-zinc-800" onClick={() => handleNavClick(currentUser.role === 'admin' ? 'admin-dashboard' : 'mypage')}>
                   <UserCircle className="w-10 h-10 text-zinc-500" />
-                  <div>
-                      <p className="text-sm font-bold text-white">{currentUser.name}</p>
-                      <p className="text-xs text-zinc-500 uppercase">{currentUser.role === 'admin' ? 'Administrator' : 'Member'}</p>
-                  </div>
-                  <button 
-                      onClick={(e) => {
-                          e.stopPropagation(); // Prevent parent click
-                          onLogout();
-                      }} 
-                      className="ml-auto text-xs text-red-500 font-bold px-3 py-1 border border-red-900/50 rounded"
-                  >
-                      LOGOUT
-                  </button>
+                  <div><p className="text-sm font-bold text-white">{currentUser.name}</p></div>
+                  <button onClick={(e) => { e.stopPropagation(); onLogout(); }} className="ml-auto text-xs text-red-500 font-bold border border-red-900/50 px-2 py-1 rounded">LOGOUT</button>
               </div>
           )}
           
-          {currentUser?.role === 'admin' ? (
-              <button 
-                  onClick={() => handleNavClick('admin-dashboard')}
-                  className="text-2xl font-serif text-red-500 hover:text-red-400 text-left flex items-center gap-2"
-              >
-                  <LayoutDashboard className="w-6 h-6" /> Admin Dashboard
-              </button>
-          ) : (
-              <button 
-                  onClick={() => {
-                      if (!currentUser) {
-                          alert("로그인이 필요합니다.");
-                          handleNavClick('auth');
-                      } else {
-                          handleNavClick('mypage');
-                      }
-                  }}
-                  className="text-2xl font-serif text-[#D4AF37] hover:text-white text-left flex items-center gap-2"
-              >
-                  <User className="w-6 h-6" /> 마이페이지 (My Page)
-              </button>
-          )}
-
-          <button onClick={() => handleNavClick('about')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">About Us</button>
-          
-          {/* Mobile Business Menu */}
-          <div className="space-y-6 pl-4 border-l border-zinc-800">
-             <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Business Areas</span>
-             <button onClick={() => handleNavClick('business-metal')} className="block text-xl font-medium text-zinc-300 hover:text-white text-left w-full">Manufacturing (제조)</button>
-             <button onClick={() => handleNavClick('business-trade')} className="block text-xl font-medium text-zinc-300 hover:text-white text-left w-full">Global Purchasing (구매대행)</button>
-             <button onClick={() => handleNavClick('business-realty')} className="block text-xl font-medium text-zinc-300 hover:text-white text-left w-full">Real Estate (부동산)</button>
-          </div>
-          
-          <div className="space-y-6 pl-4 border-l border-zinc-800">
-             <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Collections</span>
-             <button onClick={() => handleNavClick('metal-biz')} className="block text-xl font-medium text-zinc-300 hover:text-white text-left w-full">Business Card</button>
-             <button onClick={() => handleNavClick('metal-custom')} className="block text-xl font-medium text-zinc-300 hover:text-white text-left w-full">Custom Card</button>
-          </div>
-
-          <button onClick={() => handleNavClick('materials')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">Materials</button>
-          <button onClick={() => handleNavClick('faq')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">FAQ</button>
-          <button onClick={() => handleNavClick('inquiry')} className="text-2xl font-serif text-zinc-300 hover:text-white text-left">Inquiry</button>
-          
-          {/* Mobile Event Button */}
-          <button onClick={() => handleNavClick('event')} className="text-2xl font-serif text-[#E1306C] hover:text-white text-left flex items-center gap-2">
-              Event <span className="text-xs bg-[#E1306C] text-white px-2 py-0.5 rounded-full font-bold">NEW</span>
-          </button>
-          
-          {!currentUser && (
-             <button onClick={() => handleNavClick('auth')} className="text-2xl font-serif text-[#D4AF37] hover:text-white text-left">Login / Sign Up</button>
-          )}
-
-          <button onClick={() => handleNavClick('contact')} className="text-sm font-bold tracking-widest text-black bg-white py-4 text-center mt-auto mb-10 rounded-lg">CONTACT US</button>
+          <button onClick={() => handleNavClick('about')} className="text-xl font-serif text-zinc-300">About Us</button>
+          <button onClick={() => handleNavClick('metal-custom')} className="text-xl font-serif text-white">Metal Card</button>
+          <button onClick={() => handleNavClick('gallery')} className="text-xl font-serif text-zinc-300">Gallery</button>
+          <button onClick={() => handleNavClick('materials')} className="text-xl font-serif text-zinc-300">Materials</button>
+          <button onClick={() => handleNavClick('event')} className="text-xl font-serif text-[#E1306C]">Event</button>
+          {!currentUser && <button onClick={() => handleNavClick('auth')} className="text-xl font-serif text-[#D4AF37]">Login / Sign Up</button>}
+          <button onClick={() => handleNavClick('contact')} className="text-sm font-bold bg-white text-black py-4 rounded mt-auto">CONTACT US</button>
         </div>
       )}
     </nav>
   );
 };
 
-// Fade in animation wrapper for page transitions
 const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="animate-fade-in-up min-h-screen pt-20">
-    {children}
-  </div>
+  <div className="animate-fade-in-up min-h-screen pt-20">{children}</div>
 );
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<UserData | null>(null);
-
-  // Global Site Content Config
   const [siteImages, setSiteImages] = useState<SiteImages>({
       heroBg: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2500&auto=format&fit=crop',
       feature1: 'https://images.unsplash.com/photo-1614623466144-d83049185c7c?q=80&w=1600&auto=format&fit=crop'
   });
 
-  // Check for session and saved images on load
   useEffect(() => {
-    // Auth
     const savedUser = localStorage.getItem('pickit_user');
-    if (savedUser) {
-        setCurrentUser(JSON.parse(savedUser));
-    }
-
-    // Images
+    if (savedUser) setCurrentUser(JSON.parse(savedUser));
     const savedImages = localStorage.getItem('pickit_site_images');
-    if (savedImages) {
-        setSiteImages(JSON.parse(savedImages));
-    }
+    if (savedImages) setSiteImages(JSON.parse(savedImages));
   }, []);
 
-  const handleLogin = (user: UserData) => {
-      setCurrentUser(user);
-  };
-
-  const handleLogout = () => {
-      localStorage.removeItem('pickit_user');
-      setCurrentUser(null);
-      setCurrentPage('home');
-  };
-  
-  const updateSiteImages = (newImages: SiteImages) => {
-      setSiteImages(newImages);
-      localStorage.setItem('pickit_site_images', JSON.stringify(newImages));
-  };
-  
-  const handleUpdateUser = (updatedUser: UserData) => {
-      setCurrentUser(updatedUser);
-  };
+  const handleLogin = (user: UserData) => setCurrentUser(user);
+  const handleLogout = () => { localStorage.removeItem('pickit_user'); setCurrentUser(null); setCurrentPage('home'); };
+  const updateSiteImages = (newImages: SiteImages) => { setSiteImages(newImages); localStorage.setItem('pickit_site_images', JSON.stringify(newImages)); };
+  const handleUpdateUser = (updatedUser: UserData) => setCurrentUser(updatedUser);
 
   return (
     <>
@@ -382,159 +178,31 @@ export default function App() {
         <div className="min-h-screen bg-[#050505] text-zinc-100 selection:bg-[#D4AF37] selection:text-black overflow-x-hidden font-sans cursor-none">
           <CustomCursor />
           <ScrollProgress />
-          <Navbar 
-            currentPage={currentPage} 
-            setPage={setCurrentPage} 
-            currentUser={currentUser}
-            onLogout={handleLogout}
-          />
+          <Navbar currentPage={currentPage} setPage={setCurrentPage} currentUser={currentUser} onLogout={handleLogout} />
           <PrivateConcierge />
           <LaunchPopup />
           
           <main>
-            {/* HOME PAGE: Curated Landing */}
             {currentPage === 'home' && (
               <div className="animate-fade-in-up">
-                <Hero 
-                    setPage={(page: string) => setCurrentPage(page as Page)} 
-                    bgImage={siteImages.heroBg}
-                />
-                <RevealOnScroll>
-                    <CompanyIntro />
-                </RevealOnScroll>
-                {/* BusinessDomains Removed for Clarity */}
-                <RevealOnScroll>
-                    <Features qcImage={siteImages.feature1} />
-                </RevealOnScroll>
-                <RevealOnScroll>
-                    <PackagingShowcase />
-                </RevealOnScroll>
-                <RevealOnScroll>
-                    <Reviews />
-                </RevealOnScroll>
+                <Hero setPage={(page: string) => setCurrentPage(page as Page)} bgImage={siteImages.heroBg} />
+                <RevealOnScroll><CompanyIntro /></RevealOnScroll>
+                <RevealOnScroll><Features qcImage={siteImages.feature1} /></RevealOnScroll>
+                <RevealOnScroll><PackagingShowcase /></RevealOnScroll>
+                <RevealOnScroll><Reviews /></RevealOnScroll>
               </div>
             )}
-            
-            {/* SUB PAGES */}
-            {currentPage === 'about' && (
-              <PageWrapper>
-                <CompanyIntro />
-                <RevealOnScroll>
-                    <Features qcImage={siteImages.feature1} />
-                </RevealOnScroll>
-              </PageWrapper>
-            )}
-
-            {currentPage === 'business' && (
-              <PageWrapper>
-                <BusinessDomains />
-              </PageWrapper>
-            )}
-
-            {currentPage === 'business-metal' && (
-              <PageWrapper>
-                <BusinessDomains category="metal" onBack={() => setCurrentPage('business')} />
-              </PageWrapper>
-            )}
-
-            {currentPage === 'business-trade' && (
-              <PageWrapper>
-                <BusinessDomains category="trade" onBack={() => setCurrentPage('business')} />
-              </PageWrapper>
-            )}
-
-            {currentPage === 'business-realty' && (
-              <PageWrapper>
-                <BusinessDomains category="realty" onBack={() => setCurrentPage('business')} />
-              </PageWrapper>
-            )}
-            
-            {currentPage === 'metal-biz' && (
-              <PageWrapper>
-                <BusinessCardShowcase />
-                <RevealOnScroll>
-                    <UploadSection />
-                </RevealOnScroll>
-              </PageWrapper>
-            )}
-            
-            {currentPage === 'metal-custom' && (
-              <PageWrapper>
-                <div className="pt-10">
-                    <Features qcImage={siteImages.feature1} />
-                    <RevealOnScroll>
-                        <UploadSection />
-                    </RevealOnScroll>
-                </div>
-              </PageWrapper>
-            )}
-            
-            {currentPage === 'materials' && (
-              <PageWrapper>
-                <MaterialsGallery />
-                <div className="py-20 text-center">
-                     <h3 className="text-2xl font-serif text-white mb-6">Ready to choose?</h3>
-                     <button onClick={() => setCurrentPage('metal-custom')} className="px-10 py-4 bg-white text-black font-bold text-xs tracking-widest hover:bg-[#D4AF37] transition-all duration-300 interactable shadow-lg">
-                        START CUSTOMIZING
-                     </button>
-                </div>
-              </PageWrapper>
-            )}
-
-            {currentPage === 'faq' && (
-              <PageWrapper>
-                <FAQ />
-              </PageWrapper>
-            )}
-
-            {currentPage === 'inquiry' && (
-              <PageWrapper>
-                <InquiryBoard currentUser={currentUser} />
-              </PageWrapper>
-            )}
-
-            {currentPage === 'auth' && (
-              <PageWrapper>
-                 <AuthView onLogin={handleLogin} setPage={setCurrentPage} />
-              </PageWrapper>
-            )}
-            
-            {currentPage === 'event' && (
-              <PageWrapper>
-                 <EventView />
-              </PageWrapper>
-            )}
-
-            {currentPage === 'contact' && (
-              <PageWrapper>
-                <ContactView />
-              </PageWrapper>
-            )}
-
-            {currentPage === 'policy' && (
-                <PageWrapper>
-                    <PolicyView />
-                </PageWrapper>
-            )}
-            
-            {currentPage === 'admin-dashboard' && currentUser?.role === 'admin' && (
-                <PageWrapper>
-                    <AdminDashboard 
-                        siteImages={siteImages} 
-                        updateSiteImages={updateSiteImages} 
-                    />
-                </PageWrapper>
-            )}
-
-            {currentPage === 'mypage' && currentUser && (
-                <PageWrapper>
-                    <MyPage 
-                        currentUser={currentUser} 
-                        onLogout={handleLogout}
-                        onUpdateUser={handleUpdateUser}
-                    />
-                </PageWrapper>
-            )}
+            {currentPage === 'about' && <PageWrapper><CompanyIntro /><RevealOnScroll><Features qcImage={siteImages.feature1} /></RevealOnScroll></PageWrapper>}
+            {currentPage === 'metal-custom' && <PageWrapper><div className="pt-10"><Features qcImage={siteImages.feature1} /><RevealOnScroll><UploadSection /></RevealOnScroll></div></PageWrapper>}
+            {currentPage === 'materials' && <PageWrapper><MaterialsGallery /><div className="py-20 text-center"><button onClick={() => setCurrentPage('metal-custom')} className="px-10 py-4 bg-white text-black font-bold text-xs tracking-widest hover:bg-[#D4AF37] transition-all interactable shadow-lg">START CUSTOMIZING</button></div></PageWrapper>}
+            {currentPage === 'gallery' && <PageWrapper><Gallery /></PageWrapper>}
+            {currentPage === 'faq' && <PageWrapper><FAQ /></PageWrapper>}
+            {currentPage === 'auth' && <PageWrapper><AuthView onLogin={handleLogin} setPage={setCurrentPage} /></PageWrapper>}
+            {currentPage === 'event' && <PageWrapper><EventView /></PageWrapper>}
+            {currentPage === 'contact' && <PageWrapper><ContactView /></PageWrapper>}
+            {currentPage === 'policy' && <PageWrapper><PolicyView /></PageWrapper>}
+            {currentPage === 'admin-dashboard' && currentUser?.role === 'admin' && <PageWrapper><AdminDashboard siteImages={siteImages} updateSiteImages={updateSiteImages} /></PageWrapper>}
+            {currentPage === 'mypage' && currentUser && <PageWrapper><MyPage currentUser={currentUser} onLogout={handleLogout} onUpdateUser={handleUpdateUser} /></PageWrapper>}
           </main>
 
           <Footer setPage={setCurrentPage} />
