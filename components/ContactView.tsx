@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, ArrowRight, Handshake, Building2, User } from 'lucide-react';
 
 const ContactView: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -38,7 +38,7 @@ const ContactView: React.FC = () => {
 성함: ${formData.name}
 연락처: ${formData.phone}
 이메일: ${formData.email}
-관심 분야: ${formData.interest}
+문의 유형: ${formData.interest}
 --------------------------------------------------
 
 문의 내용:
@@ -192,22 +192,62 @@ ${formData.message}
               />
             </div>
 
-            <div className="space-y-2">
-               <label className="text-xs font-bold uppercase tracking-widest text-zinc-500 ml-1">Inquiry Type</label>
-               <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-4">
+               <label className="text-xs font-bold uppercase tracking-widest text-zinc-500 ml-1">Inquiry Purpose</label>
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {/* Metal Card */}
                   <div 
                     onClick={() => handleRadioChange('Metal Card')}
-                    className={`flex items-center justify-center px-4 py-4 border rounded-xl cursor-pointer transition-all duration-300 ${formData.interest === 'Metal Card' ? 'bg-[#D4AF37] text-black border-[#D4AF37] font-bold shadow-[0_0_15px_rgba(212,175,55,0.3)]' : 'bg-zinc-900/30 border-zinc-800 hover:border-zinc-600 text-zinc-500'}`}
+                    className={`flex flex-col items-center justify-center gap-2 px-2 py-4 border rounded-xl cursor-pointer transition-all duration-300 ${formData.interest === 'Metal Card' ? 'bg-[#D4AF37] text-black border-[#D4AF37] font-bold shadow-[0_0_15px_rgba(212,175,55,0.3)] scale-[1.02]' : 'bg-zinc-900/30 border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:bg-zinc-900'}`}
                   >
-                      <span className="text-sm">Metal Card Custom</span>
+                      <User className={`w-5 h-5 ${formData.interest === 'Metal Card' ? 'text-black' : 'text-zinc-600'}`} />
+                      <span className="text-xs whitespace-nowrap">Individual</span>
                   </div>
+
+                  {/* Corporate */}
                   <div 
-                    onClick={() => handleRadioChange('Business')}
-                    className={`flex items-center justify-center px-4 py-4 border rounded-xl cursor-pointer transition-all duration-300 ${formData.interest === 'Business' ? 'bg-[#D4AF37] text-black border-[#D4AF37] font-bold shadow-[0_0_15px_rgba(212,175,55,0.3)]' : 'bg-zinc-900/30 border-zinc-800 hover:border-zinc-600 text-zinc-500'}`}
+                    onClick={() => handleRadioChange('Corporate')}
+                    className={`flex flex-col items-center justify-center gap-2 px-2 py-4 border rounded-xl cursor-pointer transition-all duration-300 ${formData.interest === 'Corporate' ? 'bg-[#D4AF37] text-black border-[#D4AF37] font-bold shadow-[0_0_15px_rgba(212,175,55,0.3)] scale-[1.02]' : 'bg-zinc-900/30 border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:bg-zinc-900'}`}
                   >
-                      <span className="text-sm">B2B Partnership</span>
+                      <Building2 className={`w-5 h-5 ${formData.interest === 'Corporate' ? 'text-black' : 'text-zinc-600'}`} />
+                      <span className="text-xs whitespace-nowrap">Corporate B2B</span>
+                  </div>
+
+                  {/* Partnership */}
+                  <div 
+                    onClick={() => handleRadioChange('Partnership')}
+                    className={`flex flex-col items-center justify-center gap-2 px-2 py-4 border rounded-xl cursor-pointer transition-all duration-300 ${formData.interest === 'Partnership' ? 'bg-[#D4AF37] text-black border-[#D4AF37] font-bold shadow-[0_0_15px_rgba(212,175,55,0.3)] scale-[1.02]' : 'bg-zinc-900/30 border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:bg-zinc-900'}`}
+                  >
+                      <Handshake className={`w-5 h-5 ${formData.interest === 'Partnership' ? 'text-black' : 'text-zinc-600'}`} />
+                      <span className="text-xs whitespace-nowrap">Strategic Alliance</span>
                   </div>
                </div>
+
+               {/* Dynamic Content based on selection to emphasize Premium Strategy */}
+                <div className="bg-zinc-900/50 p-5 rounded-xl border border-zinc-800/50 text-xs leading-relaxed text-zinc-400 animate-fade-in-up">
+                    {formData.interest === 'Metal Card' && (
+                        <p>
+                            세상에 단 하나뿐인 나만의 메탈 카드를 제작합니다. <br/>
+                            <span className="text-[#D4AF37] font-bold">개인 고객 전용</span> 1:1 커스텀 상담 채널입니다.
+                        </p>
+                    )}
+                    {formData.interest === 'Corporate' && (
+                        <p>
+                            기업의 품격을 높이는 법인 카드 및 멤버십 카드 대량 제작.<br/>
+                            <span className="text-[#D4AF37] font-bold">최소 수량 10매 이상</span>부터 진행 가능한 기업 전용 서비스입니다.
+                        </p>
+                    )}
+                    {formData.interest === 'Partnership' && (
+                        <div>
+                            <span className="text-white font-serif font-bold text-sm block mb-2">High-End Brand Partnership</span>
+                            <p>
+                                PICKIT은 단순한 입점 제안을 받지 않습니다. 
+                                럭셔리 라이프스타일, 프리미엄 멤버십, 명품 브랜드와의 <span className="text-[#D4AF37] font-bold">전략적 제휴(Strategic Alliance)</span>만을 검토하며, 
+                                브랜드 가치를 공유하며 함께 성장할 수 있는 제안을 기다립니다.
+                            </p>
+                        </div>
+                    )}
+                </div>
             </div>
 
             <div className="space-y-2 group">
@@ -219,7 +259,7 @@ ${formData.message}
                 onFocus={() => setFocusedField('message')}
                 onBlur={() => setFocusedField(null)}
                 rows={5}
-                placeholder="문의하실 내용을 자유롭게 적어주세요." 
+                placeholder={formData.interest === 'Partnership' ? "제안 내용을 간략히 기재해주시면, 담당 부서 검토 후 연락드립니다." : "문의하실 내용을 자유롭게 적어주세요."}
                 className="w-full bg-zinc-900/30 border border-zinc-800 rounded-xl px-4 py-4 text-white placeholder-zinc-700 focus:outline-none focus:border-[#D4AF37]/50 focus:bg-zinc-900/80 focus:shadow-[0_0_20px_rgba(212,175,55,0.05)] transition-all duration-300 resize-none"
               ></textarea>
             </div>

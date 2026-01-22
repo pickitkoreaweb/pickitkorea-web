@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageSquare, X, Send, Crown, ArrowRight, Loader2, Smartphone } from 'lucide-react';
+import { MessageSquare, X, Send, Crown, ArrowRight, Loader2, Smartphone, Sparkles } from 'lucide-react';
 
 const PrivateConcierge: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,18 +52,26 @@ const PrivateConcierge: React.FC = () => {
 
   return (
     <>
-      {/* Floating Trigger Button */}
+      {/* Enhanced Floating Trigger Button */}
       <button 
         onClick={toggleOpen}
-        className={`fixed bottom-8 right-8 z-[90] flex items-center justify-center w-14 h-14 rounded-full bg-[#D4AF37] text-black shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 hover:scale-110 hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] interactable group ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
+        className={`fixed bottom-8 right-8 z-[90] flex items-center justify-between gap-4 pl-6 pr-2 py-2 h-16 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#FCE2C4] to-[#D4AF37] text-black shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-all duration-500 hover:scale-105 hover:shadow-[0_0_50px_rgba(212,175,55,0.9)] interactable group bg-[length:200%_auto] animate-shine ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
       >
-        <Smartphone className="w-6 h-6" />
-        <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border border-black flex items-center justify-center">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+        <div className="flex flex-col items-start mr-2">
+            <span className="text-[9px] font-bold tracking-widest uppercase opacity-70 mb-0.5">Premium Service</span>
+            <span className="text-sm font-black tracking-wider whitespace-nowrap">VIP CONCIERGE</span>
         </div>
-        {/* Tooltip */}
-        <div className="absolute right-full mr-4 bg-black border border-zinc-800 px-3 py-1 rounded text-xs text-[#D4AF37] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-           VIP 문자 직통
+        
+        <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center text-[#D4AF37] relative overflow-hidden">
+            <Smartphone className="w-5 h-5 relative z-10" />
+            <div className="absolute inset-0 bg-[#D4AF37]/20 rounded-full animate-ping"></div>
+            <Sparkles className="w-3 h-3 text-white absolute top-2 right-2 animate-pulse" />
+        </div>
+
+        {/* Floating Tooltip - Enhanced */}
+        <div className="absolute right-0 -top-12 bg-black/90 backdrop-blur border border-[#D4AF37]/50 px-4 py-2 rounded-xl text-xs text-[#D4AF37] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 shadow-xl pointer-events-none">
+           <span className="font-bold">✨ 365일 24시간 문자 직통</span>
+           <div className="absolute bottom-[-6px] right-8 w-3 h-3 bg-black/90 border-r border-b border-[#D4AF37]/50 transform rotate-45"></div>
         </div>
       </button>
 
