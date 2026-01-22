@@ -6,6 +6,11 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ setPage }) => {
+  const handleNavigation = (page: string) => {
+    setPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer className="bg-black border-t border-zinc-900 pt-20 pb-10 px-6 relative overflow-hidden">
       {/* Subtle Background Art */}
@@ -72,8 +77,8 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
           <div className="col-span-1 md:col-span-3">
             <h4 className="text-white font-bold text-xs tracking-widest uppercase mb-6">Collections</h4>
             <ul className="space-y-4 text-zinc-500 text-sm">
-              <li><button onClick={() => setPage('metal-custom')} className="hover:text-white transition-colors flex items-center gap-1 group interactable">Metal Card Custom <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></button></li>
-              <li><button onClick={() => setPage('gallery')} className="hover:text-white transition-colors flex items-center gap-1 group interactable">Masterpiece Gallery <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></button></li>
+              <li><button onClick={() => handleNavigation('metal-custom')} className="hover:text-white transition-colors flex items-center gap-1 group interactable">Metal Card Custom <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></button></li>
+              <li><button onClick={() => handleNavigation('gallery')} className="hover:text-white transition-colors flex items-center gap-1 group interactable">Masterpiece Gallery <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></button></li>
             </ul>
           </div>
 
@@ -81,9 +86,9 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
           <div className="col-span-1 md:col-span-2">
             <h4 className="text-white font-bold text-xs tracking-widest uppercase mb-6">Support</h4>
             <ul className="space-y-4 text-zinc-500 text-sm">
-              <li><button onClick={() => setPage('faq')} className="hover:text-white transition-colors interactable">FAQ</button></li>
-              <li><button onClick={() => setPage('materials')} className="hover:text-white transition-colors interactable">Materials Guide</button></li>
-              <li><button onClick={() => setPage('contact')} className="hover:text-white transition-colors interactable">Concierge</button></li>
+              <li><button onClick={() => handleNavigation('faq')} className="hover:text-white transition-colors interactable">FAQ</button></li>
+              <li><button onClick={() => handleNavigation('materials')} className="hover:text-white transition-colors interactable">Materials Guide</button></li>
+              <li><button onClick={() => handleNavigation('contact')} className="hover:text-white transition-colors interactable">Concierge</button></li>
             </ul>
           </div>
            
@@ -91,8 +96,8 @@ const Footer: React.FC<FooterProps> = ({ setPage }) => {
           <div className="col-span-1 md:col-span-2">
             <h4 className="text-white font-bold text-xs tracking-widest uppercase mb-6">Legal</h4>
             <ul className="space-y-4 text-zinc-500 text-sm">
-              <li><button onClick={() => setPage('policy')} className="hover:text-white transition-colors interactable">Privacy Policy</button></li>
-              <li><button onClick={() => setPage('policy')} className="hover:text-white transition-colors interactable">Terms of Service</button></li>
+              <li><button onClick={() => handleNavigation('policy')} className="hover:text-white transition-colors interactable">Privacy Policy</button></li>
+              <li><button onClick={() => handleNavigation('policy')} className="hover:text-white transition-colors interactable">Terms of Service</button></li>
             </ul>
           </div>
         </div>
