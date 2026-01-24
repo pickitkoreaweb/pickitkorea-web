@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, ArrowRight, Handshake, Building2, User, RectangleHorizontal, UserSquare2, BadgeCheck, FileText, Users, Globe, Briefcase, Stethoscope, Scale } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, ArrowRight, Handshake, Building2, User, RectangleHorizontal, UserSquare2, BadgeCheck, FileText, Users, Globe, Briefcase, Stethoscope, Scale, Crown, Zap, FileCheck } from 'lucide-react';
 
 type InterestType = 'Metal Card' | 'Corporate' | 'Partnership';
 
@@ -51,8 +51,12 @@ const ContactView: React.FC<ContactViewProps> = ({ initialTab = 'Metal Card' }) 
     }));
   };
 
-  const handleB2BSelection = (field: 'industry' | 'productType', value: string) => {
-      setFormData(prev => ({ ...prev, [field]: value }));
+  const handleGoToInquiry = () => {
+    setFormData(prev => ({ 
+        ...prev, 
+        interest: 'Corporate'
+    }));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -62,22 +66,12 @@ const ContactView: React.FC<ContactViewProps> = ({ initialTab = 'Metal Card' }) 
       return;
     }
 
-    if (formData.interest === 'Partnership') {
-        if (!formData.industry) { alert("업종을 선택해주세요."); return; }
-        if (!formData.companyName) { alert("기업/병원/로펌명을 입력해주세요."); return; }
-    }
-
     setStatus('submitting');
 
     setTimeout(() => {
       let subject = `[PICKIT 문의] ${formData.name}님의 ${formData.interest} 문의`;
       let details = `문의 유형: ${formData.interest}`;
       
-      if (formData.interest === 'Partnership') {
-          subject = `[B2B 제휴] ${formData.industry} / ${formData.companyName} 문의`;
-          details += `\n기업명: ${formData.companyName}\n직급: ${formData.position}\n업종: ${formData.industry}\n관심제품: ${formData.productType}\n예상수량: ${formData.quantity}`;
-      }
-
       const body = `
 --------------------------------------------------
 [문의 내용]
@@ -137,28 +131,28 @@ ${formData.message}
                 </div>
 
                 {/* B2B Value Proposition Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20 animate-fade-in-up delay-100">
-                    <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-2xl group hover:border-[#D4AF37]/30 transition-colors">
-                        <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mb-6 border border-zinc-800 group-hover:border-[#D4AF37]/50">
-                            <Stethoscope className="w-6 h-6 text-white group-hover:text-[#D4AF37]" />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24 animate-fade-in-up delay-100">
+                    <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-2xl group hover:border-[#D4AF37]/30 transition-colors hover:bg-zinc-900/50">
+                        <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mb-6 border border-zinc-800 group-hover:border-[#D4AF37]/50 transition-colors">
+                            <Stethoscope className="w-6 h-6 text-white group-hover:text-[#D4AF37] transition-colors" />
                         </div>
                         <h3 className="text-xl font-bold text-white mb-3">Medical</h3>
                         <p className="text-zinc-400 text-sm leading-relaxed">
                             원장님 및 의료진을 위한 프리미엄 메탈 명함 및 데스크 명패 제작. 병원의 신뢰도를 높이세요.
                         </p>
                     </div>
-                    <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-2xl group hover:border-[#D4AF37]/30 transition-colors">
-                        <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mb-6 border border-zinc-800 group-hover:border-[#D4AF37]/50">
-                            <Scale className="w-6 h-6 text-white group-hover:text-[#D4AF37]" />
+                    <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-2xl group hover:border-[#D4AF37]/30 transition-colors hover:bg-zinc-900/50">
+                        <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mb-6 border border-zinc-800 group-hover:border-[#D4AF37]/50 transition-colors">
+                            <Scale className="w-6 h-6 text-white group-hover:text-[#D4AF37] transition-colors" />
                         </div>
                         <h3 className="text-xl font-bold text-white mb-3">Legal</h3>
                         <p className="text-zinc-400 text-sm leading-relaxed">
                             변호사, 법무사님을 위한 무게감 있는 메탈 솔루션. 클라이언트에게 강렬한 첫인상을 남깁니다.
                         </p>
                     </div>
-                    <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-2xl group hover:border-[#D4AF37]/30 transition-colors">
-                        <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mb-6 border border-zinc-800 group-hover:border-[#D4AF37]/50">
-                            <Briefcase className="w-6 h-6 text-white group-hover:text-[#D4AF37]" />
+                    <div className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-2xl group hover:border-[#D4AF37]/30 transition-colors hover:bg-zinc-900/50">
+                        <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mb-6 border border-zinc-800 group-hover:border-[#D4AF37]/50 transition-colors">
+                            <Briefcase className="w-6 h-6 text-white group-hover:text-[#D4AF37] transition-colors" />
                         </div>
                         <h3 className="text-xl font-bold text-white mb-3">Corporate</h3>
                         <p className="text-zinc-400 text-sm leading-relaxed">
@@ -167,180 +161,87 @@ ${formData.message}
                     </div>
                 </div>
 
-                {/* B2B Inquiry Form Section */}
-                <div className="bg-zinc-900/20 border border-zinc-800 rounded-3xl p-8 md:p-12 animate-fade-in-up delay-200">
-                    <div className="flex flex-col md:flex-row gap-12">
-                        {/* Form Context Sidebar */}
-                        <div className="w-full md:w-1/3">
-                            <h3 className="text-2xl font-bold text-white mb-6">Partnership Inquiry</h3>
-                            <p className="text-zinc-400 text-sm mb-8 leading-relaxed">
-                                제휴 및 대량 제작 문의를 남겨주시면 <br/>
-                                담당자가 24시간 이내에 제안서와 함께 연락드립니다.
-                            </p>
-                            <div className="space-y-6">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-[#D4AF37]">
-                                        <FileText className="w-5 h-5" />
+                {/* New Trusted Partnership Section (Replacing Form) */}
+                <div className="border-t border-zinc-900 pt-20 animate-fade-in-up delay-200">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center">
+                        
+                        {/* Left: Benefits Text */}
+                        <div>
+                            <h3 className="text-3xl font-serif text-white mb-8">
+                                Exclusive Privileges <br/>
+                                <span className="text-zinc-500">for Partners</span>
+                            </h3>
+                            <div className="space-y-10">
+                                <div className="flex gap-5">
+                                    <div className="w-12 h-12 bg-[#D4AF37]/10 rounded-full flex items-center justify-center border border-[#D4AF37]/20 shrink-0">
+                                        <Crown className="w-5 h-5 text-[#D4AF37]" />
                                     </div>
                                     <div>
-                                        <p className="text-white text-sm font-bold">견적서 및 세금계산서</p>
-                                        <p className="text-zinc-500 text-xs">법인 발행 가능</p>
+                                        <h4 className="text-white font-bold text-lg mb-2">Volume Pricing Policy</h4>
+                                        <p className="text-zinc-400 text-sm leading-relaxed">
+                                            수량에 따른 차등 할인율(Volume Discount)이 적용됩니다.<br/>
+                                            합리적인 비용으로 최고의 기업 브랜딩 효과를 누리세요.
+                                        </p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-[#D4AF37]">
-                                        <Users className="w-5 h-5" />
+                                <div className="flex gap-5">
+                                    <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10 shrink-0">
+                                        <Zap className="w-5 h-5 text-white" />
                                     </div>
                                     <div>
-                                        <p className="text-white text-sm font-bold">전담 매니저 배정</p>
-                                        <p className="text-zinc-500 text-xs">1:1 디자인 컨설팅</p>
+                                        <h4 className="text-white font-bold text-lg mb-2">Priority Production</h4>
+                                        <p className="text-zinc-400 text-sm leading-relaxed">
+                                            기업 고객 전용 패스트트랙(Fast-Track) 라인을 통해<br/>
+                                            일반 주문보다 우선적으로 제작되어 납기일을 준수합니다.
+                                        </p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-[#D4AF37]">
-                                        <Globe className="w-5 h-5" />
+                                <div className="flex gap-5">
+                                    <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10 shrink-0">
+                                        <FileCheck className="w-5 h-5 text-white" />
                                     </div>
                                     <div>
-                                        <p className="text-white text-sm font-bold">해외 배송 지원</p>
-                                        <p className="text-zinc-500 text-xs">글로벌 지사 발송 가능</p>
+                                        <h4 className="text-white font-bold text-lg mb-2">Corporate Documentation</h4>
+                                        <p className="text-zinc-400 text-sm leading-relaxed">
+                                            견적서, 거래명세서, 세금계산서 발행 등<br/>
+                                            법인 지출 증빙에 필요한 모든 행정 업무를 완벽 지원합니다.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* The B2B Form */}
-                        <div className="w-full md:w-2/3">
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                {/* Industry Select */}
-                                <div>
-                                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500 block mb-3">Industry (업종)</label>
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                                        {['병/의원 (Medical)', '법무법인 (Legal)', '일반기업 (Corporate)', '기타 (Other)'].map((ind) => (
-                                            <div 
-                                                key={ind}
-                                                onClick={() => handleB2BSelection('industry', ind)}
-                                                className={`px-3 py-3 rounded border text-xs text-center cursor-pointer transition-all ${formData.industry === ind ? 'bg-[#D4AF37] text-black border-[#D4AF37] font-bold' : 'bg-black border-zinc-700 text-zinc-400 hover:border-zinc-500'}`}
-                                            >
-                                                {ind.split('(')[0]}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-zinc-500 uppercase">Company Name</label>
-                                        <input 
-                                            type="text" 
-                                            name="companyName"
-                                            value={formData.companyName}
-                                            onChange={handleChange}
-                                            placeholder="기업/병원/로펌명" 
-                                            className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-3 text-white focus:border-[#D4AF37] outline-none transition-colors"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-zinc-500 uppercase">Person In Charge</label>
-                                        <input 
-                                            type="text" 
-                                            name="name"
-                                            value={formData.name}
-                                            onChange={handleChange}
-                                            placeholder="담당자 성함" 
-                                            className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-3 text-white focus:border-[#D4AF37] outline-none transition-colors"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-zinc-500 uppercase">Contact Info</label>
-                                        <input 
-                                            type="tel" 
-                                            name="phone"
-                                            value={formData.phone}
-                                            onChange={handleChange}
-                                            placeholder="연락처 (010-0000-0000)" 
-                                            className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-3 text-white focus:border-[#D4AF37] outline-none transition-colors"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-zinc-500 uppercase">Email Address</label>
-                                        <input 
-                                            type="email" 
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            placeholder="이메일 주소" 
-                                            className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-3 text-white focus:border-[#D4AF37] outline-none transition-colors"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-zinc-500 uppercase">Est. Quantity</label>
-                                        <select 
-                                            name="quantity"
-                                            value={formData.quantity}
-                                            onChange={handleChange}
-                                            className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-3 text-white focus:border-[#D4AF37] outline-none transition-colors"
-                                        >
-                                            <option value="">예상 수량 선택</option>
-                                            <option value="10-30">10 ~ 30개 (Small)</option>
-                                            <option value="30-100">30 ~ 100개 (Medium)</option>
-                                            <option value="100+">100개 이상 (Large)</option>
-                                            <option value="undecided">미정 (상담 후 결정)</option>
-                                        </select>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-zinc-500 uppercase">Product Interest</label>
-                                        <select 
-                                            name="productType"
-                                            value={formData.productType}
-                                            onChange={handleChange}
-                                            className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-3 text-white focus:border-[#D4AF37] outline-none transition-colors"
-                                        >
-                                            <option value="">관심 제품 선택</option>
-                                            <option value="Metal Card">프리미엄 메탈 카드</option>
-                                            <option value="Metal Nameplate">데스크 메탈 명패</option>
-                                            <option value="Metal Tag">사원증 / 네임택</option>
-                                            <option value="All">전체 / 기타</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-zinc-500 uppercase">Inquiry Details</label>
-                                    <textarea 
-                                        name="message"
-                                        value={formData.message}
-                                        onChange={handleChange}
-                                        rows={4}
-                                        placeholder="원하시는 디자인 컨셉이나 기타 문의사항을 자유롭게 적어주세요."
-                                        className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-3 text-white focus:border-[#D4AF37] outline-none resize-none transition-colors"
-                                    ></textarea>
-                                </div>
-
-                                <button 
-                                    type="submit" 
-                                    disabled={status !== 'idle'}
-                                    className={`w-full py-4 font-bold text-sm tracking-widest uppercase rounded-lg transition-all duration-300 flex items-center justify-center gap-2 ${status === 'success' ? 'bg-green-600 text-white' : 'bg-[#D4AF37] text-black hover:bg-[#FCE2C4]'}`}
-                                >
-                                    {status === 'submitting' ? (
-                                        <><Loader2 className="w-4 h-4 animate-spin" /> SENDING...</>
-                                    ) : status === 'success' ? (
-                                        <><CheckCircle2 className="w-5 h-5" /> INQUIRY SENT</>
-                                    ) : (
-                                        <><Send className="w-4 h-4" /> SEND PARTNERSHIP REQUEST</>
-                                    )}
-                                </button>
-                            </form>
+                        {/* Right: Premium CTA Card */}
+                        <div className="bg-[#0f0f0f] border border-zinc-800 rounded-[2rem] p-10 md:p-14 text-center relative overflow-hidden group hover:border-[#D4AF37]/50 transition-colors shadow-2xl">
+                             {/* Background Effects */}
+                             <div className="absolute top-0 right-0 w-64 h-64 bg-[#D4AF37]/5 rounded-full blur-[60px] pointer-events-none"></div>
+                             <div className="absolute bottom-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none"></div>
+                             
+                             <div className="relative z-10 flex flex-col items-center">
+                                 <Building2 className="w-16 h-16 text-white mb-6 opacity-90" />
+                                 
+                                 <h3 className="text-3xl font-bold text-white mb-4">Start Partnership</h3>
+                                 <p className="text-zinc-400 text-sm mb-10 leading-relaxed max-w-sm">
+                                     귀사의 품격을 높일 준비가 되셨나요?<br/>
+                                     전담 매니저가 1:1 상담을 통해 최적의 솔루션을 제안합니다.
+                                 </p>
+                                 
+                                 <button 
+                                    onClick={handleGoToInquiry}
+                                    className="w-full py-5 bg-[#D4AF37] text-black font-bold text-sm tracking-widest uppercase rounded-xl hover:bg-[#FCE2C4] transition-all shadow-[0_0_25px_rgba(212,175,55,0.2)] hover:shadow-[0_0_35px_rgba(212,175,55,0.4)] hover:scale-[1.02] flex items-center justify-center gap-3"
+                                 >
+                                     <Mail className="w-4 h-4" />
+                                     Contact for B2B
+                                 </button>
+                                 
+                                 <div className="mt-8 pt-6 border-t border-zinc-800/50 w-full">
+                                     <p className="text-zinc-600 text-xs font-mono">
+                                         Average Response Time: <span className="text-[#D4AF37]">Within 2 Hours</span>
+                                     </p>
+                                 </div>
+                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
