@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus, Trash2, FileSpreadsheet, ShieldAlert, Lock, Grid, RefreshCw, Pencil } from 'lucide-react';
+import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus, Trash2, FileSpreadsheet, ShieldAlert, Lock, Grid, RefreshCw, Pencil, Video } from 'lucide-react';
 
 interface User {
   id: string;
@@ -26,6 +26,7 @@ interface Order {
 interface SiteImages {
   heroBg: string;
   feature1: string; // QC Image
+  introVideo: string;
 }
 
 interface GalleryItem {
@@ -306,6 +307,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         {/* GALLERY TAB */}
         {activeTab === 'gallery' && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in-up">
+                {/* ... (Existing Gallery Tab Content - No Changes) ... */}
                 {/* Form Side */}
                 <div className="lg:col-span-4 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 h-fit sticky top-24" id="gallery-form">
                     <h3 className="text-xl font-bold text-white mb-6 border-b border-zinc-800 pb-4">
@@ -368,7 +370,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                  <div className="aspect-[4/5] relative">
                                      <img src={item.image} alt={item.title} className="w-full h-full object-cover opacity-80" />
                                      
-                                     {/* Action Buttons - Always Visible or Robust Hover */}
+                                     {/* Action Buttons */}
                                      <div className="absolute top-2 right-2 flex gap-2 z-50">
                                          <button 
                                             type="button"
@@ -402,7 +404,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                      <p className="text-zinc-500 text-xs mt-1 truncate">{item.desc}</p>
                                  </div>
                                  
-                                 {/* Edit Indicator Overlay */}
                                  {editingItem?.id === item.id && (
                                      <div className="absolute inset-0 bg-[#D4AF37]/20 border-2 border-[#D4AF37] pointer-events-none z-10 rounded-xl flex items-center justify-center">
                                          <span className="bg-[#D4AF37] text-black text-xs font-bold px-3 py-1 rounded-full shadow-lg">EDITING...</span>
@@ -418,6 +419,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         {/* USERS TAB */}
         {activeTab === 'users' && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in-up">
+                {/* ... (Existing Users Tab Content - No Changes) ... */}
                 {/* User List */}
                 <div className="lg:col-span-5 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 h-[700px] flex flex-col">
                     <div className="flex justify-between items-center mb-4">
@@ -592,6 +594,35 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         {activeTab === 'content' && (
             <div className="max-w-3xl mx-auto animate-fade-in-up">
                  
+                 {/* Intro Video Section (NEW) */}
+                 <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 mb-8">
+                    <h3 className="text-xl font-bold text-white mb-6 border-b border-zinc-800 pb-4 flex items-center gap-2">
+                        <Video className="w-5 h-5 text-[#D4AF37]" /> Intro Popup Video
+                    </h3>
+                    <div className="space-y-6">
+                        <div className="relative aspect-video rounded-xl overflow-hidden border border-zinc-700 bg-black">
+                             <video 
+                                src={editingImages.introVideo} 
+                                className="w-full h-full object-cover opacity-80" 
+                                autoPlay muted loop
+                             />
+                        </div>
+                        <div>
+                            <label className="text-xs font-bold text-zinc-500 uppercase block mb-2">Video URL (MP4 / WebM)</label>
+                            <input 
+                                type="text" 
+                                value={editingImages.introVideo} 
+                                onChange={(e) => handleImageChange('introVideo', e.target.value)}
+                                className="w-full bg-black border border-zinc-700 rounded p-3 text-sm text-white focus:border-[#D4AF37] outline-none"
+                                placeholder="https://example.com/video.mp4"
+                            />
+                            <p className="text-[10px] text-zinc-500 mt-2">
+                                * Direct video link required (e.g., from Pexels, S3, or public hosting). YouTube links are not supported in this player.
+                            </p>
+                        </div>
+                    </div>
+                 </div>
+
                  {/* Hero Section */}
                  <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 mb-8">
                     <h3 className="text-xl font-bold text-white mb-6 border-b border-zinc-800 pb-4">Hero Section Image</h3>
@@ -631,7 +662,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                     </div>
                  </div>
 
-                 {/* QC Image Section (Added) */}
+                 {/* QC Image Section */}
                  <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 mb-8">
                     <h3 className="text-xl font-bold text-white mb-6 border-b border-zinc-800 pb-4">Quality Control (QC) Image</h3>
                     <div className="space-y-6">
