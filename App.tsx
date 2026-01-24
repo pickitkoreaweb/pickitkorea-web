@@ -22,7 +22,6 @@ import AdminDashboard from './components/AdminDashboard';
 import MyPage from './components/MyPage';
 import LaunchPopup from './components/LaunchPopup';
 import Gallery from './components/Gallery';
-import IntroPopup from './components/IntroPopup';
 
 type Page = 'home' | 'about' | 'metal-custom' | 'materials' | 'gallery' | 'faq' | 'contact' | 'policy' | 'auth' | 'event' | 'admin-dashboard' | 'mypage' | 'partnership';
 
@@ -41,7 +40,6 @@ interface UserData {
 interface SiteImages {
   heroBg: string;
   feature1: string;
-  introVideo: string; // Added for video management
 }
 
 const NavItem: React.FC<{ 
@@ -183,7 +181,6 @@ export default function App() {
   const [siteImages, setSiteImages] = useState<SiteImages>({
       heroBg: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2500&auto=format&fit=crop',
       feature1: 'https://images.unsplash.com/photo-1614623466144-d83049185c7c?q=80&w=1600&auto=format&fit=crop',
-      introVideo: 'https://videos.pexels.com/video-files/3195394/3195394-uhd_2560_1440_25fps.mp4'
   });
 
   useEffect(() => {
@@ -208,9 +205,6 @@ export default function App() {
           <Navbar currentPage={currentPage} setPage={setCurrentPage} currentUser={currentUser} onLogout={handleLogout} />
           <PrivateConcierge />
           <LaunchPopup />
-          
-          {/* Intro Video Popup - Only on Home */}
-          {currentPage === 'home' && <IntroPopup videoUrl={siteImages.introVideo} />}
           
           <main>
             {currentPage === 'home' && (

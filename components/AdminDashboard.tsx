@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus, Trash2, FileSpreadsheet, ShieldAlert, Lock, Grid, RefreshCw, Pencil, Video, FileText, Download, Scale } from 'lucide-react';
+import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus, Trash2, FileSpreadsheet, ShieldAlert, Lock, Grid, RefreshCw, Pencil, Video, FileText, Download, Scale, Layers } from 'lucide-react';
 
 interface User {
   id: string;
@@ -26,7 +26,6 @@ interface Order {
 interface SiteImages {
   heroBg: string;
   feature1: string; // QC Image
-  introVideo: string;
 }
 
 interface GalleryItem {
@@ -35,6 +34,14 @@ interface GalleryItem {
   category: string;
   image: string;
   desc: string;
+}
+
+interface MaterialItem {
+  id: number;
+  name: string;
+  type: string;
+  desc: string;
+  image: string;
 }
 
 const DEFAULT_PORTFOLIO: GalleryItem[] = [
@@ -58,6 +65,30 @@ const DEFAULT_PORTFOLIO: GalleryItem[] = [
       category: "silver",
       image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=1600&auto=format&fit=crop",
       desc: "Industrial Hairline"
+    },
+];
+
+const DEFAULT_MATERIALS: MaterialItem[] = [
+    {
+      id: 0,
+      name: "STS304 MIRROR",
+      type: "Super Mirror Finish",
+      desc: "완벽하게 연마된 거울 같은 표면. 8K급 고해상도 반사율을 자랑하는 스테인리스 스틸의 가장 화려한 마감입니다. 지문 방지 코팅이 더해져 관리가 용이합니다.",
+      image: "https://images.unsplash.com/photo-1629196914375-f7e48f477b6d?q=80&w=1000&auto=format&fit=crop"
+    },
+    {
+      id: 1,
+      name: "STS304 HAIRLINE",
+      type: "Directional Satin",
+      desc: "한 방향으로 뻗은 미세한 결이 특징인 헤어라인 마감. 빛의 각도에 따라 은은하게 변화하는 광택이 고급스러움을 더하며, 생활 스크래치에 강합니다.",
+      image: "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?q=80&w=1000&auto=format&fit=crop"
+    },
+    {
+      id: 2,
+      name: "STS304 BRUSHED",
+      type: "Vibration Finish",
+      desc: "불규칙한 연마 자국이 만들어내는 독특한 빈티지 텍스처. 거친 듯 부드러운 질감으로 금속 본연의 물성을 가장 잘 표현한 인더스트리얼 마감입니다.",
+      image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=1000&auto=format&fit=crop"
     },
 ];
 
@@ -150,7 +181,7 @@ interface AdminDashboardProps {
 }
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteImages }) => {
-  const [activeTab, setActiveTab] = useState<'users' | 'content' | 'gallery' | 'legal'>('users');
+  const [activeTab, setActiveTab] = useState<'users' | 'content' | 'gallery' | 'materials' | 'legal'>('users');
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [userOrders, setUserOrders] = useState<Order[]>([]);
@@ -158,12 +189,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
   
   // Gallery State
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
-  const [editingItem, setEditingItem] = useState<GalleryItem | null>(null); // For Edit Mode
+  const [editingItem, setEditingItem] = useState<GalleryItem | null>(null); 
   const [galleryForm, setGalleryForm] = useState<Omit<GalleryItem, 'id'>>({
       title: '',
       category: 'black',
       image: '',
       desc: ''
+  });
+
+  // Materials State (NEW)
+  const [materialItems, setMaterialItems] = useState<MaterialItem[]>([]);
+  const [editingMaterial, setEditingMaterial] = useState<MaterialItem | null>(null);
+  const [materialForm, setMaterialForm] = useState<Omit<MaterialItem, 'id'>>({
+      name: '',
+      type: '',
+      desc: '',
+      image: ''
   });
   
   // Order State
@@ -188,12 +229,24 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         try {
             setGalleryItems(JSON.parse(storedGallery));
         } catch (e) {
-            console.error("Failed to parse gallery data", e);
             setGalleryItems(DEFAULT_PORTFOLIO);
         }
     } else {
         setGalleryItems(DEFAULT_PORTFOLIO);
         localStorage.setItem('pickit_gallery', JSON.stringify(DEFAULT_PORTFOLIO));
+    }
+
+    // 3. Load Materials (NEW)
+    const storedMaterials = localStorage.getItem('pickit_materials');
+    if (storedMaterials) {
+        try {
+            setMaterialItems(JSON.parse(storedMaterials));
+        } catch (e) {
+            setMaterialItems(DEFAULT_MATERIALS);
+        }
+    } else {
+        setMaterialItems(DEFAULT_MATERIALS);
+        localStorage.setItem('pickit_materials', JSON.stringify(DEFAULT_MATERIALS));
     }
   }, []);
 
@@ -219,7 +272,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
   };
 
   // --- GALLERY FUNCTIONS ---
-
   const handleEditGalleryItem = (item: GalleryItem) => {
       setEditingItem(item);
       setGalleryForm({
@@ -228,62 +280,46 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
           image: item.image,
           desc: item.desc
       });
-      // Scroll to form
       const formElement = document.getElementById('gallery-form');
       if (formElement) formElement.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleCancelEdit = () => {
+  const handleCancelGalleryEdit = () => {
       setEditingItem(null);
       setGalleryForm({ title: '', category: 'black', image: '', desc: '' });
   };
 
   const handleGallerySubmit = (e: React.FormEvent) => {
       e.preventDefault();
-      if (!galleryForm.title || !galleryForm.image || !galleryForm.desc) {
-          alert("모든 필드를 입력해주세요.");
+      if (!galleryForm.title || !galleryForm.image) {
+          alert("이미지와 제목은 필수입니다.");
           return;
       }
 
       setGalleryItems(prevItems => {
           let updatedGallery: GalleryItem[];
-          
           if (editingItem) {
-              // Update existing
-              updatedGallery = prevItems.map(item => 
-                  item.id === editingItem.id ? { ...item, ...galleryForm } : item
-              );
+              updatedGallery = prevItems.map(item => item.id === editingItem.id ? { ...item, ...galleryForm } : item);
               alert("수정되었습니다.");
           } else {
-              // Create new
-              const newItem: GalleryItem = {
-                  id: Date.now(),
-                  ...galleryForm
-              };
+              const newItem: GalleryItem = { id: Date.now(), ...galleryForm };
               updatedGallery = [newItem, ...prevItems];
               alert("등록되었습니다.");
           }
-          
           localStorage.setItem('pickit_gallery', JSON.stringify(updatedGallery));
           return updatedGallery;
       });
-
-      handleCancelEdit(); // Reset form
+      handleCancelGalleryEdit();
   };
 
-  // Fixed Delete Handler using functional state update
   const handleDeleteGalleryItem = (id: number) => {
-      if (window.confirm("정말로 이 포트폴리오 이미지를 삭제하시겠습니까?")) {
+      if (window.confirm("정말로 이 이미지를 삭제하시겠습니까?")) {
           setGalleryItems(prevItems => {
-              const updatedGallery = prevItems.filter(item => item.id !== id);
-              localStorage.setItem('pickit_gallery', JSON.stringify(updatedGallery));
-              return updatedGallery;
+              const updated = prevItems.filter(item => item.id !== id);
+              localStorage.setItem('pickit_gallery', JSON.stringify(updated));
+              return updated;
           });
-          
-          // If deleting the item currently being edited, reset form
-          if (editingItem?.id === id) {
-              handleCancelEdit();
-          }
+          if (editingItem?.id === id) handleCancelGalleryEdit();
       }
   };
 
@@ -294,6 +330,71 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
           reader.onloadend = () => {
               if (typeof reader.result === 'string') {
                   setGalleryForm(prev => ({ ...prev, image: reader.result as string }));
+              }
+          };
+          reader.readAsDataURL(file);
+      }
+  };
+
+  // --- MATERIAL FUNCTIONS (NEW) ---
+  const handleEditMaterial = (item: MaterialItem) => {
+      setEditingMaterial(item);
+      setMaterialForm({
+          name: item.name,
+          type: item.type,
+          desc: item.desc,
+          image: item.image
+      });
+      const formElement = document.getElementById('material-form');
+      if (formElement) formElement.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleCancelMaterialEdit = () => {
+      setEditingMaterial(null);
+      setMaterialForm({ name: '', type: '', desc: '', image: '' });
+  };
+
+  const handleMaterialSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!materialForm.name || !materialForm.image) {
+          alert("소재 이름과 이미지는 필수입니다.");
+          return;
+      }
+
+      setMaterialItems(prevItems => {
+          let updatedMaterials: MaterialItem[];
+          if (editingMaterial) {
+              updatedMaterials = prevItems.map(item => item.id === editingMaterial.id ? { ...item, ...materialForm } : item);
+              alert("소재 정보가 수정되었습니다.");
+          } else {
+              const newItem: MaterialItem = { id: Date.now(), ...materialForm };
+              updatedMaterials = [newItem, ...prevItems];
+              alert("새 소재가 등록되었습니다.");
+          }
+          localStorage.setItem('pickit_materials', JSON.stringify(updatedMaterials));
+          return updatedMaterials;
+      });
+      handleCancelMaterialEdit();
+  };
+
+  const handleDeleteMaterial = (id: number) => {
+      if (window.confirm("정말로 이 소재를 삭제하시겠습니까?")) {
+          setMaterialItems(prevItems => {
+              const updated = prevItems.filter(item => item.id !== id);
+              localStorage.setItem('pickit_materials', JSON.stringify(updated));
+              return updated;
+          });
+          if (editingMaterial?.id === id) handleCancelMaterialEdit();
+      }
+  };
+
+  const handleMaterialImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+              if (typeof reader.result === 'string') {
+                  setMaterialForm(prev => ({ ...prev, image: reader.result as string }));
               }
           };
           reader.readAsDataURL(file);
@@ -395,6 +496,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
             <div className="flex flex-wrap gap-2 mt-4 md:mt-0">
                 <button onClick={() => setActiveTab('users')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'users' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Users</button>
                 <button onClick={() => setActiveTab('gallery')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'gallery' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Gallery</button>
+                <button onClick={() => setActiveTab('materials')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'materials' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Materials</button>
                 <button onClick={() => setActiveTab('content')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'content' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Content</button>
                 <button onClick={() => setActiveTab('legal')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'legal' ? 'bg-red-900/30 text-red-500 border border-red-900/50' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Legal</button>
             </div>
@@ -429,12 +531,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                     <div className="bg-white text-black p-8 rounded-xl h-[600px] overflow-y-auto font-serif shadow-inner border border-zinc-700">
                         <div className="max-w-2xl mx-auto space-y-6">
                             <h1 className="text-3xl font-bold text-center border-b-2 border-black pb-4 mb-8">주식회사 피킷코리아 정관</h1>
-                            
                             <div className="space-y-4">
                                 <h2 className="text-xl font-bold">제1장 총칙</h2>
                                 <p><strong>제1조 (상호)</strong> 본 회사는 주식회사 피킷코리아 (영문명: PICKIT KOREA Inc.)라 한다.</p>
                                 <p><strong>제2조 (목적)</strong> 본 회사는 다음의 사업을 영위함을 목적으로 한다...</p>
-                                
                                 <h2 className="text-xl font-bold mt-8">제2장 주식 (전략적 조항)</h2>
                                 <p className="bg-gray-100 p-2 rounded">
                                     <strong>제5조 (발행예정주식의 총수)</strong><br/>
@@ -445,28 +545,88 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                     본 회사가 설립 시에 발행하는 주식의 총수는 <strong>100,000주</strong>로 한다.<br/>
                                     <span className="text-xs text-gray-600">(100원 x 100,000주 = 자본금 1,000만 원)</span>
                                 </p>
-                                <p className="bg-blue-50 p-2 rounded">
-                                    <strong>제9조 (신주인수권) ★</strong><br/>
-                                    ② ... 긴급한 자금조달을 위하여 국내외 금융기관 또는 기관투자자(VC)에게 신주를 발행하는 경우 주주총회의 결의 없이 이사회의 결의로 배정할 수 있다.
-                                </p>
-
-                                <h2 className="text-xl font-bold mt-8">제4장 이사 및 감사 (방어 조항)</h2>
-                                <p className="bg-red-50 p-2 rounded">
-                                    <strong>제27조 (집중투표제의 배제) ★</strong><br/>
-                                    2인 이상의 이사를 선임하는 경우에도 상법 제382조의2에서 규정하는 집중투표제는 적용하지 아니한다.
-                                </p>
                             </div>
-                            
                             <div className="mt-12 text-center text-gray-500 text-sm">
                                 [전체 내용은 다운로드된 파일에서 확인 가능합니다]
                             </div>
                         </div>
                     </div>
-                    
-                    <div className="mt-6 flex items-center gap-2 text-zinc-500 text-xs">
-                        <FileText className="w-4 h-4" />
-                        <span>Microsoft Word(.doc) 형식으로 다운로드 되며, 한글(HWP)에서도 열람 가능합니다.</span>
-                    </div>
+                </div>
+            </div>
+        )}
+
+        {/* MATERIALS TAB (NEW) */}
+        {activeTab === 'materials' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in-up">
+                {/* Form Side */}
+                <div className="lg:col-span-4 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 h-fit sticky top-24" id="material-form">
+                    <h3 className="text-xl font-bold text-white mb-6 border-b border-zinc-800 pb-4 flex items-center gap-2">
+                        <Layers className="w-5 h-5 text-[#D4AF37]" /> {editingMaterial ? 'Edit Material' : 'Add New Material'}
+                    </h3>
+                    <form onSubmit={handleMaterialSubmit} className="space-y-4">
+                        <div>
+                            <label className="text-xs font-bold text-zinc-500 uppercase block mb-2">Name (e.g., STS304 Mirror)</label>
+                            <input type="text" value={materialForm.name} onChange={(e) => setMaterialForm({...materialForm, name: e.target.value})} className="w-full bg-black border border-zinc-700 rounded p-3 text-sm text-white focus:border-[#D4AF37] outline-none" placeholder="Material Name" />
+                        </div>
+                        <div>
+                            <label className="text-xs font-bold text-zinc-500 uppercase block mb-2">Type / Subtitle</label>
+                            <input type="text" value={materialForm.type} onChange={(e) => setMaterialForm({...materialForm, type: e.target.value})} className="w-full bg-black border border-zinc-700 rounded p-3 text-sm text-white focus:border-[#D4AF37] outline-none" placeholder="e.g., Super Mirror Finish" />
+                        </div>
+                        <div>
+                            <label className="text-xs font-bold text-zinc-500 uppercase block mb-2">Description</label>
+                            <textarea rows={4} value={materialForm.desc} onChange={(e) => setMaterialForm({...materialForm, desc: e.target.value})} className="w-full bg-black border border-zinc-700 rounded p-3 text-sm text-white focus:border-[#D4AF37] outline-none resize-none" placeholder="Description..." />
+                        </div>
+                        <div>
+                            <label className="text-xs font-bold text-zinc-500 uppercase block mb-2">Texture Image</label>
+                            <div className="relative">
+                                <input type="file" accept="image/*" onChange={handleMaterialImageUpload} className="hidden" id="material-upload" />
+                                <label htmlFor="material-upload" className="flex items-center justify-center gap-2 w-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded p-3 text-sm text-white cursor-pointer transition-colors">
+                                    <Upload className="w-4 h-4" /> {editingMaterial ? 'Change Texture' : 'Upload Texture'}
+                                </label>
+                            </div>
+                            {materialForm.image && (
+                                <div className="mt-4 rounded-full w-24 h-24 overflow-hidden border-2 border-zinc-700 bg-black mx-auto">
+                                    <img src={materialForm.image} alt="Preview" className="w-full h-full object-cover" />
+                                </div>
+                            )}
+                        </div>
+                        
+                        <div className="flex gap-2 pt-2">
+                            {editingMaterial && (
+                                <button type="button" onClick={handleCancelMaterialEdit} className="flex-1 bg-zinc-800 text-white font-bold p-3 rounded hover:bg-zinc-700 transition-colors">
+                                    Cancel
+                                </button>
+                            )}
+                            <button type="submit" className={`flex-1 font-bold p-3 rounded transition-colors ${editingMaterial ? 'bg-green-600 hover:bg-green-500 text-white' : 'bg-[#D4AF37] hover:bg-[#FCE2C4] text-black'}`}>
+                                {editingMaterial ? 'Update Material' : 'Add Material'}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                {/* List Side */}
+                <div className="lg:col-span-8 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 h-[800px] overflow-y-auto custom-scrollbar">
+                     <div className="flex justify-between items-center mb-6 border-b border-zinc-800 pb-4">
+                         <h3 className="text-xl font-bold text-white">Material Library ({materialItems.length})</h3>
+                     </div>
+                     <div className="space-y-3">
+                         {materialItems.map((item) => (
+                             <div key={item.id} className="flex items-center gap-4 bg-black border border-zinc-800 rounded-xl p-4 group">
+                                 <div className="w-16 h-16 rounded-full overflow-hidden border border-zinc-700 shrink-0">
+                                     <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                                 </div>
+                                 <div className="flex-1">
+                                     <h4 className="text-white font-bold text-sm">{item.name}</h4>
+                                     <p className="text-zinc-500 text-xs mb-1">{item.type}</p>
+                                     <p className="text-zinc-600 text-xs line-clamp-1">{item.desc}</p>
+                                 </div>
+                                 <div className="flex gap-2">
+                                     <button onClick={() => handleEditMaterial(item)} className="p-2 bg-zinc-900 text-zinc-400 hover:text-blue-400 rounded"><Pencil className="w-4 h-4" /></button>
+                                     <button onClick={() => handleDeleteMaterial(item.id)} className="p-2 bg-zinc-900 text-zinc-400 hover:text-red-500 rounded"><Trash2 className="w-4 h-4" /></button>
+                                 </div>
+                             </div>
+                         ))}
+                     </div>
                 </div>
             </div>
         )}
@@ -474,7 +634,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         {/* GALLERY TAB */}
         {activeTab === 'gallery' && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in-up">
-                {/* ... (Existing Gallery Tab Content - No Changes) ... */}
                 {/* Form Side */}
                 <div className="lg:col-span-4 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 h-fit sticky top-24" id="gallery-form">
                     <h3 className="text-xl font-bold text-white mb-6 border-b border-zinc-800 pb-4">
@@ -515,7 +674,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                         
                         <div className="flex gap-2 pt-2">
                             {editingItem && (
-                                <button type="button" onClick={handleCancelEdit} className="flex-1 bg-zinc-800 text-white font-bold p-3 rounded hover:bg-zinc-700 transition-colors">
+                                <button type="button" onClick={handleCancelGalleryEdit} className="flex-1 bg-zinc-800 text-white font-bold p-3 rounded hover:bg-zinc-700 transition-colors">
                                     Cancel
                                 </button>
                             )}
@@ -536,31 +695,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                              <div key={item.id} className="relative bg-black border border-zinc-800 rounded-xl overflow-hidden group">
                                  <div className="aspect-[4/5] relative">
                                      <img src={item.image} alt={item.title} className="w-full h-full object-cover opacity-80" />
-                                     
-                                     {/* Action Buttons */}
                                      <div className="absolute top-2 right-2 flex gap-2 z-50">
-                                         <button 
-                                            type="button"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                e.preventDefault();
-                                                handleEditGalleryItem(item);
-                                            }}
-                                            className="bg-blue-600 p-2 rounded-full text-white hover:bg-blue-500 shadow-lg transform hover:scale-110 transition-all flex items-center justify-center cursor-pointer pointer-events-auto"
-                                            title="Edit"
-                                         >
+                                         <button type="button" onClick={(e) => { e.stopPropagation(); handleEditGalleryItem(item); }} className="bg-blue-600 p-2 rounded-full text-white hover:bg-blue-500 shadow-lg transform hover:scale-110 transition-all">
                                              <Pencil className="w-3.5 h-3.5" />
                                          </button>
-                                         <button 
-                                            type="button"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                e.preventDefault();
-                                                handleDeleteGalleryItem(item.id);
-                                            }}
-                                            className="bg-red-600 p-2 rounded-full text-white hover:bg-red-500 shadow-lg transform hover:scale-110 transition-all flex items-center justify-center cursor-pointer pointer-events-auto"
-                                            title="Delete"
-                                         >
+                                         <button type="button" onClick={(e) => { e.stopPropagation(); handleDeleteGalleryItem(item.id); }} className="bg-red-600 p-2 rounded-full text-white hover:bg-red-500 shadow-lg transform hover:scale-110 transition-all">
                                              <Trash2 className="w-3.5 h-3.5" />
                                          </button>
                                      </div>
@@ -570,12 +709,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                      <h4 className="text-white font-bold text-sm truncate">{item.title}</h4>
                                      <p className="text-zinc-500 text-xs mt-1 truncate">{item.desc}</p>
                                  </div>
-                                 
-                                 {editingItem?.id === item.id && (
-                                     <div className="absolute inset-0 bg-[#D4AF37]/20 border-2 border-[#D4AF37] pointer-events-none z-10 rounded-xl flex items-center justify-center">
-                                         <span className="bg-[#D4AF37] text-black text-xs font-bold px-3 py-1 rounded-full shadow-lg">EDITING...</span>
-                                     </div>
-                                 )}
                              </div>
                          ))}
                      </div>
@@ -586,7 +719,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         {/* USERS TAB */}
         {activeTab === 'users' && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in-up">
-                {/* ... (Existing Users Tab Content - No Changes) ... */}
                 {/* User List */}
                 <div className="lg:col-span-5 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 h-[700px] flex flex-col">
                     <div className="flex justify-between items-center mb-4">
@@ -736,12 +868,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                                 </div>
                                             )}
                                         </div>
-                                        <div className="flex justify-between items-center text-xs text-zinc-400 border-t border-zinc-800 pt-3">
-                                            <div className="flex items-center gap-4">
-                                                <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {order.date}</span>
-                                                <span className="flex items-center gap-1"><CreditCard className="w-3 h-3" /> {order.amount}</span>
-                                            </div>
-                                        </div>
                                     </div>
                                 ))}
                                 {userOrders.length === 0 && <div className="text-center py-10 text-zinc-500 text-sm">No purchase history.</div>}
@@ -760,36 +886,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         {/* CONTENT TAB */}
         {activeTab === 'content' && (
             <div className="max-w-3xl mx-auto animate-fade-in-up">
-                 
-                 {/* Intro Video Section (NEW) */}
-                 <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 mb-8">
-                    <h3 className="text-xl font-bold text-white mb-6 border-b border-zinc-800 pb-4 flex items-center gap-2">
-                        <Video className="w-5 h-5 text-[#D4AF37]" /> Intro Popup Video
-                    </h3>
-                    <div className="space-y-6">
-                        <div className="relative aspect-video rounded-xl overflow-hidden border border-zinc-700 bg-black">
-                             <video 
-                                src={editingImages.introVideo} 
-                                className="w-full h-full object-cover opacity-80" 
-                                autoPlay muted loop
-                             />
-                        </div>
-                        <div>
-                            <label className="text-xs font-bold text-zinc-500 uppercase block mb-2">Video URL (MP4 / WebM)</label>
-                            <input 
-                                type="text" 
-                                value={editingImages.introVideo} 
-                                onChange={(e) => handleImageChange('introVideo', e.target.value)}
-                                className="w-full bg-black border border-zinc-700 rounded p-3 text-sm text-white focus:border-[#D4AF37] outline-none"
-                                placeholder="https://example.com/video.mp4"
-                            />
-                            <p className="text-[10px] text-zinc-500 mt-2">
-                                * Direct video link required (e.g., from Pexels, S3, or public hosting). YouTube links are not supported in this player.
-                            </p>
-                        </div>
-                    </div>
-                 </div>
-
                  {/* Hero Section */}
                  <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 mb-8">
                     <h3 className="text-xl font-bold text-white mb-6 border-b border-zinc-800 pb-4">Hero Section Image</h3>
