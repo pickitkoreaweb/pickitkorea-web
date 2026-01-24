@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, ArrowRight, Handshake, Building2, User, RectangleHorizontal, UserSquare2, BadgeCheck, FileText, Users, Globe, Briefcase, Stethoscope, Scale, Crown, Zap, FileCheck, Copy } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, ArrowRight, Handshake, Building2, User, RectangleHorizontal, UserSquare2, BadgeCheck, FileText, Users, Globe, Briefcase, Stethoscope, Scale, Crown, Zap, FileCheck, Copy, ClipboardCheck } from 'lucide-react';
 
 type InterestType = 'Metal Card' | 'Corporate' | 'Partnership';
 
@@ -33,6 +33,7 @@ const ContactView: React.FC<ContactViewProps> = ({ initialTab = 'Metal Card' }) 
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -59,7 +60,8 @@ const ContactView: React.FC<ContactViewProps> = ({ initialTab = 'Metal Card' }) 
 문의내용 : 상품문의 / 제휴문의`;
       
       navigator.clipboard.writeText(template).then(() => {
-          alert("문의 양식이 복사되었습니다. 메일에 붙여넣어주세요.");
+          setIsCopied(true);
+          setTimeout(() => setIsCopied(false), 3000);
       });
   };
 
@@ -165,53 +167,70 @@ ${formData.message}
                     </div>
                 </div>
 
-                {/* Email Inquiry Template Section (Replaced Form) */}
+                {/* Updated Inquiry Section */}
                 <div className="border-t border-zinc-900 pt-20 animate-fade-in-up delay-200">
-                    <div className="max-w-4xl mx-auto">
+                    <div className="max-w-3xl mx-auto">
                         <div className="text-center mb-12">
                             <h3 className="text-3xl font-serif text-white mb-6">
                                 Partnership Inquiry
                             </h3>
                             <p className="text-zinc-400 text-lg font-light leading-relaxed">
-                                하단 문의양식을 복사하여 메일로 전달하시면 <br/>
-                                담당자가 검토 후 <span className="text-[#D4AF37] font-bold">평균 1일 이내</span>에 회신드립니다.
+                                하단 양식을 복사하여 메일로 보내주시면<br/>
+                                <span className="text-[#D4AF37] font-bold">VIP 전담팀</span>이 24시간 이내에 회신드립니다.
                             </p>
                         </div>
 
-                        {/* Template Box */}
-                        <div className="relative bg-[#0f0f0f] border border-zinc-800 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden group">
-                             {/* Glossy Effect */}
-                             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-b from-[#D4AF37]/5 to-transparent rounded-full blur-[80px] pointer-events-none"></div>
+                        {/* Premium Copy Template */}
+                        <div className="relative group">
+                             {/* Decorative glow */}
+                             <div className="absolute -inset-1 bg-gradient-to-r from-[#D4AF37] to-[#FCE2C4] rounded-2xl opacity-20 group-hover:opacity-40 blur transition duration-1000 group-hover:duration-200"></div>
                              
-                             <div className="relative z-10 flex flex-col items-center">
-                                 <div className="w-full max-w-lg bg-black/50 border border-zinc-800 rounded-xl p-6 md:p-8 font-mono text-sm text-zinc-300 leading-relaxed mb-8 shadow-inner select-all selection:bg-[#D4AF37] selection:text-black">
-                                     <p className="text-[#D4AF37] mb-4 font-bold border-b border-zinc-800 pb-2">[문의하기 양식]</p>
-                                     <p>성명 / 회사명 : </p>
-                                     <p>연락처 : </p>
-                                     <p>이메일 주소 : </p>
-                                     <p>문의내용 : 상품문의 / 제휴문의</p>
-                                 </div>
-
-                                 <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
-                                     <button 
-                                        onClick={handleCopyTemplate}
-                                        className="px-8 py-4 bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-sm tracking-widest rounded-xl transition-all flex items-center justify-center gap-2 group/btn"
-                                     >
-                                         <Copy className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
-                                         양식 복사하기
-                                     </button>
-                                     <a 
-                                        href="mailto:pickit.korea.official@gmail.com"
-                                        className="px-8 py-4 bg-[#D4AF37] hover:bg-[#FCE2C4] text-black font-bold text-sm tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] flex items-center justify-center gap-2 group/btn"
-                                     >
-                                         <Mail className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
-                                         메일 보내기
-                                     </a>
-                                 </div>
+                             <div className="relative bg-[#080808] border border-[#D4AF37]/50 rounded-xl p-8 md:p-12 overflow-hidden">
+                                 {/* Background Texture inside card */}
+                                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none"></div>
                                  
-                                 <p className="mt-8 text-zinc-600 text-xs text-center">
-                                     Email: pickit.korea.official@gmail.com
-                                 </p>
+                                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 relative z-10">
+                                     <div className="flex-1 w-full">
+                                         <div className="flex items-center gap-2 mb-4">
+                                             <FileText className="w-4 h-4 text-[#D4AF37]" />
+                                             <span className="text-xs font-bold text-[#D4AF37] tracking-widest uppercase">Inquiry Template</span>
+                                         </div>
+                                         <div className="bg-zinc-900/80 border border-zinc-800 rounded-lg p-6 font-mono text-sm text-zinc-300 leading-loose shadow-inner select-all">
+                                             <p className="text-zinc-500 text-xs mb-2 select-none">// Click button to copy</p>
+                                             <p>[문의하기]</p>
+                                             <p>성명 / 회사명 : </p>
+                                             <p>연락처 : </p>
+                                             <p>이메일 주소 : </p>
+                                             <p>문의내용 : 상품문의 / 제휴문의</p>
+                                         </div>
+                                     </div>
+
+                                     <div className="flex flex-col gap-4 w-full md:w-auto shrink-0">
+                                         <button 
+                                            onClick={handleCopyTemplate}
+                                            className={`relative px-8 py-4 font-bold text-sm tracking-widest rounded-lg transition-all duration-300 flex items-center justify-center gap-3 overflow-hidden ${isCopied ? 'bg-green-500 text-white shadow-[0_0_20px_rgba(34,197,94,0.4)]' : 'bg-[#D4AF37] text-black hover:bg-[#FCE2C4] shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.5)]'}`}
+                                         >
+                                             {isCopied ? (
+                                                 <>
+                                                     <ClipboardCheck className="w-5 h-5" />
+                                                     <span>COPIED!</span>
+                                                 </>
+                                             ) : (
+                                                 <>
+                                                     <Copy className="w-5 h-5" />
+                                                     <span>COPY FORM</span>
+                                                 </>
+                                             )}
+                                         </button>
+                                         
+                                         <div className="text-center">
+                                             <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Send To</p>
+                                             <a href="mailto:pickit.korea.official@gmail.com" className="text-xs text-zinc-300 hover:text-white transition-colors border-b border-zinc-800 hover:border-zinc-500 pb-0.5">
+                                                 pickit.korea.official@gmail.com
+                                             </a>
+                                         </div>
+                                     </div>
+                                 </div>
                              </div>
                         </div>
 
