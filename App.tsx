@@ -22,6 +22,7 @@ import AdminDashboard from './components/AdminDashboard';
 import MyPage from './components/MyPage';
 import LaunchPopup from './components/LaunchPopup';
 import Gallery from './components/Gallery';
+import BusinessCardShowcase from './components/BusinessCardShowcase';
 
 type Page = 'home' | 'about' | 'metal-custom' | 'materials' | 'gallery' | 'faq' | 'contact' | 'policy' | 'auth' | 'event' | 'admin-dashboard' | 'mypage' | 'partnership';
 
@@ -212,6 +213,7 @@ export default function App() {
                 <Hero setPage={(page: string) => setCurrentPage(page as Page)} bgImage={siteImages.heroBg} />
                 <RevealOnScroll><CompanyIntro /></RevealOnScroll>
                 <RevealOnScroll><Features qcImage={siteImages.feature1} /></RevealOnScroll>
+                <RevealOnScroll><BusinessCardShowcase /></RevealOnScroll>
                 <RevealOnScroll><PackagingShowcase /></RevealOnScroll>
                 <RevealOnScroll><Reviews /></RevealOnScroll>
               </div>

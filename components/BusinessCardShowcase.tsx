@@ -1,5 +1,5 @@
 import React from 'react';
-import { Fingerprint, UserCheck, Star, ShieldCheck, ScanLine, Smartphone } from 'lucide-react';
+import { Fingerprint, UserCheck, Star, ShieldCheck, ScanLine, Smartphone, Hash } from 'lucide-react';
 
 const BusinessCardShowcase: React.FC = () => {
   return (
@@ -20,20 +20,21 @@ const BusinessCardShowcase: React.FC = () => {
           {/* Text Content */}
           <div className="flex-1 order-2 lg:order-1 text-center lg:text-left">
              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 mb-6">
-                <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-                <span className="text-xs font-semibold tracking-wide uppercase text-yellow-500">Premium Business Edition</span>
+                <Hash className="w-3 h-3 text-yellow-500" />
+                <span className="text-xs font-semibold tracking-wide uppercase text-yellow-500">STS304 Original Series</span>
              </div>
              
              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-6 leading-[1.1] text-white">
-                당신을 증명하는 <br />
-                <span className="text-zinc-500">단 하나의 메탈 명함.</span>
+                Not Just a Credit Card.<br />
+                <span className="text-zinc-500">We Craft Identity.</span>
              </h2>
              
              <p className="text-lg text-zinc-400 mb-8 leading-relaxed break-keep">
-                비즈니스의 시작은 명함을 건네는 순간부터입니다. <br className="hidden md:block"/>
-                종이 명함으로는 담을 수 없는 무게감과 신뢰를 전달하세요. 
-                PICKIT 프리미엄 메탈 명함은 단순한 정보 전달을 넘어, 
-                당신의 품격을 대변하는 가장 강력한 비즈니스 도구입니다.
+                우리는 신용카드만 만들지 않습니다. <br/>
+                변하지 않는 가치를 지닌 <strong>STS304 스테인리스 스틸</strong>로 당신의 비즈니스 명함을 제작합니다. <br/><br/>
+                종이 명함 수백 장보다 강력한 단 한 장의 메탈 명함. <br/>
+                쉽게 구겨지고 버려지는 종이와 달리, 
+                STS304 메탈 명함은 상대방의 책상 위에 묵직하게 남습니다.
              </p>
 
              <ul className="space-y-4 mb-10 text-left">
@@ -129,7 +130,7 @@ const BusinessCardShowcase: React.FC = () => {
 
                              {/* Vertical Brand Text */}
                              <div className="relative z-10 flex-1 flex items-center justify-center w-full">
-                                <span className="text-zinc-700 font-bold text-[24px] md:text-[32px] opacity-20 transform -rotate-90 whitespace-nowrap tracking-[0.3em] absolute">PICKIT</span>
+                                <span className="text-zinc-700 font-bold text-[24px] md:text-[32px] opacity-20 transform -rotate-90 whitespace-nowrap tracking-[0.3em] absolute">STS304</span>
                              </div>
                              
                              {/* QR Code Area */}
@@ -154,22 +155,21 @@ const BusinessCardShowcase: React.FC = () => {
         <div className="mt-24 pt-12 border-t border-zinc-900/50">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div className="space-y-3">
-                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">01. Order</span>
-                    <p className="text-zinc-400 text-sm leading-relaxed">고객이 원하는 디자인으로 주문 즉시 제작에 들어갑니다.</p>
+                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">01. Design</span>
+                    <p className="text-zinc-400 text-sm leading-relaxed">기업 로고 및 원하시는 문구를 1:1 맞춤형으로 디자인합니다.</p>
                 </div>
                 <div className="space-y-3">
-                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">02. Production</span>
-                    <p className="text-zinc-400 text-sm leading-relaxed">제작기간은 2~3일 소요되며 이후 순차적으로 발송됩니다.</p>
+                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">02. STS304 Material</span>
+                    <p className="text-zinc-400 text-sm leading-relaxed">변색과 부식에 강한 최고급 STS304 소재만을 사용합니다.</p>
                 </div>
                 <div className="space-y-3">
-                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">03. Inspection</span>
-                    <p className="text-zinc-400 text-sm leading-relaxed">제품 발송 전 검수된 제품의 실사 이미지를 전달드립니다.</p>
+                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">03. Laser Marking</span>
+                    <p className="text-zinc-400 text-sm leading-relaxed">0.01mm 오차 없는 레이저 마킹으로 영구적인 각인을 보장합니다.</p>
                 </div>
                 <div className="space-y-3">
-                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">04. Warranty</span>
+                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">04. NFC Option</span>
                     <p className="text-zinc-400 text-sm leading-relaxed">
-                        구매 후 6개월간 무상 A/S를 지원합니다. <br/>
-                        (당사 귀책사유 외 파손/변질은 불가)
+                        NFC 칩 내장을 통해 스마트 명함 기능을 추가할 수 있습니다.
                     </p>
                 </div>
             </div>
