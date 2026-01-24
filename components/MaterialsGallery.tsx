@@ -9,28 +9,31 @@ interface MaterialItem {
   image: string; // URL for the texture image
 }
 
-// Updated Default Materials: Only STS304 Finishes
+// Updated Default Materials: Fixed Static URLs for Consistency
 const DEFAULT_MATERIALS: MaterialItem[] = [
     {
       id: 0,
       name: "STS304 MIRROR",
       type: "Super Mirror Finish",
       desc: "완벽하게 연마된 거울 같은 표면. 8K급 고해상도 반사율을 자랑하는 스테인리스 스틸의 가장 화려한 마감입니다. 지문 방지 코팅이 더해져 관리가 용이합니다.",
-      image: "https://images.unsplash.com/photo-1629196914375-f7e48f477b6d?q=80&w=1000&auto=format&fit=crop"
+      // Liquid Chrome / Silver Reflection
+      image: "https://images.unsplash.com/photo-1629804257639-6539a2b726aa?q=80&w=2000&auto=format&fit=crop" 
     },
     {
       id: 1,
       name: "STS304 HAIRLINE",
       type: "Directional Satin",
       desc: "한 방향으로 뻗은 미세한 결이 특징인 헤어라인 마감. 빛의 각도에 따라 은은하게 변화하는 광택이 고급스러움을 더하며, 생활 스크래치에 강합니다.",
-      image: "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?q=80&w=1000&auto=format&fit=crop"
+      // Classic Brushed Metal with horizontal lines
+      image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000&auto=format&fit=crop"
     },
     {
       id: 2,
       name: "STS304 BRUSHED",
       type: "Vibration Finish",
       desc: "불규칙한 연마 자국이 만들어내는 독특한 빈티지 텍스처. 거친 듯 부드러운 질감으로 금속 본연의 물성을 가장 잘 표현한 인더스트리얼 마감입니다.",
-      image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=1000&auto=format&fit=crop"
+      // Rough Sandblasted / Vintage Texture
+      image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=2000&auto=format&fit=crop"
     }
 ];
 
@@ -42,7 +45,8 @@ const MaterialsGallery: React.FC = () => {
 
   useEffect(() => {
     // Load from LocalStorage or use defaults
-    const storedMaterials = localStorage.getItem('pickit_materials');
+    // Changed key to v3 to force refresh with new images
+    const storedMaterials = localStorage.getItem('pickit_materials_v3');
     if (storedMaterials) {
         try {
             setMaterials(JSON.parse(storedMaterials));
@@ -51,7 +55,7 @@ const MaterialsGallery: React.FC = () => {
         }
     } else {
         setMaterials(DEFAULT_MATERIALS);
-        localStorage.setItem('pickit_materials', JSON.stringify(DEFAULT_MATERIALS));
+        localStorage.setItem('pickit_materials_v3', JSON.stringify(DEFAULT_MATERIALS));
     }
   }, []);
 

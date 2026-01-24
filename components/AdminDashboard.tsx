@@ -68,28 +68,29 @@ const DEFAULT_PORTFOLIO: GalleryItem[] = [
     },
 ];
 
+// Updated Default Materials: Verified Abstract Textures (Sync with MaterialsGallery)
 const DEFAULT_MATERIALS: MaterialItem[] = [
     {
       id: 0,
       name: "STS304 MIRROR",
       type: "Super Mirror Finish",
       desc: "완벽하게 연마된 거울 같은 표면. 8K급 고해상도 반사율을 자랑하는 스테인리스 스틸의 가장 화려한 마감입니다. 지문 방지 코팅이 더해져 관리가 용이합니다.",
-      image: "https://images.unsplash.com/photo-1629196914375-f7e48f477b6d?q=80&w=1000&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1629804257639-6539a2b726aa?q=80&w=2000&auto=format&fit=crop" // Liquid Chrome
     },
     {
       id: 1,
       name: "STS304 HAIRLINE",
       type: "Directional Satin",
       desc: "한 방향으로 뻗은 미세한 결이 특징인 헤어라인 마감. 빛의 각도에 따라 은은하게 변화하는 광택이 고급스러움을 더하며, 생활 스크래치에 강합니다.",
-      image: "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?q=80&w=1000&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000&auto=format&fit=crop" // Classic Brushed
     },
     {
       id: 2,
       name: "STS304 BRUSHED",
       type: "Vibration Finish",
       desc: "불규칙한 연마 자국이 만들어내는 독특한 빈티지 텍스처. 거친 듯 부드러운 질감으로 금속 본연의 물성을 가장 잘 표현한 인더스트리얼 마감입니다.",
-      image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=1000&auto=format&fit=crop"
-    },
+      image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=2000&auto=format&fit=crop" // Sandblasted/Rough
+    }
 ];
 
 // Strategic Articles Content (HTML formatted for Word)
@@ -236,8 +237,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         localStorage.setItem('pickit_gallery', JSON.stringify(DEFAULT_PORTFOLIO));
     }
 
-    // 3. Load Materials (NEW)
-    const storedMaterials = localStorage.getItem('pickit_materials');
+    // 3. Load Materials (NEW) - Using v3 key
+    const storedMaterials = localStorage.getItem('pickit_materials_v3');
     if (storedMaterials) {
         try {
             setMaterialItems(JSON.parse(storedMaterials));
@@ -246,7 +247,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         }
     } else {
         setMaterialItems(DEFAULT_MATERIALS);
-        localStorage.setItem('pickit_materials', JSON.stringify(DEFAULT_MATERIALS));
+        localStorage.setItem('pickit_materials_v3', JSON.stringify(DEFAULT_MATERIALS));
     }
   }, []);
 
@@ -371,7 +372,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
               updatedMaterials = [newItem, ...prevItems];
               alert("새 소재가 등록되었습니다.");
           }
-          localStorage.setItem('pickit_materials', JSON.stringify(updatedMaterials));
+          localStorage.setItem('pickit_materials_v3', JSON.stringify(updatedMaterials));
           return updatedMaterials;
       });
       handleCancelMaterialEdit();
@@ -381,7 +382,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
       if (window.confirm("정말로 이 소재를 삭제하시겠습니까?")) {
           setMaterialItems(prevItems => {
               const updated = prevItems.filter(item => item.id !== id);
-              localStorage.setItem('pickit_materials', JSON.stringify(updated));
+              localStorage.setItem('pickit_materials_v3', JSON.stringify(updated));
               return updated;
           });
           if (editingMaterial?.id === id) handleCancelMaterialEdit();
