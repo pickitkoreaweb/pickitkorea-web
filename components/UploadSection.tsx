@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Upload, Check, Loader2, FileImage, Shield, CreditCard, Truck, Gift } from 'lucide-react';
+import { Upload, Check, Loader2, FileImage, Shield, CreditCard, Truck, Gift, UserSquare2 } from 'lucide-react';
 
 interface UploadSectionProps {
   setPage?: (page: string) => void;
@@ -11,6 +11,7 @@ const UploadSection: React.FC<UploadSectionProps> = ({ setPage }) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [productType, setProductType] = useState<'card' | 'business'>('card');
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDrag = (e: React.DragEvent) => {
@@ -104,12 +105,30 @@ const UploadSection: React.FC<UploadSectionProps> = ({ setPage }) => {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-10 md:mb-12">
           <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">Design Your Masterpiece</h2>
           <p className="text-zinc-400 text-sm md:text-base max-w-lg mx-auto leading-relaxed">
-            카드에 각인하고 싶은 로고, 서명, 또는 아트워크를 업로드하세요. <br/>
-            세상에 단 하나뿐인 당신만의 카드가 완성됩니다.
+            카드 또는 명함에 각인하고 싶은 로고를 업로드하세요. <br/>
+            세상에 단 하나뿐인 당신만의 작품이 완성됩니다.
           </p>
+        </div>
+
+        {/* PRODUCT TYPE SELECTOR */}
+        <div className="flex justify-center mb-12">
+            <div className="bg-zinc-900 border border-zinc-800 p-1.5 rounded-full flex gap-2 shadow-2xl relative z-20">
+                <button 
+                    onClick={() => setProductType('card')}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold transition-all duration-300 ${productType === 'card' ? 'bg-white text-black shadow-lg' : 'text-zinc-500 hover:text-white'}`}
+                >
+                    <CreditCard className="w-4 h-4" /> Metal Credit Card
+                </button>
+                <button 
+                    onClick={() => setProductType('business')}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold transition-all duration-300 ${productType === 'business' ? 'bg-[#D4AF37] text-black shadow-lg' : 'text-zinc-500 hover:text-white'}`}
+                >
+                    <UserSquare2 className="w-4 h-4" /> Metal Business Card
+                </button>
+            </div>
         </div>
 
         <div className="flex flex-col xl:flex-row gap-12 md:gap-16 items-center">
@@ -138,6 +157,9 @@ const UploadSection: React.FC<UploadSectionProps> = ({ setPage }) => {
                         </div>
                         <h3 className="text-lg font-semibold text-white mb-2">Click to upload or drag & drop</h3>
                         <p className="text-sm text-zinc-500">SVG, PNG, JPG (Max 10MB)</p>
+                        <p className="text-xs text-[#D4AF37] mt-4 font-bold tracking-wider">
+                            {productType === 'card' ? "For Credit Card Custom" : "For Business Card Logo"}
+                        </p>
                     </div>
                 ) : (
                     <div className="relative h-[350px] md:h-[450px] rounded-3xl border border-zinc-700 bg-zinc-900 flex flex-col items-center justify-center p-8 overflow-hidden">
@@ -177,8 +199,12 @@ const UploadSection: React.FC<UploadSectionProps> = ({ setPage }) => {
                             <div className="flex flex-col items-center animate-fade-in-up w-full">
                                 <div className="w-full bg-black/50 p-6 rounded-2xl border border-zinc-800 mb-4">
                                     <div className="flex justify-between items-center mb-2">
-                                        <span className="text-zinc-400 text-sm">PICKIT Premium Metal</span>
-                                        <span className="text-white font-bold text-lg">44,900 KRW</span>
+                                        <span className="text-zinc-400 text-sm">
+                                            {productType === 'card' ? "PICKIT Premium Metal" : "Metal Business Card (1ea)"}
+                                        </span>
+                                        <span className="text-white font-bold text-lg">
+                                            {productType === 'card' ? "44,900 KRW" : "35,000 KRW"}
+                                        </span>
                                     </div>
                                     <div className="flex flex-col gap-2 text-xs text-zinc-500">
                                         <div className="flex items-center gap-2">
@@ -197,7 +223,7 @@ const UploadSection: React.FC<UploadSectionProps> = ({ setPage }) => {
                                     className="w-full bg-[#D4AF37] text-black font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:bg-[#FCE2C4] hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
                                 >
                                     <CreditCard className="w-4 h-4" />
-                                    ORDER NOW (44,900원)
+                                    ORDER NOW
                                 </button>
                                 
                                 <button onClick={removeFile} className="mt-4 text-xs text-zinc-600 hover:text-white underline">
@@ -209,26 +235,28 @@ const UploadSection: React.FC<UploadSectionProps> = ({ setPage }) => {
                 )}
             </div>
 
-            {/* Live Card Preview - Expanded Fan Layout */}
+            {/* Live Preview Area */}
             <div className="w-full xl:w-2/3 h-[400px] md:h-[500px] relative flex justify-center items-center order-1 xl:order-2 perspective-1000 overflow-visible">
-                {/* Scale wrapper for Mobile to prevent clipping - Updated Scale to 0.7 */}
-                <div className="relative w-[340px] md:w-[380px] h-[215px] md:h-[240px] flex items-center justify-center scale-[0.7] md:scale-100 transition-transform origin-center">
+                {/* Scale wrapper for Mobile */}
+                <div className={`relative flex items-center justify-center transition-all duration-700 origin-center ${productType === 'card' ? 'w-[340px] md:w-[380px] h-[215px] md:h-[240px] scale-[0.7] md:scale-100' : 'w-[215px] md:w-[240px] h-[340px] md:h-[380px] scale-[0.8] md:scale-100'}`}>
                     
-                    {/* Platinum/Silver Card (Left/Bottom) */}
-                    <div className="absolute top-0 left-0 w-full h-full rounded-xl shadow-2xl transition-all duration-700 transform md:-translate-x-48 md:group-hover:-translate-x-52 translate-y-16 md:translate-y-0 z-10 bg-[#e3e3e3] border border-zinc-300 scale-[0.9] md:scale-100 opacity-60 md:opacity-100">
-                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.05)_100%)]"></div>
-                         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/axiom-pattern.png')]"></div>
-                         <IntricateBorder color="border-zinc-400" />
-                    </div>
+                    {/* Background Cards (Fan Effect) - Only visible in Credit Card Mode */}
+                    {productType === 'card' && (
+                        <>
+                            <div className="absolute top-0 left-0 w-full h-full rounded-xl shadow-2xl transition-all duration-700 transform md:-translate-x-48 md:group-hover:-translate-x-52 translate-y-16 md:translate-y-0 z-10 bg-[#e3e3e3] border border-zinc-300 scale-[0.9] md:scale-100 opacity-60 md:opacity-100">
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.05)_100%)]"></div>
+                                <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/axiom-pattern.png')]"></div>
+                                <IntricateBorder color="border-zinc-400" />
+                            </div>
+                            <div className="absolute top-0 left-0 w-full h-full rounded-xl shadow-2xl transition-all duration-700 transform md:translate-x-48 md:group-hover:translate-x-52 translate-y-32 md:translate-y-0 z-10 bg-[#E6C673] border border-[#d4af37] scale-[0.85] md:scale-100 opacity-40 md:opacity-100">
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.1)_100%)]"></div>
+                                <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/axiom-pattern.png')]"></div>
+                                <IntricateBorder color="border-yellow-700" />
+                            </div>
+                        </>
+                    )}
 
-                    {/* Gold Card (Right/Bottom) */}
-                    <div className="absolute top-0 left-0 w-full h-full rounded-xl shadow-2xl transition-all duration-700 transform md:translate-x-48 md:group-hover:translate-x-52 translate-y-32 md:translate-y-0 z-10 bg-[#E6C673] border border-[#d4af37] scale-[0.85] md:scale-100 opacity-40 md:opacity-100">
-                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.1)_100%)]"></div>
-                         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/axiom-pattern.png')]"></div>
-                         <IntricateBorder color="border-yellow-700" />
-                    </div>
-
-                    {/* Black Card (Center/Top) - Main Focus */}
+                    {/* Main Card (Center) */}
                     <div className={`absolute top-0 left-0 w-full h-full rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,1)] transition-all duration-700 transform z-20 bg-[#1a1a1a] border border-zinc-700 overflow-hidden ${isProcessing ? 'animate-pulse' : ''}`}>
                         {/* Custom Design Layer - Full Bleed */}
                         {preview && (
@@ -243,7 +271,7 @@ const UploadSection: React.FC<UploadSectionProps> = ({ setPage }) => {
                            </div>
                         )}
 
-                        {/* Default Dark Texture (Hidden if preview exists) */}
+                        {/* Default Dark Texture */}
                         {!preview && (
                            <>
                                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 z-0"></div>
@@ -255,40 +283,67 @@ const UploadSection: React.FC<UploadSectionProps> = ({ setPage }) => {
                              <IntricateBorder color={preview ? "border-white/50" : "border-zinc-600"} />
                         </div>
                         
-                        {/* Content */}
-                        <div className="absolute inset-0 z-30 p-6 flex flex-col justify-between text-zinc-300">
-                            <div className="flex justify-between items-start">
-                                 <h3 className="font-bold tracking-tighter text-lg uppercase text-white drop-shadow-md">PICKIT</h3>
-                                 <span className="text-[10px] font-bold tracking-widest text-zinc-500 border border-zinc-600 px-1 rounded bg-black/20 backdrop-blur-sm">BLACK</span>
-                            </div>
-
-                            {/* Centurion Head Area (Only visible if no preview) */}
-                            {!preview && (
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 flex items-center justify-center">
-                                     {/* Background Oval */}
-                                     <div className="absolute w-28 h-32 rounded-[40%] border border-zinc-800 bg-zinc-900/50 flex items-center justify-center opacity-80">
-                                        <CenturionProfile color="#52525b" />
-                                     </div>
+                        {/* Content Logic Switched by Product Type */}
+                        {productType === 'card' ? (
+                            /* --- CREDIT CARD LAYOUT --- */
+                            <div className="absolute inset-0 z-30 p-6 flex flex-col justify-between text-zinc-300">
+                                <div className="flex justify-between items-start">
+                                    <h3 className="font-bold tracking-tighter text-lg uppercase text-white drop-shadow-md">PICKIT</h3>
+                                    <span className="text-[10px] font-bold tracking-widest text-zinc-500 border border-zinc-600 px-1 rounded bg-black/20 backdrop-blur-sm">BLACK</span>
                                 </div>
-                            )}
 
-                            {/* Chip */}
-                            <div className="absolute top-1/2 left-8 -translate-y-1/2 w-11 h-8 bg-gradient-to-br from-zinc-300 to-zinc-500 rounded-md border border-zinc-400 flex items-center justify-center shadow-md">
-                                 <div className="w-6 h-4 border border-zinc-600 rounded-sm opacity-50"></div>
-                                 <div className="absolute top-0 left-0 w-full h-1/2 bg-white/20"></div>
-                            </div>
+                                {!preview && (
+                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 flex items-center justify-center">
+                                        <div className="absolute w-28 h-32 rounded-[40%] border border-zinc-800 bg-zinc-900/50 flex items-center justify-center opacity-80">
+                                            <CenturionProfile color="#52525b" />
+                                        </div>
+                                    </div>
+                                )}
 
-                            <div className="flex justify-between items-end mt-auto">
-                                <div className="text-lg font-mono font-medium tracking-widest text-zinc-200 uppercase drop-shadow-md">KIM JENY</div>
-                                <div className="text-[9px] font-bold tracking-widest text-zinc-500">MEMBER SINCE 26</div>
+                                <div className="absolute top-1/2 left-8 -translate-y-1/2 w-11 h-8 bg-gradient-to-br from-zinc-300 to-zinc-500 rounded-md border border-zinc-400 flex items-center justify-center shadow-md">
+                                    <div className="w-6 h-4 border border-zinc-600 rounded-sm opacity-50"></div>
+                                    <div className="absolute top-0 left-0 w-full h-1/2 bg-white/20"></div>
+                                </div>
+
+                                <div className="flex justify-between items-end mt-auto">
+                                    <div className="text-lg font-mono font-medium tracking-widest text-zinc-200 uppercase drop-shadow-md">KIM JENY</div>
+                                    <div className="text-[9px] font-bold tracking-widest text-zinc-500">MEMBER SINCE 26</div>
+                                </div>
                             </div>
-                        </div>
+                        ) : (
+                            /* --- BUSINESS CARD LAYOUT (VERTICAL) --- */
+                            <div className="absolute inset-0 z-30 p-8 flex flex-col items-center justify-between text-white text-center">
+                                {/* Gold Accent Line */}
+                                <div className="w-1 h-8 bg-[#D4AF37] absolute top-0 left-8 shadow-[0_0_15px_rgba(212,175,55,0.5)]"></div>
+                                
+                                <div className="pt-8">
+                                    {!preview && (
+                                        <div className="w-12 h-12 border-2 border-[#D4AF37] rotate-45 flex items-center justify-center mx-auto mb-4 shadow-[0_0_20px_rgba(212,175,55,0.2)]">
+                                            <div className="w-6 h-6 bg-[#D4AF37] rotate-45"></div>
+                                        </div>
+                                    )}
+                                    <h3 className="font-bold tracking-[0.4em] text-lg uppercase text-[#D4AF37] drop-shadow-md">PICKIT</h3>
+                                </div>
+
+                                <div className="flex flex-col gap-1 w-full">
+                                    <h3 className="text-2xl font-serif font-bold tracking-wide">KIM JUNG WOO</h3>
+                                    <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-[#D4AF37]">CEO / Founder</p>
+                                    <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent my-3"></div>
+                                    <p className="text-[10px] opacity-80 tracking-wider">010 8282 1043</p>
+                                    <p className="text-[9px] opacity-60 tracking-wider">pickit.korea.official@gmail.com</p>
+                                </div>
+
+                                <div className="text-[8px] text-zinc-500 tracking-[0.3em]">
+                                    PREMIUM BUSINESS METAL
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
         </div>
 
-        {/* Added Service Info & Legal Notice */}
+        {/* Added Service Info & Legal Notice - Updated for Business Card */}
         <div className="max-w-7xl mx-auto mt-16 md:mt-24 pt-12 md:pt-16 border-t border-zinc-900">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div>
@@ -327,13 +382,23 @@ const UploadSection: React.FC<UploadSectionProps> = ({ setPage }) => {
                     </div>
                     
                     <p className="text-zinc-300 text-sm leading-relaxed relative z-10 break-keep">
-                        ※ METAL CARD의 경우 카드외관 커스텀 변경 행위로써 <strong className="text-white border-b border-zinc-600 pb-0.5">여신금융업법 제70조 신용카드 위·변조에 해당하지 않으므로</strong> 안심하셔도 좋습니다.
+                        ※ {productType === 'card' ? "METAL CARD는 카드외관 커스텀 변경 행위로 여신금융업법에 위배되지 않습니다." : "METAL BUSINESS CARD는 순수 금속 소재로 제작되며 금융 IC 칩이 포함되지 않습니다."}
                     </p>
                     
                     <p className="text-zinc-500 text-xs mt-6 relative z-10 leading-relaxed">
-                         결제 IC 칩은 기존 카드에서 분리하여 <strong>구매자가 직접 이식</strong>해야 하는 DIY 방식입니다.
-                         <br />
-                         당사 귀책사유 외 고객 과실로 인한 제품 파손 및 변질은 A/S 및 환불이 불가합니다.
+                         {productType === 'card' ? (
+                             <>
+                                결제 IC 칩은 기존 카드에서 분리하여 <strong>구매자가 직접 이식</strong>해야 하는 DIY 방식입니다.
+                                <br />
+                                당사 귀책사유 외 고객 과실로 인한 제품 파손 및 변질은 A/S 및 환불이 불가합니다.
+                             </>
+                         ) : (
+                             <>
+                                스마트 NFC 기능을 원하실 경우 주문 시 별도 옵션을 선택해주셔야 합니다.
+                                <br />
+                                맞춤 제작 상품 특성상 시안 확정 후에는 디자인 변경 및 환불이 어렵습니다.
+                             </>
+                         )}
                     </p>
                 </div>
             </div>
