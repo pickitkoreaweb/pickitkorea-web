@@ -68,7 +68,8 @@ const DEFAULT_PORTFOLIO: GalleryItem[] = [
     },
 ];
 
-// Updated Default Materials: Verified Abstract Textures (Sync with MaterialsGallery)
+// Updated Default Materials: Verified Abstract Textures (Liquid Chrome, Brushed, Sandblasted)
+// These match the updated MaterialsGallery component
 const DEFAULT_MATERIALS: MaterialItem[] = [
     {
       id: 0,
