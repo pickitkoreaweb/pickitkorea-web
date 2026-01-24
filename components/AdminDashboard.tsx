@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus, Trash2, FileSpreadsheet, ShieldAlert, Lock, Grid, RefreshCw, Pencil, Video } from 'lucide-react';
+import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus, Trash2, FileSpreadsheet, ShieldAlert, Lock, Grid, RefreshCw, Pencil, Video, FileText, Download, Scale } from 'lucide-react';
 
 interface User {
   id: string;
@@ -61,13 +61,90 @@ const DEFAULT_PORTFOLIO: GalleryItem[] = [
     },
 ];
 
+// Strategic Articles Content (HTML formatted for Word)
+const ARTICLES_HTML = `
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head><meta charset='utf-8'><title>주식회사 피킷코리아 정관</title>
+<style>
+body { font-family: 'Batang', serif; line-height: 1.6; }
+h1 { text-align: center; font-size: 24pt; margin-bottom: 30px; }
+h2 { font-size: 16pt; margin-top: 20px; border-bottom: 1px solid #000; padding-bottom: 5px; }
+p { font-size: 11pt; margin-bottom: 10px; }
+.chapter { font-weight: bold; font-size: 14pt; margin-top: 30px; text-align: center; }
+.article-title { font-weight: bold; margin-right: 10px; }
+</style>
+</head><body>
+<h1>주식회사 피킷코리아 정관</h1>
+<p style="text-align: center; color: red; font-weight: bold;">(Strategic Edition for Founder Protection & Investment)</p>
+
+<div class="chapter">제1장 총칙</div>
+
+<p><span class="article-title">제1조 (상호)</span>본 회사는 주식회사 피킷코리아 (영문명: PICKIT KOREA Inc.)라 한다.</p>
+
+<p><span class="article-title">제2조 (목적)</span>본 회사는 다음의 사업을 영위함을 목적으로 한다.<br>
+1. 금속 카드 및 특수 소재 카드 제조, 가공 및 판매업<br>
+2. 디자인 용역 및 브랜드 컨설팅업<br>
+3. 전자상거래 및 통신판매업<br>
+4. 소프트웨어 개발, 공급 및 자문업<br>
+5. 무역업 및 무역대리업 (수출입업)<br>
+6. 부동산 개발, 공급, 매매 및 임대업<br>
+7. 부동산 컨설팅 및 분양 대행업<br>
+8. 위 각 호에 부대하는 일체의 사업</p>
+
+<p><span class="article-title">제4조 (공고방법)</span>본 회사의 공고는 회사의 인터넷 홈페이지(https://pickit-korea.com)에 게재한다. 단, 전산장애 등으로 게재할 수 없을 때는 서울특별시 내에서 발행되는 '매일경제신문'에 게재한다.</p>
+
+<div class="chapter">제2장 주식</div>
+
+<p><span class="article-title">제5조 (발행예정주식의 총수)</span>본 회사가 발행할 주식의 총수는 100,000,000주로 한다.</p>
+
+<p><span class="article-title">제6조 (1주의 금액)</span>주식 1주의 금액은 금 100원으로 한다.</p>
+
+<p><span class="article-title">제7조 (주식의 종류)</span>회사가 발행할 주식은 기명식 보통주식과 기명식 종류주식(우선주, 전환주, 상환주 등)으로 한다.</p>
+
+<p><span class="article-title">제8조 (신주인수권)</span><br>
+① 주주는 그가 소유한 주식 수에 비례하여 신주의 배정을 받을 권리를 가진다.<br>
+② 제1항의 규정에도 불구하고 다음 각 호의 경우에는 주주총회의 결의 없이 이사회의 결의로 주주 외의 자(제3자)에게 신주를 배정할 수 있다.<br>
+1. 자본시장과 금융투자업에 관한 법률 제165조의6에 따라 일반공모증자 방식으로 신주를 발행하는 경우<br>
+2. 긴급한 자금조달을 위하여 국내외 금융기관 또는 기관투자자(VC)에게 신주를 발행하는 경우<br>
+3. 사업상 중요한 기술도입, 연구개발, 생산·판매·자본제휴를 위하여 그 상대방에게 신주를 발행하는 경우<br>
+4. 주식매수선택권(스톡옵션)의 행사에 따라 신주를 발행하는 경우</p>
+
+<p><span class="article-title">제10조 (주식매수선택권)</span>회사는 임직원에게 발행주식총수의 100분의 10 범위 내에서 주식매수선택권을 부여할 수 있다.</p>
+
+<div class="chapter">제3장 주주총회</div>
+
+<p><span class="article-title">제17조 (소집통지 및 공고)</span>주주총회를 소집함에는 그 일시, 장소 및 회의의 목적사항을 총회일 2주 간 전에 주주에게 서면 또는 전자문서로 통지하여야 한다. 단, 자본금 총액이 10억 원 미만인 경우에는 주주 전원의 동의가 있을 때 소집절차 없이 개최할 수 있다.</p>
+
+<div class="chapter">제4장 이사 및 감사</div>
+
+<p><span class="article-title">제23조 (이사의 수)</span>본 회사의 이사는 1인 이상으로 한다.</p>
+
+<p><span class="article-title">제27조 (집중투표제의 배제)</span>2인 이상의 이사를 선임하는 경우에도 상법 제382조의2에서 규정하는 집중투표제는 적용하지 아니한다.</p>
+
+<p><span class="article-title">제30조 (이사의 보수와 퇴직금)</span><br>
+① 이사의 보수는 주주총회의 결의로 정한다.<br>
+② 이사의 퇴직금은 별도로 정하는 '임원 퇴직금 지급 규정'에 의한다.</p>
+
+<div class="chapter">제5장 계산</div>
+
+<p><span class="article-title">제34조 (이익배당)</span><br>
+① 이익배당은 금전과 주식으로 할 수 있다.<br>
+② 회사는 사업년도 중 1회에 한하여 이사회의 결의로 중간배당을 할 수 있다.</p>
+
+<br><br>
+<p style="text-align:center;">2026년 3월 1일</p>
+<p style="text-align:center; font-weight:bold; font-size:14pt;">주식회사 피킷코리아</p>
+<p style="text-align:center;">발기인 대표 김 정 우 (인)</p>
+</body></html>
+`;
+
 interface AdminDashboardProps {
   siteImages: SiteImages;
   updateSiteImages: (newImages: SiteImages) => void;
 }
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteImages }) => {
-  const [activeTab, setActiveTab] = useState<'users' | 'content' | 'gallery'>('users');
+  const [activeTab, setActiveTab] = useState<'users' | 'content' | 'gallery' | 'legal'>('users');
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [userOrders, setUserOrders] = useState<Order[]>([]);
@@ -122,6 +199,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         setResetPassword('');
     }
   }, [selectedUser]);
+
+  // --- LEGAL FUNCTIONS ---
+  const handleDownloadArticles = () => {
+      const blob = new Blob([ARTICLES_HTML], { type: 'application/msword;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'PICKIT_Strategic_Articles_of_Incorporation_2026.doc';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  };
 
   // --- GALLERY FUNCTIONS ---
 
@@ -297,12 +386,79 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                 <h1 className="text-3xl md:text-4xl font-serif text-white mb-2">Admin Dashboard</h1>
                 <p className="text-zinc-500 text-sm">System Management Console</p>
             </div>
-            <div className="flex gap-2 mt-4 md:mt-0">
+            <div className="flex flex-wrap gap-2 mt-4 md:mt-0">
                 <button onClick={() => setActiveTab('users')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'users' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Users</button>
                 <button onClick={() => setActiveTab('gallery')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'gallery' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Gallery</button>
                 <button onClick={() => setActiveTab('content')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'content' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Content</button>
+                <button onClick={() => setActiveTab('legal')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'legal' ? 'bg-red-900/30 text-red-500 border border-red-900/50' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Legal</button>
             </div>
         </div>
+
+        {/* LEGAL TAB */}
+        {activeTab === 'legal' && (
+            <div className="max-w-4xl mx-auto animate-fade-in-up">
+                <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 mb-8 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-32 bg-red-900/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+                    
+                    <div className="flex items-start justify-between mb-8 relative z-10">
+                        <div>
+                            <h3 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                                <Scale className="w-6 h-6 text-[#D4AF37]" /> Corporate Legal Docs
+                            </h3>
+                            <p className="text-zinc-400 text-sm">
+                                2026년 설립 예정인 주식회사 피킷코리아의 법인 설립용 정관입니다.<br/>
+                                창업자(대표이사)의 권한 보호 및 투자 유치에 최적화된 전략 정관입니다.
+                            </p>
+                        </div>
+                        <button 
+                            onClick={handleDownloadArticles}
+                            className="flex items-center gap-2 px-6 py-3 bg-[#D4AF37] text-black font-bold rounded-lg hover:bg-[#FCE2C4] transition-colors shadow-lg shadow-[#D4AF37]/20"
+                        >
+                            <Download className="w-4 h-4" />
+                            Download .DOC
+                        </button>
+                    </div>
+
+                    {/* Preview Section */}
+                    <div className="bg-white text-black p-8 rounded-xl h-[600px] overflow-y-auto font-serif shadow-inner border border-zinc-700">
+                        <div className="max-w-2xl mx-auto space-y-6">
+                            <h1 className="text-3xl font-bold text-center border-b-2 border-black pb-4 mb-8">주식회사 피킷코리아 정관</h1>
+                            
+                            <div className="space-y-4">
+                                <h2 className="text-xl font-bold">제1장 총칙</h2>
+                                <p><strong>제1조 (상호)</strong> 본 회사는 주식회사 피킷코리아 (영문명: PICKIT KOREA Inc.)라 한다.</p>
+                                <p><strong>제2조 (목적)</strong> 본 회사는 다음의 사업을 영위함을 목적으로 한다...</p>
+                                
+                                <h2 className="text-xl font-bold mt-8">제2장 주식 (전략적 조항)</h2>
+                                <p className="bg-yellow-100 p-2 rounded">
+                                    <strong>제8조 (신주인수권) ★</strong><br/>
+                                    ② ... 긴급한 자금조달을 위하여 국내외 금융기관 또는 기관투자자(VC)에게 신주를 발행하는 경우 주주총회의 결의 없이 이사회의 결의로 배정할 수 있다.
+                                </p>
+
+                                <h2 className="text-xl font-bold mt-8">제4장 이사 및 감사 (방어 조항)</h2>
+                                <p className="bg-red-50 p-2 rounded">
+                                    <strong>제27조 (집중투표제의 배제) ★</strong><br/>
+                                    2인 이상의 이사를 선임하는 경우에도 상법 제382조의2에서 규정하는 집중투표제는 적용하지 아니한다.
+                                </p>
+                                <p className="bg-blue-50 p-2 rounded">
+                                    <strong>제30조 (이사의 보수와 퇴직금) ★</strong><br/>
+                                    ② 이사의 퇴직금은 별도로 정하는 '임원 퇴직금 지급 규정'에 의한다. (고배수 설정 근거)
+                                </p>
+                            </div>
+                            
+                            <div className="mt-12 text-center text-gray-500 text-sm">
+                                [전체 내용은 다운로드된 파일에서 확인 가능합니다]
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="mt-6 flex items-center gap-2 text-zinc-500 text-xs">
+                        <FileText className="w-4 h-4" />
+                        <span>Microsoft Word(.doc) 형식으로 다운로드 되며, 한글(HWP)에서도 열람 가능합니다.</span>
+                    </div>
+                </div>
+            </div>
+        )}
 
         {/* GALLERY TAB */}
         {activeTab === 'gallery' && (
