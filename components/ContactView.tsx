@@ -378,35 +378,27 @@ ${formData.message}
                   {/* Metal Card */}
                   <div 
                     onClick={() => handleRadioChange('Metal Card')}
-                    className={`flex flex-col items-center justify-center gap-2 px-2 py-4 border rounded-xl cursor-pointer transition-all duration-300 ${formData.interest === 'Metal Card' ? 'bg-[#D4AF37] text-black border-[#D4AF37] font-bold shadow-[0_0_15px_rgba(212,175,55,0.3)] scale-[1.02]' : 'bg-zinc-900/30 border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:bg-zinc-900'}`}
+                    className={`flex flex-col items-center justify-center gap-2 px-2 py-4 border rounded-xl cursor-pointer transition-all duration-300 bg-[#D4AF37] text-black border-[#D4AF37] font-bold shadow-[0_0_15px_rgba(212,175,55,0.3)] scale-[1.02]`}
                   >
-                      <User className={`w-5 h-5 ${formData.interest === 'Metal Card' ? 'text-black' : 'text-zinc-600'}`} />
+                      <User className={`w-5 h-5 text-black`} />
                       <span className="text-xs whitespace-nowrap">Individual</span>
                   </div>
 
-                  {/* Corporate */}
+                  {/* Corporate - Clicking this sends user to B2B View (different component render) */}
                   <div 
                     onClick={() => handleRadioChange('Partnership')}
-                    className={`flex flex-col items-center justify-center gap-2 px-2 py-4 border rounded-xl cursor-pointer transition-all duration-300 ${formData.interest === 'Partnership' ? 'bg-[#D4AF37] text-black border-[#D4AF37] font-bold shadow-[0_0_15px_rgba(212,175,55,0.3)] scale-[1.02]' : 'bg-zinc-900/30 border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:bg-zinc-900'}`}
+                    className={`flex flex-col items-center justify-center gap-2 px-2 py-4 border rounded-xl cursor-pointer transition-all duration-300 bg-zinc-900/30 border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:bg-zinc-900`}
                   >
-                      <Building2 className={`w-5 h-5 ${formData.interest === 'Partnership' ? 'text-black' : 'text-zinc-600'}`} />
+                      <Building2 className={`w-5 h-5 text-zinc-600`} />
                       <span className="text-xs whitespace-nowrap">Corporate B2B</span>
                   </div>
                </div>
 
                 <div className="bg-zinc-900/50 p-5 rounded-xl border border-zinc-800/50 text-xs leading-relaxed text-zinc-400 animate-fade-in-up">
-                    {formData.interest === 'Metal Card' && (
-                        <p>
-                            세상에 단 하나뿐인 나만의 메탈 카드를 제작합니다. <br/>
-                            <span className="text-[#D4AF37] font-bold">개인 고객 전용</span> 1:1 커스텀 상담 채널입니다.
-                        </p>
-                    )}
-                    {formData.interest === 'Partnership' && (
-                        <p>
-                            기업의 품격을 높이는 법인 카드 및 멤버십 카드 대량 제작.<br/>
-                            <span className="text-[#D4AF37] font-bold">최소 수량 10매 이상</span>부터 진행 가능한 기업 전용 서비스입니다.
-                        </p>
-                    )}
+                    <p>
+                        세상에 단 하나뿐인 나만의 메탈 카드를 제작합니다. <br/>
+                        <span className="text-[#D4AF37] font-bold">개인 고객 전용</span> 1:1 커스텀 상담 채널입니다.
+                    </p>
                 </div>
             </div>
 
