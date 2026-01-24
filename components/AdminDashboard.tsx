@@ -62,6 +62,7 @@ const DEFAULT_PORTFOLIO: GalleryItem[] = [
 ];
 
 // Strategic Articles Content (HTML formatted for Word)
+// Updated for 10 Million KRW Capital Logic
 const ARTICLES_HTML = `
 <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
 <head><meta charset='utf-8'><title>주식회사 피킷코리아 정관</title>
@@ -72,10 +73,11 @@ h2 { font-size: 16pt; margin-top: 20px; border-bottom: 1px solid #000; padding-b
 p { font-size: 11pt; margin-bottom: 10px; }
 .chapter { font-weight: bold; font-size: 14pt; margin-top: 30px; text-align: center; }
 .article-title { font-weight: bold; margin-right: 10px; }
+.highlight { background-color: #ffff00; }
 </style>
 </head><body>
 <h1>주식회사 피킷코리아 정관</h1>
-<p style="text-align: center; color: red; font-weight: bold;">(Strategic Edition for Founder Protection & Investment)</p>
+<p style="text-align: center; color: red; font-weight: bold;">(Strategic Edition for 10 Million KRW Capital)</p>
 
 <div class="chapter">제1장 총칙</div>
 
@@ -95,13 +97,17 @@ p { font-size: 11pt; margin-bottom: 10px; }
 
 <div class="chapter">제2장 주식</div>
 
-<p><span class="article-title">제5조 (발행예정주식의 총수)</span>본 회사가 발행할 주식의 총수는 100,000,000주로 한다.</p>
+<p><span class="article-title">제5조 (발행예정주식의 총수)</span>본 회사가 장차 발행할 주식의 총수(수권자본)는 100,000,000주로 한다.<br>
+<span style="font-size:9pt; color:gray;">(설명: 이는 미래에 발행 가능한 한도이며, 지금 당장 발행해야 하는 주식 수가 아닙니다.)</span></p>
 
 <p><span class="article-title">제6조 (1주의 금액)</span>주식 1주의 금액은 금 100원으로 한다.</p>
 
-<p><span class="article-title">제7조 (주식의 종류)</span>회사가 발행할 주식은 기명식 보통주식과 기명식 종류주식(우선주, 전환주, 상환주 등)으로 한다.</p>
+<p><span class="article-title">제7조 (설립 시에 발행하는 주식의 총수)</span>본 회사가 설립 시에 발행하는 주식의 총수는 <strong>100,000주</strong>(금 일천만 원)로 한다.<br>
+<span style="font-size:9pt; color:blue;">(계산: 100,000주 x 100원 = 자본금 1,000만 원)</span></p>
 
-<p><span class="article-title">제8조 (신주인수권)</span><br>
+<p><span class="article-title">제8조 (주식의 종류)</span>회사가 발행할 주식은 기명식 보통주식과 기명식 종류주식(우선주, 전환주, 상환주 등)으로 한다.</p>
+
+<p><span class="article-title">제9조 (신주인수권)</span><br>
 ① 주주는 그가 소유한 주식 수에 비례하여 신주의 배정을 받을 권리를 가진다.<br>
 ② 제1항의 규정에도 불구하고 다음 각 호의 경우에는 주주총회의 결의 없이 이사회의 결의로 주주 외의 자(제3자)에게 신주를 배정할 수 있다.<br>
 1. 자본시장과 금융투자업에 관한 법률 제165조의6에 따라 일반공모증자 방식으로 신주를 발행하는 경우<br>
@@ -430,8 +436,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                 <p><strong>제2조 (목적)</strong> 본 회사는 다음의 사업을 영위함을 목적으로 한다...</p>
                                 
                                 <h2 className="text-xl font-bold mt-8">제2장 주식 (전략적 조항)</h2>
-                                <p className="bg-yellow-100 p-2 rounded">
-                                    <strong>제8조 (신주인수권) ★</strong><br/>
+                                <p className="bg-gray-100 p-2 rounded">
+                                    <strong>제5조 (발행예정주식의 총수)</strong><br/>
+                                    본 회사가 장차 발행할 주식의 총수(수권자본)는 100,000,000주로 한다. (설정 한도)
+                                </p>
+                                <p className="bg-yellow-100 p-2 rounded border border-yellow-400">
+                                    <strong>제7조 (설립 시에 발행하는 주식의 총수) ★</strong><br/>
+                                    본 회사가 설립 시에 발행하는 주식의 총수는 <strong>100,000주</strong>로 한다.<br/>
+                                    <span className="text-xs text-gray-600">(100원 x 100,000주 = 자본금 1,000만 원)</span>
+                                </p>
+                                <p className="bg-blue-50 p-2 rounded">
+                                    <strong>제9조 (신주인수권) ★</strong><br/>
                                     ② ... 긴급한 자금조달을 위하여 국내외 금융기관 또는 기관투자자(VC)에게 신주를 발행하는 경우 주주총회의 결의 없이 이사회의 결의로 배정할 수 있다.
                                 </p>
 
@@ -439,10 +454,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                                 <p className="bg-red-50 p-2 rounded">
                                     <strong>제27조 (집중투표제의 배제) ★</strong><br/>
                                     2인 이상의 이사를 선임하는 경우에도 상법 제382조의2에서 규정하는 집중투표제는 적용하지 아니한다.
-                                </p>
-                                <p className="bg-blue-50 p-2 rounded">
-                                    <strong>제30조 (이사의 보수와 퇴직금) ★</strong><br/>
-                                    ② 이사의 퇴직금은 별도로 정하는 '임원 퇴직금 지급 규정'에 의한다. (고배수 설정 근거)
                                 </p>
                             </div>
                             
