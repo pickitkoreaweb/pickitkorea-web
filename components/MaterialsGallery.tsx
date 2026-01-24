@@ -9,7 +9,7 @@ interface MaterialItem {
   image: string; // URL for the texture image
 }
 
-// Updated Default Materials per user request
+// Updated Default Materials: Only STS304 Finishes
 const DEFAULT_MATERIALS: MaterialItem[] = [
     {
       id: 0,
@@ -31,20 +31,6 @@ const DEFAULT_MATERIALS: MaterialItem[] = [
       type: "Vibration Finish",
       desc: "불규칙한 연마 자국이 만들어내는 독특한 빈티지 텍스처. 거친 듯 부드러운 질감으로 금속 본연의 물성을 가장 잘 표현한 인더스트리얼 마감입니다.",
       image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=1000&auto=format&fit=crop"
-    },
-    {
-      id: 3,
-      name: "OBSIDIAN BLACK",
-      type: "Mirror Finish (DLC)",
-      desc: "다이아몬드 코팅(DLC)으로 완성된 압도적인 블랙 미러. 깊이 있는 검은색과 거울 같은 광택의 조화가 시크한 매력을 선사합니다.",
-      image: "https://images.unsplash.com/photo-1634152962476-4b8a00e1915c?q=80&w=1000&auto=format&fit=crop"
-    },
-    {
-      id: 4,
-      name: "ROYAL GOLD",
-      type: "24K Real Plating",
-      desc: "실제 24K 골드 도금 처리를 통해 깊이 있는 황금빛 광채와 묵직한 존재감을 선사합니다.",
-      image: "https://images.unsplash.com/photo-1610375461246-83df859d849d?q=80&w=1000&auto=format&fit=crop"
     }
 ];
 
@@ -87,7 +73,7 @@ const MaterialsGallery: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col xl:flex-row gap-16 md:gap-24 items-start">
+        <div className="flex flex-col xl:flex-row gap-16 md:gap-24 items-center">
             
             {/* Left Column: Text & Selector */}
             <div className="w-full xl:w-1/3">
@@ -99,7 +85,7 @@ const MaterialsGallery: React.FC = () => {
                 <p className="text-zinc-400 text-sm leading-relaxed mb-12">
                     항공우주 등급의 304 스테인리스 스틸을 베이스로, <br/>
                     각기 다른 공정을 거쳐 탄생한 시그니처 피니싱.<br/>
-                    단순한 색상이 아닌, 금속 본연의 물성을 경험하세요.
+                    가공되지 않은 본연의 물성을 경험하세요.
                 </p>
 
                 {/* Material Selector List */}
@@ -138,42 +124,12 @@ const MaterialsGallery: React.FC = () => {
                 </div>
             </div>
 
-            {/* Right Column: Visualizer */}
-            <div className="w-full xl:w-2/3 flex flex-col md:flex-row gap-12 items-center justify-center relative min-h-[500px]">
+            {/* Right Column: Visualizer (Card Only) */}
+            <div className="w-full xl:w-2/3 flex flex-col items-center justify-center relative min-h-[500px]">
                 
-                {/* 1. Material Sphere (Texture Visualizer) */}
-                <div className="relative group">
-                    <div className="absolute -top-12 left-1/2 -translate-x-1/2 text-[10px] text-zinc-500 font-mono tracking-widest uppercase opacity-50">Raw Texture</div>
-                    
-                    <div 
-                        className="w-48 h-48 md:w-64 md:h-64 rounded-full relative transition-all duration-700 ease-out overflow-hidden shadow-2xl"
-                    >
-                        {/* Material Image Texture */}
-                        <img 
-                            src={currentMat.image} 
-                            alt={currentMat.name} 
-                            className="w-full h-full object-cover scale-150 group-hover:scale-125 transition-transform duration-700"
-                        />
-                        
-                        {/* Lighting Overlays for Sphere Effect */}
-                        <div className="absolute inset-0 rounded-full shadow-[inset_-10px_-10px_40px_rgba(0,0,0,0.8)]"></div>
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/40 via-transparent to-white/20 pointer-events-none"></div>
-                        
-                        {/* Specular Highlight */}
-                        <div className="absolute top-[20%] left-[20%] w-[30%] h-[20%] bg-white rounded-[50%] blur-[15px] opacity-60 mix-blend-overlay transform -rotate-45"></div>
-                    </div>
-                </div>
-
-                {/* Arrow Connector */}
-                <div className="hidden md:flex flex-col items-center gap-2 text-zinc-600 opacity-50">
-                     <Layers className="w-4 h-4" />
-                     <div className="w-16 h-[1px] bg-zinc-700"></div>
-                     <span className="text-[9px] uppercase tracking-widest">Process</span>
-                </div>
-
-                {/* 2. Interactive Flippable Card */}
+                {/* Interactive Flippable Card */}
                 <div className="relative perspective-1000 group">
-                    <div className="absolute -top-12 left-1/2 -translate-x-1/2 text-[10px] text-zinc-500 font-mono tracking-widest uppercase opacity-50">Finished Product</div>
+                    <div className="absolute -top-16 left-1/2 -translate-x-1/2 text-[10px] text-zinc-500 font-mono tracking-widest uppercase opacity-50">Physical Preview</div>
                     
                     {/* Interaction Hint */}
                     <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-opacity duration-300 opacity-60 group-hover:opacity-100">
@@ -185,7 +141,7 @@ const MaterialsGallery: React.FC = () => {
 
                     {/* Card Container */}
                     <div 
-                        className="w-[320px] h-[200px] md:w-[380px] md:h-[240px] relative preserve-3d transition-transform duration-700 cursor-pointer shadow-2xl"
+                        className="w-[320px] h-[200px] md:w-[420px] md:h-[265px] relative preserve-3d transition-transform duration-700 cursor-pointer shadow-2xl"
                         style={{ transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
                         onClick={() => setIsFlipped(!isFlipped)}
                     >
@@ -203,17 +159,17 @@ const MaterialsGallery: React.FC = () => {
                             <div className="absolute inset-0 bg-gradient-to-br from-black/40 to-transparent"></div>
 
                             {/* Card Elements */}
-                            <div className="relative z-10 h-full p-6 flex flex-col justify-between text-white drop-shadow-md">
+                            <div className="relative z-10 h-full p-6 md:p-8 flex flex-col justify-between text-white drop-shadow-md">
                                 <div className="flex justify-between items-start">
                                     {/* Chip */}
-                                    <div className="w-11 h-8 bg-gradient-to-br from-zinc-300 to-zinc-500 rounded-md border border-zinc-400 flex items-center justify-center shadow-md opacity-90">
-                                         <div className="w-6 h-4 border border-zinc-600 rounded-sm opacity-50"></div>
+                                    <div className="w-12 h-9 bg-gradient-to-br from-zinc-300 to-zinc-500 rounded-md border border-zinc-400 flex items-center justify-center shadow-md opacity-90">
+                                         <div className="w-7 h-5 border border-zinc-600 rounded-sm opacity-50"></div>
                                     </div>
-                                    <span className="text-xs font-bold tracking-widest opacity-80">PICKIT</span>
+                                    <span className="text-sm font-bold tracking-widest opacity-80">PICKIT</span>
                                 </div>
                                 
                                 <div className="text-center transform translate-y-2">
-                                     <h3 className="text-lg md:text-xl font-mono tracking-[0.2em] font-bold shadow-black drop-shadow-sm">
+                                     <h3 className="text-xl md:text-2xl font-mono tracking-[0.2em] font-bold shadow-black drop-shadow-sm">
                                          4567 8901 2345 6789
                                      </h3>
                                 </div>
@@ -221,11 +177,11 @@ const MaterialsGallery: React.FC = () => {
                                 <div className="flex justify-between items-end">
                                     <div>
                                         <p className="text-[8px] opacity-80 uppercase tracking-wider mb-0.5">Card Holder</p>
-                                        <p className="font-bold tracking-wider text-sm">KIM JENY</p>
+                                        <p className="font-bold tracking-wider text-sm md:text-base">KIM JENY</p>
                                     </div>
                                     <div>
                                         <p className="text-[8px] opacity-80 uppercase tracking-wider mb-0.5">Valid Thru</p>
-                                        <p className="font-bold tracking-wider text-sm">09/29</p>
+                                        <p className="font-bold tracking-wider text-sm md:text-base">09/29</p>
                                     </div>
                                 </div>
                             </div>
@@ -242,24 +198,24 @@ const MaterialsGallery: React.FC = () => {
                             </div>
                             
                             {/* Magnetic Stripe */}
-                            <div className="w-full h-12 bg-black mt-6 relative z-10">
+                            <div className="w-full h-12 md:h-14 bg-black mt-8 relative z-10">
                                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-30"></div>
                             </div>
 
-                            <div className="p-6 relative z-10 text-white">
+                            <div className="p-6 md:p-8 relative z-10 text-white">
                                 <div className="flex justify-between items-center mb-4">
                                     {/* Signature Panel */}
-                                    <div className="w-2/3 h-8 bg-white/90 flex items-center justify-end px-2 skew-x-[-10deg]">
+                                    <div className="w-2/3 h-10 bg-white/90 flex items-center justify-end px-2 skew-x-[-10deg]">
                                         <span className="font-mono text-black px-2 py-0.5 italic text-sm font-bold skew-x-[10deg]">123</span>
                                     </div>
                                     
                                     {/* Hologram Box */}
-                                    <div className="w-10 h-10 opacity-60 grayscale border rounded p-1 border-current">
+                                    <div className="w-12 h-12 opacity-60 grayscale border rounded p-1 border-current">
                                         <Layers className="w-full h-full" />
                                     </div>
                                 </div>
                                 
-                                <div className="mt-4 flex justify-center">
+                                <div className="mt-6 flex justify-center">
                                     <p className="text-[10px] font-bold tracking-[0.3em] opacity-80">PICKIT.KOREA.OFFICIAL</p>
                                 </div>
                             </div>
