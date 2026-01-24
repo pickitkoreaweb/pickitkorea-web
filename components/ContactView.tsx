@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, ArrowRight, Handshake, Building2, User, RectangleHorizontal, UserSquare2, BadgeCheck, FileText, Users, Globe, Briefcase, Stethoscope, Scale, Crown, Zap, FileCheck } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, ArrowRight, Handshake, Building2, User, RectangleHorizontal, UserSquare2, BadgeCheck, FileText, Users, Globe, Briefcase, Stethoscope, Scale, Crown, Zap, FileCheck, Copy } from 'lucide-react';
 
 type InterestType = 'Metal Card' | 'Corporate' | 'Partnership';
 
@@ -51,12 +51,16 @@ const ContactView: React.FC<ContactViewProps> = ({ initialTab = 'Metal Card' }) 
     }));
   };
 
-  const handleGoToInquiry = () => {
-    setFormData(prev => ({ 
-        ...prev, 
-        interest: 'Corporate'
-    }));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleCopyTemplate = () => {
+      const template = `[문의하기]
+성명 / 회사명 :
+연락처 :
+이메일 주소 :
+문의내용 : 상품문의 / 제휴문의`;
+      
+      navigator.clipboard.writeText(template).then(() => {
+          alert("문의 양식이 복사되었습니다. 메일에 붙여넣어주세요.");
+      });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -161,84 +165,53 @@ ${formData.message}
                     </div>
                 </div>
 
-                {/* New Trusted Partnership Section (Replacing Form) */}
+                {/* Email Inquiry Template Section (Replaced Form) */}
                 <div className="border-t border-zinc-900 pt-20 animate-fade-in-up delay-200">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center">
-                        
-                        {/* Left: Benefits Text */}
-                        <div>
-                            <h3 className="text-3xl font-serif text-white mb-8">
-                                Exclusive Privileges <br/>
-                                <span className="text-zinc-500">for Partners</span>
+                    <div className="max-w-4xl mx-auto">
+                        <div className="text-center mb-12">
+                            <h3 className="text-3xl font-serif text-white mb-6">
+                                Partnership Inquiry
                             </h3>
-                            <div className="space-y-10">
-                                <div className="flex gap-5">
-                                    <div className="w-12 h-12 bg-[#D4AF37]/10 rounded-full flex items-center justify-center border border-[#D4AF37]/20 shrink-0">
-                                        <Crown className="w-5 h-5 text-[#D4AF37]" />
-                                    </div>
-                                    <div>
-                                        <h4 className="text-white font-bold text-lg mb-2">Volume Pricing Policy</h4>
-                                        <p className="text-zinc-400 text-sm leading-relaxed">
-                                            수량에 따른 차등 할인율(Volume Discount)이 적용됩니다.<br/>
-                                            합리적인 비용으로 최고의 기업 브랜딩 효과를 누리세요.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex gap-5">
-                                    <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10 shrink-0">
-                                        <Zap className="w-5 h-5 text-white" />
-                                    </div>
-                                    <div>
-                                        <h4 className="text-white font-bold text-lg mb-2">Priority Production</h4>
-                                        <p className="text-zinc-400 text-sm leading-relaxed">
-                                            기업 고객 전용 패스트트랙(Fast-Track) 라인을 통해<br/>
-                                            일반 주문보다 우선적으로 제작되어 납기일을 준수합니다.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex gap-5">
-                                    <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10 shrink-0">
-                                        <FileCheck className="w-5 h-5 text-white" />
-                                    </div>
-                                    <div>
-                                        <h4 className="text-white font-bold text-lg mb-2">Corporate Documentation</h4>
-                                        <p className="text-zinc-400 text-sm leading-relaxed">
-                                            견적서, 거래명세서, 세금계산서 발행 등<br/>
-                                            법인 지출 증빙에 필요한 모든 행정 업무를 완벽 지원합니다.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            <p className="text-zinc-400 text-lg font-light leading-relaxed">
+                                하단 문의양식을 복사하여 메일로 전달하시면 <br/>
+                                담당자가 검토 후 <span className="text-[#D4AF37] font-bold">평균 1일 이내</span>에 회신드립니다.
+                            </p>
                         </div>
 
-                        {/* Right: Premium CTA Card */}
-                        <div className="bg-[#0f0f0f] border border-zinc-800 rounded-[2rem] p-10 md:p-14 text-center relative overflow-hidden group hover:border-[#D4AF37]/50 transition-colors shadow-2xl">
-                             {/* Background Effects */}
-                             <div className="absolute top-0 right-0 w-64 h-64 bg-[#D4AF37]/5 rounded-full blur-[60px] pointer-events-none"></div>
-                             <div className="absolute bottom-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none"></div>
+                        {/* Template Box */}
+                        <div className="relative bg-[#0f0f0f] border border-zinc-800 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden group">
+                             {/* Glossy Effect */}
+                             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-b from-[#D4AF37]/5 to-transparent rounded-full blur-[80px] pointer-events-none"></div>
                              
                              <div className="relative z-10 flex flex-col items-center">
-                                 <Building2 className="w-16 h-16 text-white mb-6 opacity-90" />
-                                 
-                                 <h3 className="text-3xl font-bold text-white mb-4">Start Partnership</h3>
-                                 <p className="text-zinc-400 text-sm mb-10 leading-relaxed max-w-sm">
-                                     귀사의 품격을 높일 준비가 되셨나요?<br/>
-                                     전담 매니저가 1:1 상담을 통해 최적의 솔루션을 제안합니다.
-                                 </p>
-                                 
-                                 <button 
-                                    onClick={handleGoToInquiry}
-                                    className="w-full py-5 bg-[#D4AF37] text-black font-bold text-sm tracking-widest uppercase rounded-xl hover:bg-[#FCE2C4] transition-all shadow-[0_0_25px_rgba(212,175,55,0.2)] hover:shadow-[0_0_35px_rgba(212,175,55,0.4)] hover:scale-[1.02] flex items-center justify-center gap-3"
-                                 >
-                                     <Mail className="w-4 h-4" />
-                                     Contact for B2B
-                                 </button>
-                                 
-                                 <div className="mt-8 pt-6 border-t border-zinc-800/50 w-full">
-                                     <p className="text-zinc-600 text-xs font-mono">
-                                         Average Response Time: <span className="text-[#D4AF37]">Within 2 Hours</span>
-                                     </p>
+                                 <div className="w-full max-w-lg bg-black/50 border border-zinc-800 rounded-xl p-6 md:p-8 font-mono text-sm text-zinc-300 leading-relaxed mb-8 shadow-inner select-all selection:bg-[#D4AF37] selection:text-black">
+                                     <p className="text-[#D4AF37] mb-4 font-bold border-b border-zinc-800 pb-2">[문의하기 양식]</p>
+                                     <p>성명 / 회사명 : </p>
+                                     <p>연락처 : </p>
+                                     <p>이메일 주소 : </p>
+                                     <p>문의내용 : 상품문의 / 제휴문의</p>
                                  </div>
+
+                                 <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
+                                     <button 
+                                        onClick={handleCopyTemplate}
+                                        className="px-8 py-4 bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-sm tracking-widest rounded-xl transition-all flex items-center justify-center gap-2 group/btn"
+                                     >
+                                         <Copy className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
+                                         양식 복사하기
+                                     </button>
+                                     <a 
+                                        href="mailto:pickit.korea.official@gmail.com"
+                                        className="px-8 py-4 bg-[#D4AF37] hover:bg-[#FCE2C4] text-black font-bold text-sm tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] flex items-center justify-center gap-2 group/btn"
+                                     >
+                                         <Mail className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
+                                         메일 보내기
+                                     </a>
+                                 </div>
+                                 
+                                 <p className="mt-8 text-zinc-600 text-xs text-center">
+                                     Email: pickit.korea.official@gmail.com
+                                 </p>
                              </div>
                         </div>
 
@@ -394,10 +367,10 @@ ${formData.message}
 
                   {/* Corporate */}
                   <div 
-                    onClick={() => handleRadioChange('Corporate')}
-                    className={`flex flex-col items-center justify-center gap-2 px-2 py-4 border rounded-xl cursor-pointer transition-all duration-300 ${formData.interest === 'Corporate' ? 'bg-[#D4AF37] text-black border-[#D4AF37] font-bold shadow-[0_0_15px_rgba(212,175,55,0.3)] scale-[1.02]' : 'bg-zinc-900/30 border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:bg-zinc-900'}`}
+                    onClick={() => handleRadioChange('Partnership')}
+                    className={`flex flex-col items-center justify-center gap-2 px-2 py-4 border rounded-xl cursor-pointer transition-all duration-300 ${formData.interest === 'Partnership' ? 'bg-[#D4AF37] text-black border-[#D4AF37] font-bold shadow-[0_0_15px_rgba(212,175,55,0.3)] scale-[1.02]' : 'bg-zinc-900/30 border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:bg-zinc-900'}`}
                   >
-                      <Building2 className={`w-5 h-5 ${formData.interest === 'Corporate' ? 'text-black' : 'text-zinc-600'}`} />
+                      <Building2 className={`w-5 h-5 ${formData.interest === 'Partnership' ? 'text-black' : 'text-zinc-600'}`} />
                       <span className="text-xs whitespace-nowrap">Corporate B2B</span>
                   </div>
                </div>
@@ -409,7 +382,7 @@ ${formData.message}
                             <span className="text-[#D4AF37] font-bold">개인 고객 전용</span> 1:1 커스텀 상담 채널입니다.
                         </p>
                     )}
-                    {formData.interest === 'Corporate' && (
+                    {formData.interest === 'Partnership' && (
                         <p>
                             기업의 품격을 높이는 법인 카드 및 멤버십 카드 대량 제작.<br/>
                             <span className="text-[#D4AF37] font-bold">최소 수량 10매 이상</span>부터 진행 가능한 기업 전용 서비스입니다.

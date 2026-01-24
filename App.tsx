@@ -127,12 +127,12 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
 
               {/* MyPage / Admin Button */}
               {currentUser?.role === 'admin' ? (
-                   <button onClick={() => handleNavClick('admin-dashboard')} className="flex items-center gap-1 text-[10px] bg-red-900/30 text-red-500 border border-red-900/50 px-3 py-2 rounded hover:bg-red-900/50 interactable backdrop-blur-sm">
+                   <button onClick={() => handleNavClick('admin-dashboard')} className="flex items-center gap-1 text-[10px] bg-red-900/30 text-red-500 border border-red-900/50 px-3 py-2 rounded hover:bg-red-900/50 interactable backdrop-blur-sm whitespace-nowrap">
                        <LayoutDashboard className="w-3 h-3" /> ADMIN
                    </button>
               ) : (
-                  <button onClick={() => currentUser ? handleNavClick('mypage') : handleNavClick('auth')} className={`flex items-center gap-1 text-[10px] px-3 py-2 rounded interactable font-bold tracking-wider backdrop-blur-sm ${currentPage === 'mypage' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900/50 text-zinc-300 hover:bg-zinc-800 border border-zinc-700'}`}>
-                       <User className="w-3 h-3" /> 마이페이지
+                  <button onClick={() => currentUser ? handleNavClick('mypage') : handleNavClick('auth')} className={`flex items-center gap-1 text-[10px] px-3 py-2 rounded interactable font-bold tracking-wider backdrop-blur-sm whitespace-nowrap ${currentPage === 'mypage' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900/50 text-zinc-300 hover:bg-zinc-800 border border-zinc-700'}`}>
+                       <User className="w-3 h-3" /> 내 정보
                    </button>
               )}
               
