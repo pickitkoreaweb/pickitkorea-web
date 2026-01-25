@@ -4,7 +4,7 @@ import { Quote, Star, ThumbsUp } from 'lucide-react';
 const Reviews: React.FC = () => {
   const reviews = [
     {
-      text: "거래처 미팅 때 메탈 명함 건네니 분위기가 완전히 달라졌어요. NFC로 제 정보 바로 뜨는거 보고 다들 감탄하네요. 저를 확실하게 각인시킨 기분입니다.",
+      text: "거래처 미팅 때 메탈 명함 건네니 분위기가 완전히 달라졌어요. 뒷면 QR코드로 제 정보가 바로 뜨는거 보고 다들 감탄하네요. 저를 확실하게 각인시킨 기분입니다.",
       author: "정*훈 대표",
       tier: "SIGNATURE GOLD",
       date: "2026.01.28",

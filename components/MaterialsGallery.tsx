@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layers, Maximize2, ExternalLink } from 'lucide-react';
+import { Layers, Maximize2, ExternalLink, ShieldCheck } from 'lucide-react';
 
 interface MaterialItem {
   id: number;
@@ -80,11 +80,22 @@ const MaterialsGallery: React.FC = () => {
                     Essence of <br/>
                     <span className="text-zinc-500">Pure Metal.</span>
                 </h2>
-                <p className="text-zinc-400 text-sm leading-relaxed mb-12">
+                <p className="text-zinc-400 text-sm leading-relaxed mb-8">
                     항공우주 등급의 304 스테인리스 스틸을 베이스로, <br/>
                     각기 다른 공정을 거쳐 탄생한 시그니처 피니싱.<br/>
                     카드와 명함, 어떤 용도에도 완벽한 품격을 선사합니다.
                 </p>
+
+                {/* Quality Assurance Badge */}
+                <div className="mb-12 p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg flex gap-3 items-start group hover:border-[#D4AF37]/50 transition-colors">
+                    <ShieldCheck className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
+                    <div>
+                        <h4 className="text-white text-xs font-bold mb-1">Premium Origin Guarantee</h4>
+                        <p className="text-zinc-400 text-xs leading-relaxed break-keep">
+                            당사에서 제작하는 STS304는 타사와 달리 저렴한 중국산이 아닌, <span className="text-white font-bold underline decoration-[#D4AF37] decoration-1 underline-offset-2">KC 품질보증된 고급 자재</span>로만 상품을 제작합니다.
+                        </p>
+                    </div>
+                </div>
 
                 {/* Material Selector List */}
                 <div className="space-y-4">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UserCheck, Smartphone, Hash, MousePointerClick, Layers } from 'lucide-react';
+import { UserCheck, Smartphone, Hash, MousePointerClick, Layers, QrCode } from 'lucide-react';
 
 const BusinessCardShowcase: React.FC = () => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -49,11 +49,11 @@ const BusinessCardShowcase: React.FC = () => {
                 </li>
                 <li className="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-[#D4AF37]/30 transition-colors group">
                     <div className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center flex-shrink-0 border border-zinc-700 group-hover:border-[#D4AF37] transition-colors">
-                        <Smartphone className="w-5 h-5 text-white group-hover:text-[#D4AF37]" />
+                        <QrCode className="w-5 h-5 text-white group-hover:text-[#D4AF37]" />
                     </div>
                     <div>
-                        <h4 className="font-bold text-white text-lg group-hover:text-[#D4AF37] transition-colors">Smart NFC Link</h4>
-                        <p className="text-sm text-zinc-400 mt-1">단 한 번의 태깅으로 연락처와 회사 소개서를 전송.</p>
+                        <h4 className="font-bold text-white text-lg group-hover:text-[#D4AF37] transition-colors">Smart QR Link</h4>
+                        <p className="text-sm text-zinc-400 mt-1">카메라 스캔 한 번으로 연락처와 회사 소개서를 전송.</p>
                     </div>
                 </li>
              </ul>
@@ -159,8 +159,6 @@ const BusinessCardShowcase: React.FC = () => {
              </div>
           </div>
 
-        </div>
-
         {/* Process Section */}
         <div className="mt-24 pt-12 border-t border-zinc-900/50">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -177,9 +175,9 @@ const BusinessCardShowcase: React.FC = () => {
                     <p className="text-zinc-400 text-sm leading-relaxed">레이저 각인 시 스테인리스 본연의 골드톤이 드러나 고급스럽습니다.</p>
                 </div>
                 <div className="space-y-3">
-                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">04. NFC Option</span>
+                    <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">04. QR Code</span>
                     <p className="text-zinc-400 text-sm leading-relaxed">
-                        NFC 칩 내장을 통해 스마트 명함 기능을 추가할 수 있습니다.
+                        뒷면 QR코드 각인을 통해 스마트 명함 기능을 추가할 수 있습니다.
                     </p>
                 </div>
             </div>
