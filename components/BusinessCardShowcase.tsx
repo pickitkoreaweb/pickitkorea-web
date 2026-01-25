@@ -158,6 +158,7 @@ const BusinessCardShowcase: React.FC = () => {
                 </div>
              </div>
           </div>
+        </div>
 
         {/* Process Section */}
         <div className="mt-24 pt-12 border-t border-zinc-900/50">
