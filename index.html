@@ -12,11 +12,17 @@
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://pickit-korea.com" />
 
-    <!-- Open Graph / Facebook / Naver Blog / KakaoTalk -->
+    <!-- 
+      [썸네일 설정 안내]
+      아래 주소는 '카카오톡 로봇'이 이미지를 찾아가기 위한 절대 주소입니다.
+      고객님은 주소창에 이 긴 주소를 입력할 필요가 없습니다.
+      그냥 pickit-korea.com 으로 접속하면 봇이 알아서 아래 이미지를 가져와서 보여줍니다.
+    -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://pickit-korea.com" />
     <meta property="og:title" content="PICKIT - 세상에 단 하나뿐인 프리미엄 메탈 카드" />
     <meta property="og:description" content="플라스틱 카드는 잊으세요. 항공우주 등급 스테인리스 스틸로 완성되는 압도적인 무게감과 럭셔리함. 당신의 품격을 대변하는 메탈 카드를 만나보세요." />
+    <meta property="og:image" content="https://pickit-korea.com/og_thumbnail.png?v=5" />
     <meta property="og:site_name" content="PICKIT KOREA" />
     <meta property="og:locale" content="ko_KR" />
 
@@ -25,10 +31,11 @@
     <meta property="twitter:url" content="https://pickit-korea.com" />
     <meta property="twitter:title" content="PICKIT - 프리미엄 메탈 카드 커스텀" />
     <meta property="twitter:description" content="플라스틱 카드를 럭셔리 메탈 카드로. PICKIT만의 정교한 레이저 각인 기술을 경험하세요." />
+    <meta property="twitter:image" content="https://pickit-korea.com/og_thumbnail.png?v=5" />
 
     <!-- Search Engine Verification Placeholders -->
-    <meta name="naver-site-verification" content="" /> <!-- 네이버 웹마스터도구 소유확인 코드를 여기에 넣으세요 -->
-    <meta name="google-site-verification" content="" /> <!-- 구글 서치콘솔 소유확인 코드를 여기에 넣으세요 -->
+    <meta name="naver-site-verification" content="" />
+    <meta name="google-site-verification" content="" />
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -103,7 +110,7 @@
     <style>
       body {
         font-family: 'Inter', 'Noto Sans KR', sans-serif;
-        background-color: #050505; /* Slightly softer black */
+        background-color: #050505;
         color: #ffffff;
         margin: 0;
         min-height: 100vh;
@@ -114,17 +121,13 @@
       .font-signature {
         font-family: 'Nanum Brush Script', cursive;
       }
-      /* Hide scrollbar for Chrome, Safari and Opera */
       .no-scrollbar::-webkit-scrollbar {
           display: none;
       }
-      /* Hide scrollbar for IE, Edge and Firefox */
       .no-scrollbar {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+          -ms-overflow-style: none;
+          scrollbar-width: none;
       }
-      
-      /* Global Noise Texture */
       .noise-overlay {
         position: fixed;
         top: 0;
@@ -136,8 +139,6 @@
         opacity: 0.04;
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
       }
-
-      /* 3D Utilities */
       .perspective-1000 {
         perspective: 1000px;
       }
