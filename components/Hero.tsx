@@ -54,9 +54,9 @@ const Hero: React.FC<HeroProps> = ({ setPage, bgImage }) => {
           Yourself.
         </h2>
         
-        <p className="text-sm md:text-base text-zinc-400 mb-16 max-w-lg mx-auto leading-loose animate-fade-in-up delay-300 font-light tracking-widest break-keep">
+        <p className="text-xl md:text-2xl text-white mb-16 max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-300 font-medium tracking-wide break-keep drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]">
             당신을 돌아보게 만드는 특별함. <br className="md:hidden" />
-            <strong className="text-zinc-200 font-normal">PICKIT KOREA</strong>가 <br className="md:hidden" />
+            <strong className="text-[#D4AF37] font-bold">PICKIT KOREA</strong>가 <br className="md:hidden" />
             세상에 당신을 깊이 '각인'합니다.
         </p>
 
