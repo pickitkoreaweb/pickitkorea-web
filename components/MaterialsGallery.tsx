@@ -71,10 +71,10 @@ const MaterialsGallery: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col xl:flex-row gap-16 md:gap-24 items-start">
+        <div className="flex flex-col xl:flex-row gap-12 md:gap-24 items-start">
             
             {/* Left Column: Text & Selector */}
-            <div className="w-full xl:w-1/3 sticky top-32">
+            <div className="w-full xl:w-1/3 relative xl:sticky xl:top-32">
                 <span className="text-zinc-500 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Material Library</span>
                 <h2 className="text-4xl md:text-5xl font-serif font-bold text-white leading-none mb-6">
                     Essence of <br/>
