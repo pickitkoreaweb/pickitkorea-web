@@ -42,22 +42,22 @@ const Hero: React.FC<HeroProps> = ({ setPage, bgImage }) => {
         
         <div className="inline-flex items-center gap-4 mb-10 animate-fade-in-up">
           <div className="h-[1px] w-8 bg-[#D4AF37] opacity-60"></div>
-          <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[#D4AF37] drop-shadow-md">The New Standard of Luxury</span>
+          <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[#D4AF37] drop-shadow-md">Premium Metal Solution</span>
           <div className="h-[1px] w-8 bg-[#D4AF37] opacity-60"></div>
         </div>
         
         {/* Luxury Typography - Massive, Tight Tracking */}
         <h1 className="text-6xl sm:text-8xl md:text-[10rem] font-black tracking-tighter mb-6 text-white animate-fade-in-up delay-100 drop-shadow-2xl leading-[0.85] mix-blend-overlay opacity-90">
-          UNBREAKABLE
+          IMPRINT
         </h1>
         <h2 className="text-5xl sm:text-7xl md:text-8xl font-serif italic font-medium tracking-tight mb-10 text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-zinc-400 to-zinc-600 animate-fade-in-up delay-200">
-          Authority.
+          Yourself.
         </h2>
         
         <p className="text-sm md:text-base text-zinc-400 mb-16 max-w-lg mx-auto leading-loose animate-fade-in-up delay-300 font-light tracking-widest break-keep">
-            무게가 주는 압도적인 신뢰. <br className="md:hidden" />
-            <strong className="text-zinc-200 font-normal">PICKIT Premium Metal</strong>로 <br className="md:hidden" />
-            당신의 비즈니스에 품격을 더하십시오.
+            당신을 돌아보게 만드는 특별함. <br className="md:hidden" />
+            <strong className="text-zinc-200 font-normal">PICKIT KOREA</strong>가 <br className="md:hidden" />
+            세상에 당신을 깊이 '각인'합니다.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pointer-events-auto animate-fade-in-up delay-300 w-full sm:w-auto px-6 sm:px-0">

@@ -4,6 +4,13 @@ import { Quote, Star, ThumbsUp } from 'lucide-react';
 const Reviews: React.FC = () => {
   const reviews = [
     {
+      text: "거래처 미팅 때 메탈 명함 건네니 분위기가 완전히 달라졌어요. NFC로 제 정보 바로 뜨는거 보고 다들 감탄하네요. 저를 확실하게 각인시킨 기분입니다.",
+      author: "정*훈 대표",
+      tier: "SIGNATURE GOLD",
+      date: "2026.01.28",
+      tag: "#비즈니스필수템"
+    },
+    {
       text: "결제할 때 직원분이 카드 뭐냐고 물어보시네요 ㅋㅋ 묵직한 그립감 때문에 다시는 플라스틱 카드로 못 돌아갈 것 같아요. 실물이 사진보다 훨씬 고급스럽습니다.",
       author: "최지훈",
       tier: "BLACK EDITION",
@@ -41,9 +48,9 @@ const Reviews: React.FC = () => {
            </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {reviews.map((review, i) => (
-            <div key={i} className="bg-zinc-900/20 border border-zinc-800/50 p-8 rounded-2xl relative group hover:bg-zinc-900/40 hover:border-zinc-700 transition-all duration-500 hover:-translate-y-2 shadow-lg">
+            <div key={i} className="bg-zinc-900/20 border border-zinc-800/50 p-6 rounded-2xl relative group hover:bg-zinc-900/40 hover:border-zinc-700 transition-all duration-500 hover:-translate-y-2 shadow-lg">
               <div className="flex justify-between items-start mb-6">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-zinc-700 to-zinc-900 flex items-center justify-center text-xs font-bold text-white border border-zinc-600">
                     {review.author[0]}
@@ -64,7 +71,7 @@ const Reviews: React.FC = () => {
               
               <div className="flex items-center justify-between border-t border-zinc-800 pt-6">
                 <div>
-                   <h4 className="text-white font-bold text-sm">{review.author}님</h4>
+                   <h4 className="text-white font-bold text-sm truncate max-w-[80px]">{review.author}님</h4>
                    <span className="text-[10px] text-zinc-500 uppercase tracking-wider block mt-0.5">{review.date}</span>
                 </div>
                 <div className="text-right">

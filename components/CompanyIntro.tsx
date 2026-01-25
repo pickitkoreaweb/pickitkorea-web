@@ -19,29 +19,30 @@ const CompanyIntro: React.FC = () => {
                 <Globe className="w-6 h-6 text-zinc-600 mx-auto animate-pulse" />
             </span>
             <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight tracking-tight">
-                Not just a Card,<br/>
-                It's a <span className="font-serif italic text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#FCE2C4] to-[#D4AF37] animate-shine bg-[length:200%_auto] pr-2">Statement.</span>
+                Make Them<br/>
+                <span className="font-serif italic text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#FCE2C4] to-[#D4AF37] animate-shine bg-[length:200%_auto] pr-2">Turn Around.</span>
             </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 text-lg font-light leading-relaxed text-zinc-400">
             <div className="text-right md:pr-12 border-r-0 md:border-r border-zinc-900 pt-8">
                 <p className="mb-8">
-                    <strong className="text-white font-medium">PICKIT KOREA</strong>는 '소유'의 가치를 재정의합니다. 
-                    손끝에 닿는 차가운 금속의 감촉, 빛을 머금은 정교한 각인. 
-                    우리는 단순한 지불 수단을 넘어, 당신의 페르소나를 완성하는 오브제를 만듭니다.
+                    <strong className="text-white font-medium">당신을 돌아보게 만드는 특별함.</strong><br/>
+                    PICKIT KOREA는 단순한 금속 가공을 넘어, 당신의 아이덴티티를 완성하는 프리미엄 솔루션입니다.
+                    차가운 금속 위에 새겨지는 이름은 그 자체로 신뢰이자 권위가 됩니다.
                 </p>
                 <p>
                     플라스틱이 줄 수 없는 18g의 묵직함. <br/>
                     테이블 위에 카드를 내려놓는 그 짧은 순간, <br/>
-                    당신을 바라보는 시선이 달라집니다.
+                    당신을 바라보는 세상의 시선이 달라집니다.
                 </p>
             </div>
             <div className="text-left md:pl-12 pt-8">
                 <p className="mb-8">
+                    <strong className="text-white font-medium">나를 '각인'하다.</strong><br/>
                     우리는 당신이 원하는 그 어떤 디자인이든, <br/>
-                    가장 완벽한 형태의 금속으로 구현해냅니다. <br/>
-                    오직 당신만을 위해 존재하는 단 하나의 마스터피스.
+                    가장 완벽한 형태의 마스터피스로 구현해냅니다. <br/>
+                    이제, 세상에 나를 깊이 각인하십시오.
                 </p>
                 <div className="mt-16">
                     <p className="text-2xl text-zinc-500 mb-4 font-light font-serif">Sincerely,</p>
