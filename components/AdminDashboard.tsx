@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus, Trash2, FileSpreadsheet, ShieldAlert, Lock, Grid, RefreshCw, Pencil, Video, FileText, Download, Scale, Layers } from 'lucide-react';
+import { Users, Image, Save, Search, Package, Calendar, CreditCard, Upload, X, Check, PenTool, Plus, Trash2, FileSpreadsheet, ShieldAlert, Lock, Grid, RefreshCw, Pencil, Video, FileText, Download, Scale, Layers, Palette, Copy, CheckCircle, AlertTriangle, Code } from 'lucide-react';
 
 interface User {
   id: string;
@@ -68,8 +68,7 @@ const DEFAULT_PORTFOLIO: GalleryItem[] = [
     },
 ];
 
-// Updated Default Materials: Verified Abstract Textures (Liquid Chrome, Brushed, Sandblasted)
-// These match the updated MaterialsGallery component
+// Updated Default Materials
 const DEFAULT_MATERIALS: MaterialItem[] = [
     {
       id: 0,
@@ -95,7 +94,6 @@ const DEFAULT_MATERIALS: MaterialItem[] = [
 ];
 
 // Strategic Articles Content (HTML formatted for Word)
-// Updated for 10 Million KRW Capital Logic
 const ARTICLES_HTML = `
 <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
 <head><meta charset='utf-8'><title>주식회사 피킷코리아 정관</title>
@@ -138,37 +136,8 @@ p { font-size: 11pt; margin-bottom: 10px; }
 <p><span class="article-title">제7조 (설립 시에 발행하는 주식의 총수)</span>본 회사가 설립 시에 발행하는 주식의 총수는 <strong>100,000주</strong>(금 일천만 원)로 한다.<br>
 <span style="font-size:9pt; color:blue;">(계산: 100,000주 x 100원 = 자본금 1,000만 원)</span></p>
 
-<p><span class="article-title">제8조 (주식의 종류)</span>회사가 발행할 주식은 기명식 보통주식과 기명식 종류주식(우선주, 전환주, 상환주 등)으로 한다.</p>
-
-<p><span class="article-title">제9조 (신주인수권)</span><br>
-① 주주는 그가 소유한 주식 수에 비례하여 신주의 배정을 받을 권리를 가진다.<br>
-② 제1항의 규정에도 불구하고 다음 각 호의 경우에는 주주총회의 결의 없이 이사회의 결의로 주주 외의 자(제3자)에게 신주를 배정할 수 있다.<br>
-1. 자본시장과 금융투자업에 관한 법률 제165조의6에 따라 일반공모증자 방식으로 신주를 발행하는 경우<br>
-2. 긴급한 자금조달을 위하여 국내외 금융기관 또는 기관투자자(VC)에게 신주를 발행하는 경우<br>
-3. 사업상 중요한 기술도입, 연구개발, 생산·판매·자본제휴를 위하여 그 상대방에게 신주를 발행하는 경우<br>
-4. 주식매수선택권(스톡옵션)의 행사에 따라 신주를 발행하는 경우</p>
-
-<p><span class="article-title">제10조 (주식매수선택권)</span>회사는 임직원에게 발행주식총수의 100분의 10 범위 내에서 주식매수선택권을 부여할 수 있다.</p>
-
 <div class="chapter">제3장 주주총회</div>
-
 <p><span class="article-title">제17조 (소집통지 및 공고)</span>주주총회를 소집함에는 그 일시, 장소 및 회의의 목적사항을 총회일 2주 간 전에 주주에게 서면 또는 전자문서로 통지하여야 한다. 단, 자본금 총액이 10억 원 미만인 경우에는 주주 전원의 동의가 있을 때 소집절차 없이 개최할 수 있다.</p>
-
-<div class="chapter">제4장 이사 및 감사</div>
-
-<p><span class="article-title">제23조 (이사의 수)</span>본 회사의 이사는 1인 이상으로 한다.</p>
-
-<p><span class="article-title">제27조 (집중투표제의 배제)</span>2인 이상의 이사를 선임하는 경우에도 상법 제382조의2에서 규정하는 집중투표제는 적용하지 아니한다.</p>
-
-<p><span class="article-title">제30조 (이사의 보수와 퇴직금)</span><br>
-① 이사의 보수는 주주총회의 결의로 정한다.<br>
-② 이사의 퇴직금은 별도로 정하는 '임원 퇴직금 지급 규정'에 의한다.</p>
-
-<div class="chapter">제5장 계산</div>
-
-<p><span class="article-title">제34조 (이익배당)</span><br>
-① 이익배당은 금전과 주식으로 할 수 있다.<br>
-② 회사는 사업년도 중 1회에 한하여 이사회의 결의로 중간배당을 할 수 있다.</p>
 
 <br><br>
 <p style="text-align:center;">2026년 3월 1일</p>
@@ -183,7 +152,7 @@ interface AdminDashboardProps {
 }
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteImages }) => {
-  const [activeTab, setActiveTab] = useState<'users' | 'content' | 'gallery' | 'materials' | 'legal'>('users');
+  const [activeTab, setActiveTab] = useState<'users' | 'content' | 'gallery' | 'materials' | 'legal' | 'assets'>('users');
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [userOrders, setUserOrders] = useState<Order[]>([]);
@@ -219,6 +188,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
   // Content
   const [editingImages, setEditingImages] = useState<SiteImages>(siteImages);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
+
+  // Assets State
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   useEffect(() => {
     // 1. Load Users
@@ -260,6 +232,34 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
         setResetPassword('');
     }
   }, [selectedUser]);
+
+  // --- ASSETS FUNCTIONS ---
+  const handleCopySvg = (svgContent: string, id: string) => {
+      navigator.clipboard.writeText(svgContent).then(() => {
+          setCopiedId(id);
+          setTimeout(() => setCopiedId(null), 2000);
+      });
+  };
+
+  const handleDownloadSvg = (svgContent: string, filename: string) => {
+      const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${filename}.svg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  };
+
+  // --- EXPORT FUNCTIONS (NEW) ---
+  const handleExportData = (type: 'gallery' | 'materials') => {
+      const data = type === 'gallery' ? galleryItems : materialItems;
+      const jsonString = JSON.stringify(data, null, 2);
+      navigator.clipboard.writeText(jsonString).then(() => {
+          alert(`${type === 'gallery' ? '갤러리' : '소재'} 데이터가 클립보드에 복사되었습니다.\n\n이 코드를 개발자에게 전달하시면 실제 사이트에 영구적으로 반영됩니다.`);
+      });
+  };
 
   // --- LEGAL FUNCTIONS ---
   const handleDownloadArticles = () => {
@@ -485,6 +485,41 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
 
   const filteredUsers = users.filter(u => u.name.includes(searchTerm));
 
+  // --- SVG ASSETS DEFINITION ---
+  const symbolSvg = `<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradSymbol" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#e4e4e7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#71717a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect x="25" y="25" width="50" height="50" fill="url(#gradSymbol)" transform="rotate(45 50 50)" />
+  <circle cx="50" cy="50" r="8" fill="#000000" />
+</svg>`;
+
+  const wordmarkSvg = `<svg width="300" height="80" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="serif" font-weight="bold" font-size="40" letter-spacing="0.2em" fill="#ffffff">PICKIT</text>
+  <rect x="135" y="55" width="30" height="2" fill="#D4AF37" />
+</svg>`;
+
+  const symbolDarkSvg = `<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradSymbolDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3f3f46;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#18181b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect x="25" y="25" width="50" height="50" fill="url(#gradSymbolDark)" transform="rotate(45 50 50)" />
+  <circle cx="50" cy="50" r="8" fill="#ffffff" />
+</svg>`;
+
+  const wordmarkDarkSvg = `<svg width="300" height="80" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="serif" font-weight="bold" font-size="40" letter-spacing="0.2em" fill="#000000">PICKIT</text>
+  <rect x="135" y="55" width="30" height="2" fill="#D4AF37" />
+</svg>`;
+
   return (
     <div className="pt-24 pb-12 px-6 min-h-screen bg-[#050505]">
       <div className="max-w-7xl mx-auto">
@@ -499,10 +534,168 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                 <button onClick={() => setActiveTab('users')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'users' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Users</button>
                 <button onClick={() => setActiveTab('gallery')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'gallery' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Gallery</button>
                 <button onClick={() => setActiveTab('materials')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'materials' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Materials</button>
+                <button onClick={() => setActiveTab('assets')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'assets' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Brand Assets</button>
                 <button onClick={() => setActiveTab('content')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'content' ? 'bg-[#D4AF37] text-black' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Content</button>
                 <button onClick={() => setActiveTab('legal')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'legal' ? 'bg-red-900/30 text-red-500 border border-red-900/50' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>Legal</button>
             </div>
         </div>
+
+        {/* Warning Banner */}
+        <div className="bg-yellow-900/20 border border-yellow-700/50 rounded-lg p-4 mb-8 flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" />
+            <div>
+                <h4 className="text-yellow-500 font-bold text-sm mb-1">Local Storage Mode</h4>
+                <p className="text-yellow-200/70 text-xs leading-relaxed">
+                    현재 수정하신 데이터는 <strong>관리자님의 로컬 브라우저에만 저장</strong>되며, 실제 사이트(다른 사용자)에는 반영되지 않습니다.<br/>
+                    변경사항을 실제 사이트에 반영하려면 각 탭의 <strong>'Export Data'</strong> 버튼을 눌러 데이터를 복사한 후, 개발자에게 전달해 주세요.
+                </p>
+            </div>
+        </div>
+
+        {/* ASSETS TAB (NEW) */}
+        {activeTab === 'assets' && (
+            <div className="animate-fade-in-up">
+                <div className="mb-8">
+                    <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                        <Palette className="w-6 h-6 text-[#D4AF37]" /> Brand Identity Assets
+                    </h2>
+                    <p className="text-zinc-400 text-sm mt-2">
+                        사업계획서 및 마케팅 자료에 사용할 수 있는 공식 로고 벡터(SVG) 파일입니다. <br/>
+                        'Download Vector' 버튼을 클릭하면 AI(일러스트레이터) 호환 파일이 다운로드됩니다.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Symbol Logo */}
+                    <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 flex flex-col items-center">
+                        <div className="w-full aspect-square flex items-center justify-center bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] bg-zinc-950 rounded-xl border border-zinc-800 mb-6 relative group overflow-hidden">
+                            <div className="absolute inset-0 flex items-center justify-center transition-transform duration-700 group-hover:scale-110">
+                                <div dangerouslySetInnerHTML={{ __html: symbolSvg }} className="w-48 h-48" />
+                            </div>
+                        </div>
+                        <div className="w-full flex justify-between items-center">
+                            <div>
+                                <h3 className="text-white font-bold text-lg">Primary Symbol</h3>
+                                <p className="text-zinc-500 text-xs">Geometric Diamond (Silver)</p>
+                            </div>
+                            <div className="flex gap-2">
+                                <button 
+                                    onClick={() => handleCopySvg(symbolSvg, 'symbol')}
+                                    className="p-2 border border-zinc-700 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+                                    title="Copy Code"
+                                >
+                                    {copiedId === 'symbol' ? <CheckCircle className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5" />}
+                                </button>
+                                <button 
+                                    onClick={() => handleDownloadSvg(symbolSvg, 'PICKIT_Symbol_Vector')}
+                                    className="px-4 py-2 bg-[#D4AF37] text-black text-xs font-bold rounded-lg hover:bg-[#FCE2C4] transition-colors flex items-center gap-2"
+                                >
+                                    <Download className="w-4 h-4" /> Vector (.SVG)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Wordmark */}
+                    <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 flex flex-col items-center">
+                        <div className="w-full aspect-square flex items-center justify-center bg-black rounded-xl border border-zinc-800 mb-6 relative group overflow-hidden">
+                             <div className="absolute inset-0 flex items-center justify-center">
+                                <div dangerouslySetInnerHTML={{ __html: wordmarkSvg }} className="w-64" />
+                             </div>
+                        </div>
+                        <div className="w-full flex justify-between items-center">
+                            <div>
+                                <h3 className="text-white font-bold text-lg">Official Wordmark</h3>
+                                <p className="text-zinc-500 text-xs">Serif Typography (White/Gold)</p>
+                            </div>
+                            <div className="flex gap-2">
+                                <button 
+                                    onClick={() => handleCopySvg(wordmarkSvg, 'wordmark')}
+                                    className="p-2 border border-zinc-700 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+                                    title="Copy Code"
+                                >
+                                    {copiedId === 'wordmark' ? <CheckCircle className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5" />}
+                                </button>
+                                <button 
+                                    onClick={() => handleDownloadSvg(wordmarkSvg, 'PICKIT_Wordmark_Vector')}
+                                    className="px-4 py-2 bg-[#D4AF37] text-black text-xs font-bold rounded-lg hover:bg-[#FCE2C4] transition-colors flex items-center gap-2"
+                                >
+                                    <Download className="w-4 h-4" /> Vector (.SVG)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Dark Versions Section */}
+                <div className="mt-12 mb-8">
+                    <h2 className="text-xl font-bold text-white flex items-center gap-2 border-b border-zinc-800 pb-4">
+                        <Palette className="w-5 h-5 text-white" /> For Light Backgrounds (White Version)
+                    </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Symbol Logo Dark */}
+                    <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 flex flex-col items-center">
+                        <div className="w-full aspect-square flex items-center justify-center bg-white rounded-xl border border-zinc-800 mb-6 relative group overflow-hidden shadow-inner">
+                            <div className="absolute inset-0 flex items-center justify-center transition-transform duration-700 group-hover:scale-110">
+                                <div dangerouslySetInnerHTML={{ __html: symbolDarkSvg }} className="w-48 h-48" />
+                            </div>
+                        </div>
+                        <div className="w-full flex justify-between items-center">
+                            <div>
+                                <h3 className="text-white font-bold text-lg">Symbol (Dark)</h3>
+                                <p className="text-zinc-500 text-xs">For Business Cards / Documents</p>
+                            </div>
+                            <div className="flex gap-2">
+                                <button 
+                                    onClick={() => handleCopySvg(symbolDarkSvg, 'symbolDark')}
+                                    className="p-2 border border-zinc-700 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+                                    title="Copy Code"
+                                >
+                                    {copiedId === 'symbolDark' ? <CheckCircle className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5" />}
+                                </button>
+                                <button 
+                                    onClick={() => handleDownloadSvg(symbolDarkSvg, 'PICKIT_Symbol_Dark_Vector')}
+                                    className="px-4 py-2 bg-white text-black text-xs font-bold rounded-lg hover:bg-zinc-200 transition-colors flex items-center gap-2"
+                                >
+                                    <Download className="w-4 h-4" /> Vector
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Wordmark Dark */}
+                    <div className="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 flex flex-col items-center">
+                        <div className="w-full aspect-square flex items-center justify-center bg-white rounded-xl border border-zinc-800 mb-6 relative group overflow-hidden shadow-inner">
+                             <div className="absolute inset-0 flex items-center justify-center">
+                                <div dangerouslySetInnerHTML={{ __html: wordmarkDarkSvg }} className="w-64" />
+                             </div>
+                        </div>
+                        <div className="w-full flex justify-between items-center">
+                            <div>
+                                <h3 className="text-white font-bold text-lg">Wordmark (Dark)</h3>
+                                <p className="text-zinc-500 text-xs">Black Text for White Papers</p>
+                            </div>
+                            <div className="flex gap-2">
+                                <button 
+                                    onClick={() => handleCopySvg(wordmarkDarkSvg, 'wordmarkDark')}
+                                    className="p-2 border border-zinc-700 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+                                >
+                                    {copiedId === 'wordmarkDark' ? <CheckCircle className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5" />}
+                                </button>
+                                <button 
+                                    onClick={() => handleDownloadSvg(wordmarkDarkSvg, 'PICKIT_Wordmark_Dark_Vector')}
+                                    className="px-4 py-2 bg-white text-black text-xs font-bold rounded-lg hover:bg-zinc-200 transition-colors flex items-center gap-2"
+                                >
+                                    <Download className="w-4 h-4" /> Vector
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )}
 
         {/* LEGAL TAB */}
         {activeTab === 'legal' && (
@@ -610,6 +803,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                 <div className="lg:col-span-8 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 h-[800px] overflow-y-auto custom-scrollbar">
                      <div className="flex justify-between items-center mb-6 border-b border-zinc-800 pb-4">
                          <h3 className="text-xl font-bold text-white">Material Library ({materialItems.length})</h3>
+                         <button 
+                            onClick={() => handleExportData('materials')}
+                            className="text-xs font-bold flex items-center gap-2 bg-[#D4AF37] text-black px-3 py-1.5 rounded hover:bg-[#FCE2C4] transition-colors"
+                         >
+                             <Code className="w-3 h-3" /> Export Data
+                         </button>
                      </div>
                      <div className="space-y-3">
                          {materialItems.map((item) => (
@@ -691,6 +890,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ siteImages, updateSiteI
                 <div className="lg:col-span-8 bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 h-[800px] overflow-y-auto custom-scrollbar">
                      <div className="flex justify-between items-center mb-6 border-b border-zinc-800 pb-4">
                          <h3 className="text-xl font-bold text-white">Gallery List ({galleryItems.length})</h3>
+                         <button 
+                            onClick={() => handleExportData('gallery')}
+                            className="text-xs font-bold flex items-center gap-2 bg-[#D4AF37] text-black px-3 py-1.5 rounded hover:bg-[#FCE2C4] transition-colors"
+                         >
+                             <Code className="w-3 h-3" /> Export Data
+                         </button>
                      </div>
                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                          {galleryItems.map((item) => (

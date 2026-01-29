@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, UserCircle, LogOut, LayoutDashboard, User } from 'lucide-react';
+import { Menu, X, ChevronDown, UserCircle, LogOut, LayoutDashboard, User, Building2, Layers } from 'lucide-react';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import UploadSection from './components/UploadSection';
@@ -87,30 +87,57 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleCorpClick = () => {
+      window.location.href = 'https://www.pickitkorea.com';
+  };
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${isScrolled || currentPage !== 'home' ? 'bg-[#050505]/80 backdrop-blur-2xl border-b border-white/5 py-4 shadow-[0_4px_30px_rgba(0,0,0,0.5)]' : 'bg-gradient-to-b from-black/80 to-transparent py-6 md:py-8'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        {/* Logo */}
-        <div 
-            className="flex items-center gap-3 cursor-pointer group interactable" 
-            onClick={() => handleNavClick('home')}
-        >
-          <div className="w-8 h-8 bg-gradient-to-br from-white via-zinc-200 to-zinc-500 rounded-none transform rotate-45 flex items-center justify-center transition-transform duration-700 group-hover:rotate-[225deg] shadow-[0_0_15px_rgba(255,255,255,0.3)]">
-            <div className="w-3 h-3 bg-black rounded-full transform -rotate-45"></div>
-          </div>
-          <span className="text-xl font-bold tracking-[0.2em] text-white drop-shadow-lg">PICKIT</span>
+        
+        {/* Brand Switcher / Logo */}
+        <div className="flex items-center gap-6">
+            <div 
+                className="flex items-center gap-3 cursor-pointer group interactable" 
+                onClick={() => handleNavClick('home')}
+            >
+              <div className="w-8 h-8 bg-gradient-to-br from-white via-zinc-200 to-zinc-500 rounded-none transform rotate-45 flex items-center justify-center transition-transform duration-700 group-hover:rotate-[225deg] shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                <div className="w-3 h-3 bg-black rounded-full transform -rotate-45"></div>
+              </div>
+              <div className="flex flex-col justify-center">
+                  <span className="text-xl font-bold tracking-[0.2em] text-white drop-shadow-lg leading-none">PICKIT</span>
+                  <span className="text-[9px] font-bold tracking-[0.3em] text-[#D4AF37] uppercase leading-none mt-1">
+                      METAL DIVISION
+                  </span>
+              </div>
+            </div>
+
+            {/* Division Switcher (Desktop) */}
+            <div className="hidden lg:flex items-center gap-2 border-l border-white/10 pl-6 ml-2">
+                <button 
+                    onClick={() => handleNavClick('home')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-widest transition-all bg-white text-black`}
+                >
+                    <Layers className="w-3 h-3" /> METAL
+                </button>
+                <button 
+                    onClick={handleCorpClick}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-widest transition-all text-zinc-500 hover:text-white`}
+                >
+                    <Building2 className="w-3 h-3" /> CORP
+                </button>
+            </div>
         </div>
 
         {/* Desktop Menu - Premium Effects */}
         <div className="hidden md:flex items-center gap-1">
-          <NavItem page="about" label="ABOUT" labelKo="브랜드 소개" active={currentPage === 'about'} onClick={handleNavClick} />
-          <NavItem page="metal-custom" label="METAL CARD" labelKo="메탈 카드" active={currentPage === 'metal-custom'} onClick={handleNavClick} />
-          <NavItem page="gallery" label="GALLERY" labelKo="갤러리" active={currentPage === 'gallery'} onClick={handleNavClick} />
-          <NavItem page="materials" label="MATERIALS" labelKo="소재 안내" active={currentPage === 'materials'} onClick={handleNavClick} />
-          <NavItem page="faq" label="FAQ" labelKo="자주 묻는 질문" active={currentPage === 'faq'} onClick={handleNavClick} />
-          <NavItem page="event" label="EVENT" labelKo="이벤트" active={currentPage === 'event'} onClick={handleNavClick} isNew={true} />
-          <NavItem page="partnership" label="PARTNER" labelKo="제휴문의" active={currentPage === 'partnership'} onClick={handleNavClick} />
-
+            <NavItem page="about" label="ABOUT" labelKo="브랜드 소개" active={currentPage === 'about'} onClick={handleNavClick} />
+            <NavItem page="metal-custom" label="METAL CARD" labelKo="메탈 카드" active={currentPage === 'metal-custom'} onClick={handleNavClick} />
+            <NavItem page="gallery" label="GALLERY" labelKo="갤러리" active={currentPage === 'gallery'} onClick={handleNavClick} />
+            <NavItem page="materials" label="MATERIALS" labelKo="소재 안내" active={currentPage === 'materials'} onClick={handleNavClick} />
+            <NavItem page="faq" label="FAQ" labelKo="자주 묻는 질문" active={currentPage === 'faq'} onClick={handleNavClick} />
+            <NavItem page="event" label="EVENT" labelKo="이벤트" active={currentPage === 'event'} onClick={handleNavClick} isNew={true} />
+          
           {/* Right Actions */}
           <div className="flex items-center gap-3 ml-6 border-l border-zinc-700/50 pl-6">
               {currentUser ? (
@@ -136,7 +163,9 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
                    </button>
               )}
               
-              <button onClick={() => handleNavClick('contact')} className="interactable px-6 py-2.5 bg-white text-black text-xs font-bold tracking-widest hover:bg-[#D4AF37] transition-all shadow-lg">CONTACT</button>
+              <button onClick={() => handleNavClick('contact')} className="interactable px-6 py-2.5 bg-white text-black text-xs font-bold tracking-widest hover:bg-[#D4AF37] transition-all shadow-lg">
+                  CONTACT
+              </button>
           </div>
         </div>
 
@@ -157,6 +186,21 @@ const Navbar: React.FC<{ currentPage: Page; setPage: (page: Page) => void; curre
               </div>
           )}
           
+          <div className="flex gap-2 mb-4 bg-zinc-900 p-1 rounded-lg">
+              <button 
+                onClick={() => handleNavClick('home')} 
+                className="flex-1 py-2 text-xs font-bold rounded bg-white text-black"
+              >
+                  PICKIT METAL
+              </button>
+              <button 
+                onClick={handleCorpClick} 
+                className="flex-1 py-2 text-xs font-bold rounded text-zinc-500 hover:text-white"
+              >
+                  PICKIT CORP
+              </button>
+          </div>
+
           <button onClick={() => handleNavClick('about')} className="text-xl font-serif text-zinc-300 text-left">About Us <span className="text-xs text-zinc-600 block">브랜드 소개</span></button>
           <button onClick={() => handleNavClick('metal-custom')} className="text-xl font-serif text-white text-left">Metal Card <span className="text-xs text-[#D4AF37] block">메탈 카드 주문</span></button>
           <button onClick={() => handleNavClick('gallery')} className="text-xl font-serif text-zinc-300 text-left">Gallery <span className="text-xs text-zinc-600 block">갤러리</span></button>
@@ -205,7 +249,8 @@ export default function App() {
           <ScrollProgress />
           <Navbar currentPage={currentPage} setPage={setCurrentPage} currentUser={currentUser} onLogout={handleLogout} />
           <PrivateConcierge />
-          <LaunchPopup />
+          {/* Launch Popup only on Main Metal Home */}
+          {currentPage === 'home' && <LaunchPopup />}
           
           <main>
             {currentPage === 'home' && (
@@ -218,6 +263,7 @@ export default function App() {
                 <RevealOnScroll><Reviews /></RevealOnScroll>
               </div>
             )}
+            
             {currentPage === 'about' && <PageWrapper><CompanyIntro /><RevealOnScroll><Features qcImage={siteImages.feature1} /></RevealOnScroll></PageWrapper>}
             {currentPage === 'metal-custom' && <PageWrapper><div className="pt-10"><Features qcImage={siteImages.feature1} /><RevealOnScroll><UploadSection setPage={(page: string) => setCurrentPage(page as Page)} /></RevealOnScroll></div></PageWrapper>}
             {currentPage === 'materials' && <PageWrapper><MaterialsGallery /><div className="py-20 text-center"><button onClick={() => setCurrentPage('metal-custom')} className="px-10 py-4 bg-white text-black font-bold text-xs tracking-widest hover:bg-[#D4AF37] transition-all interactable shadow-lg">START CUSTOMIZING</button></div></PageWrapper>}
